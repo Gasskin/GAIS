@@ -1,0 +1,103 @@
+<module name="battle">
+    <!-- -->
+    <enum name="EGameTag" flags="false" unique="false">
+        <var name="None" value="0" alias="无" />
+
+        <!-- 属性组 -->
+        <var name="MaxHp" alias="最大血量" />
+        <var name="MaxHpBase" alias="最大血量Base" />
+        <var name="MaxHpMult" alias="最大血量Mult" />
+        <var name="MaxHpAdd" alias="最大血量Add" />
+
+        <var name="Atk" alias="攻击力" />
+        <var name="AtkBase" alias="攻击力Base" />
+        <var name="AtkMult" alias="攻击力Mult" />
+        <var name="AtkAdd" alias="攻击力Add" />
+
+        <var name="Defence" alias="防御力" />
+        <var name="DefenceBase" alias="防御力Base" />
+        <var name="DefenceMult" alias="防御力Mult" />
+        <var name="DefenceAdd" alias="防御力Add" />
+
+        <var name="DefenceFixedIgnore" alias="固定防御穿透" />
+        <var name="DefenceFixedIgnoreBase" alias="固定防御穿透Base" />
+        <var name="DefenceFixedIgnoreMult" alias="固定防御穿透Mult" />
+        <var name="DefenceFixedIgnoreAdd" alias="固定防御穿透Add" />
+
+        <var name="DefencePctIgnore" alias="百分比防御穿透" />
+        <var name="DefencePctIgnoreBase" alias="百分比防御穿透Base" />
+        <var name="DefencePctIgnoreMult" alias="百分比防御穿透Mult" />
+        <var name="DefencePctIgnoreAdd" alias="百分比防御穿透Add" />
+
+        <var name="CriticalRate" alias="暴击率" />
+        <var name="CriticalRateBase" alias="暴击率Base" />
+        <var name="CriticalRateMult" alias="暴击率Mult" />
+        <var name="CriticalRateAdd" alias="暴击率Add" />
+
+        <var name="DeCriticalRate" alias="抗暴击率" />
+        <var name="DeCriticalRateBase" alias="抗暴击率Base" />
+        <var name="DeCriticalRateMult" alias="抗暴击率Mult" />
+        <var name="DeCriticalRateAdd" alias="抗暴击率Add" />
+
+        <var name="CriticalRatio" alias="暴击倍率" />
+        <var name="CriticalRatioBase" alias="暴击倍率Base" />
+        <var name="CriticalRatioMult" alias="暴击倍率Mult" />
+        <var name="CriticalRatioAdd" alias="暴击倍率Add" />
+
+        <var name="DeCriticalRatio" alias="抗暴击倍率" />
+        <var name="DeCriticalRatioBase" alias="抗暴击倍率Base" />
+        <var name="DeCriticalRatioMult" alias="抗暴击倍率Mult" />
+        <var name="DeCriticalRatioAdd" alias="抗暴击倍率Add" />
+
+        <var name="DamageMore" alias="总增伤" />
+        <var name="DamageMoreBase" alias="总增Base" />
+        <var name="DamageMoreMult" alias="总增Mult" />
+        <var name="DamageMoreAdd" alias="总增Add" />
+
+        <var name="DamageLess" alias="总减伤" />
+        <var name="DamageLessBase" alias="总减伤Base" />
+        <var name="DamageLessMult" alias="总减伤Mult" />
+        <var name="DamageLessAdd" alias="总减伤Add" />
+
+        <var name="SkillHaste" alias="技能极速" />
+        <var name="SkillHasteBase" alias="技能极速Base" />
+        <var name="SkillHasteMult" alias="技能极速Mult" />
+        <var name="SkillHasteAdd" alias="技能极速Add" />
+
+        <var name="ActionCharge" alias="行动充能" />
+        <var name="ActionChargeBase" alias="行动充能Base" />
+        <var name="ActionChargeMult" alias="行动充能Mult" />
+        <var name="ActionChargeAdd" alias="行动充能Add" />
+
+        <!-- 动态属性 -->
+        <var name="DynamicAttr01" alias="动态属性01" />
+        <var name="DynamicAttr02" alias="动态属性02" />
+        <var name="DynamicAttr03" alias="动态属性03" />
+        <var name="DynamicAttr04" alias="动态属性04" />
+        <var name="DynamicAttr05" alias="动态属性05" />
+        <var name="DynamicAttr06" alias="动态属性06" />
+        <var name="DynamicAttr07" alias="动态属性07" />
+        <var name="DynamicAttr08" alias="动态属性08" />
+        <var name="DynamicAttr09" alias="动态属性09" />
+        <var name="DynamicAttr10" alias="动态属性10" />
+        <var name="DynamicAttr11" alias="动态属性11" />
+        <var name="DynamicAttr12" alias="动态属性12" />
+        <var name="DynamicAttr13" alias="动态属性13" />
+        <var name="DynamicAttr14" alias="动态属性14" />
+        <var name="DynamicAttr15" alias="动态属性15" />
+        <var name="DynamicAttr16" alias="动态属性16" />
+        <var name="DynamicAttr17" alias="动态属性17" />
+        <var name="DynamicAttr18" alias="动态属性18" />
+        <var name="DynamicAttr19" alias="动态属性19" />
+        <var name="DynamicAttr20" alias="动态属性20" />
+
+        <!-- 孤立属性 -->
+        <var name="CurHp" alias="当前血量" />
+
+        <!-- MetaAttr -->
+        <var name="MetaAttrNone" alias="Meta无" />
+        <var name="MetaAttrDamage" alias="伤害" />
+
+        <var name="Max" />
+    </enum>
+</module>

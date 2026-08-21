@@ -1,0 +1,106 @@
+﻿using System.Collections.Generic;
+using cfg.battle;
+using UnityEngine;
+
+namespace Framework
+{
+    public class GameAttr : IPoolObject
+    {
+    #region Define
+        public delegate void PreBaseValueChange(float baseValue, ref float current);
+
+        public delegate void PostCurrentValueChange(float prev, float now);
+    #endregion
+
+        public EGameAttr AttrId { get; private set; }
+
+        public float Base { get; private set; }
+
+        public float Current { get; private set; }
+
+        public bool IsDerived { get; private set; }
+
+        public event PreBaseValueChange OnPreBaseValueChange;
+
+        public event PostCurrentValueChange OnPostCurrentValueChange;
+
+        private List<GameAttrModifierCache> _modifierCache = new();
+
+        private GameAttr _base;
+        private GameAttr _mult;
+        private GameAttr _add;
+
+        public void OnRelease()
+        {
+            Base = 0;
+            Current = 0;
+            AttrId = EGameAttr.None;
+            _base = null;
+            _mult = null;
+            _add = null;
+            OnPreBaseValueChange = null;
+            OnPostCurrentValueChange = null;
+        }
+
+        public void InitValue(EGameAttr id, float value)
+        {
+            AttrId = id;
+            Base = value;
+            Current = value;
+            IsDerived = false;
+        }
+
+        public void SetBaseValue(float newValue)
+        {
+            var prev = Base;
+            OnPreBaseValueChange?.Invoke(prev, ref newValue);
+            Base = newValue;
+            if (!Mathf.Approximately(prev, newValue))
+            {
+                CalculateCurrent();
+            }
+        }
+
+        private void SetCurrentValue(float newValue)
+        {
+            var prev = Current;
+            Current = newValue;
+            if (!Mathf.Approximately(prev, newValue))
+            {
+                OnPostCurrentValueChange?.Invoke(prev, newValue);
+            }
+        }
+
+        private void CalculateCurrent()
+        {
+            var baseValue = Base;
+            for (int i = 0; i < _modifierCache.Count; i++)
+            {
+                var cache = _modifierCache[i];
+                baseValue += cache.Modifier.Calculator.Calculate(cache.GameEffectSpec);
+            }
+            SetCurrentValue(baseValue);
+        }
+
+        public void RegisterDerived(GameAttr b, GameAttr mult, GameAttr add)
+        {
+            Base = 0f;
+            
+            _base = b;
+            _mult = mult;
+            _add = add;
+
+            _base.OnPostCurrentValueChange += DerivedAttrOnPostCurrentValueChange;
+            _mult.OnPostCurrentValueChange += DerivedAttrOnPostCurrentValueChange;
+            _add.OnPostCurrentValueChange += DerivedAttrOnPostCurrentValueChange;
+
+            DerivedAttrOnPostCurrentValueChange(0, 0);
+        }
+
+        private void DerivedAttrOnPostCurrentValueChange(float prev, float now)
+        {
+            var final = _base.Current * (1f + _mult.Current) + _add.Current;
+            SetCurrentValue(final);
+        }
+    }
+}

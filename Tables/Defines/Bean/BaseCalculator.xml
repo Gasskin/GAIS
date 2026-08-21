@@ -1,0 +1,4 @@
+<module name="battle">
+    <bean name="BaseCalculator" sep=";" comment="数值计算器 基类">
+    </bean>
+</module>

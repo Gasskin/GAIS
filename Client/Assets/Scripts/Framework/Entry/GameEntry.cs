@@ -1,0 +1,111 @@
+﻿using System;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
+
+namespace Framework
+{
+    public class GameEntry : MonoBehaviour
+    {
+        public static GameEntry Instance { get; private set; }
+        public LubanManager LubanManager { get; private set; } = new();
+        public EntityManager EntityManager { get; private set; } = new();
+
+        private List<BaseManager> _baseManagers = new();
+        private List<IUpdateManager> _updateManagers = new();
+        // private List<ILateUpdateManager> _lateUpdateManagers = new();
+
+        private bool _isInitEnd = false;
+
+
+        private void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+            Instance = this;
+            _isInitEnd = false;
+        }
+
+        private void Start()
+        {
+            RegisterManager(LubanManager);
+            RegisterManager(EntityManager);
+
+            Initialize().Forget();
+        }
+
+        private void OnDestroy()
+        {
+            for (int i = _baseManagers.Count - 1; i >= 0; i--)
+            {
+                _baseManagers[i].Destroy();
+            }
+            _baseManagers.Clear();
+            _updateManagers.Clear();
+            // _lateUpdateManagers.Clear();
+        }
+
+        private void Update()
+        {
+            if (!_isInitEnd)
+            {
+                return;
+            }
+            try
+            {
+                var dt = Time.deltaTime;
+                for (int i = 0; i < _updateManagers.Count; i++)
+                {
+                    _updateManagers[i].Update(dt);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+                throw;
+            }
+        }
+
+        // private void LateUpdate()
+        // {
+        //     if (!_isInitEnd)
+        //     {
+        //         return;
+        //     }
+        //     try
+        //     {
+        //         var dt = Time.deltaTime;
+        //         for (int i = 0; i < _lateUpdateManagers.Count; i++)
+        //         {
+        //             _lateUpdateManagers[i].LateUpdate(dt);
+        //         }
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         Debug.LogError(e);
+        //         throw;
+        //     }
+        // }
+
+        private void RegisterManager(BaseManager manager)
+        {
+            _baseManagers.Add(manager);
+            if (manager is IUpdateManager updateManager)
+            {
+                _updateManagers.Add(updateManager);
+            }
+            // if (manager is ILateUpdateManager lateUpdateManager)
+            // {
+            //     _lateUpdateManagers.Add(lateUpdateManager);
+            // }
+        }
+
+        private async UniTaskVoid Initialize()
+        {
+            for (int i = 0; i < _baseManagers.Count; i++)
+            {
+                await _baseManagers[i].Initialize();
+            }
+            _isInitEnd = true;
+        }
+    }
+}
