@@ -22,20 +22,12 @@ namespace Runtime
 
         public override void Update(float dt)
         {
+            TickGameEffect(dt);
         }
 
         public override void OnRelease()
         {
             ClearGameAttr();
         }
-
-    
-
-        public float GetTime()
-        {
-            return UnityEngine.Time.time;
-        }
-
-
     }
 }

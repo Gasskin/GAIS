@@ -36,22 +36,6 @@ namespace Runtime
             {
                 spec.PeriodRemaining = spec.GameEffect.PeriodDuration;
             }
-
-            if (spec.GameEffect.DurationType != EDurationType.None &&
-                spec.GameEffect.PeriodDuration > 0f &&
-                spec.GameEffect.PeriodEffect is { Count: > 0 })
-            {
-                for (int i = 0; i < spec.GameEffect.PeriodEffect_Ref.Count; i++)
-                {
-                    var child = spec.GameEffect.PeriodEffect_Ref[i];
-                    if (child.DurationType != EDurationType.None)
-                    {
-                        continue;
-                    }
-                    spec._periodGameEffects.Add(Get(child, source, target));
-                }
-            }
-
             return spec;
         }
     #endregion
@@ -74,8 +58,6 @@ namespace Runtime
 
         public bool IsActive { get; private set; }
 
-        private List<GameEffectSpec> _periodGameEffects = new();
-
 
         public void OnRelease()
         {
@@ -86,11 +68,6 @@ namespace Runtime
             StackCount = 0;
             PeriodRemaining = 0;
             IsActive = false;
-            for (int i = 0; i < _periodGameEffects.Count; i++)
-            {
-                ObjectPool.Release(_periodGameEffects[i]);
-            }
-            _periodGameEffects.Clear();
         }
 
     #region 条件判断
@@ -111,51 +88,40 @@ namespace Runtime
     #endregion
 
     #region 生命周期
-        // 仅即时效果
+        // ▽▽▽ 仅即时效果 ▽▽▽
         public void OnExecute()
         {
             Target.ApplyInstantGameEffect(this);
         }
 
+        // ▽▽▽ 非即时效果 ▽▽▽
         public void OnAdd()
         {
-            Target.UpdateAttr();
         }
 
         public void OnRemove()
         {
-            Target.UpdateAttr();
         }
 
-        public void OnActive()
+        public bool OnActive()
         {
             if (IsActive)
             {
-                return;
+                return false;
             }
             IsActive = true;
 
-            Target.AddTagsWithDirty(GameEffect.GrantedTags);
-
-            if (IsValid)
-            {
-                Target.UpdateAttr();
-            }
+            return Target.AddTagsWithDirty(GameEffect.GrantedTags);
         }
 
-        public void OnDeActive()
+        public bool OnDeActive()
         {
             if (!IsActive)
             {
-                return;
+                return false;
             }
             IsActive = false;
-            Target.RemoveTagsWithDirty(GameEffect.GrantedTags);
-
-            if (IsValid)
-            {
-                Target.UpdateAttr();
-            }
+            return Target.RemoveTagsWithDirty(GameEffect.GrantedTags);
         }
 
         public void Tick(float dt)
@@ -217,7 +183,7 @@ namespace Runtime
     #region 持续时间
         private void TickPeriod(float dt)
         {
-            if (_periodGameEffects is not { Count: > 0 } || GameEffect.PeriodDuration <= 0.1f)
+            if (GameEffect.PeriodEffect_Ref is not { Count: > 0 } || GameEffect.PeriodDuration <= 0.1f)
             {
                 return;
             }
@@ -229,7 +195,19 @@ namespace Runtime
             {
                 // 不能直接重置为Period, 累计误差
                 PeriodRemaining += GameEffect.PeriodDuration;
-                // TODO Apply Period Effect
+                for (int i = 0; i < GameEffect.PeriodEffect_Ref.Count; i++)
+                {
+                    var child = GameEffect.PeriodEffect_Ref[i];
+                    if (child.DurationType != EDurationType.None)
+                    {
+                        continue;
+                    }
+                    var spec = Get(child, Source, Target);
+                    if (spec != null)
+                    {
+                        Target.AddGameEffectSpec(spec);
+                    }
+                }
             }
         }
 

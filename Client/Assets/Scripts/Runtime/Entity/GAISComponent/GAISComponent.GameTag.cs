@@ -18,6 +18,10 @@ namespace Runtime
             Array.Fill(_tags, 0, 0, _tags.Length);
             if (initTags != null)
             {
+                for (int i = 0; i < initTags.Count; i++)
+                {
+                    AddTag(initTags[i]);
+                }
             }
         }
 
@@ -64,38 +68,32 @@ namespace Runtime
             TravelAdd(tag, -1);
         }
         
-        public void AddTagsWithDirty(List<EGameTag> grantedTags)
+        public bool AddTagsWithDirty(List<EGameTag> grantedTags)
         {
             if (grantedTags == null)
             {
-                return;
+                return false;
             }
             _addTagWithDirty = false;
             foreach (var tag in grantedTags)
             {
                 AddTag(tag);
             }
-            if (_addTagWithDirty)
-            {
-                UpdateEffectState();
-            }
+            return _addTagWithDirty;
         }
         
-        public void RemoveTagsWithDirty(List<EGameTag> grantedTags)
+        public bool RemoveTagsWithDirty(List<EGameTag> grantedTags)
         {
             if (grantedTags == null)
             {
-                return;
+                return false;
             }
             _addTagWithDirty = false;
             foreach (var tag in grantedTags)
             {
                 RemoveTag(tag);
             }
-            if (_addTagWithDirty)
-            {
-                UpdateEffectState();
-            }
+            return _addTagWithDirty;
         }
 
         public bool HasTag(EGameTag tag)

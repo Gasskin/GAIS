@@ -8,7 +8,20 @@ namespace Runtime
     {
         private readonly List<GameEffectSpec> _gameEffectSpecs = new();
         private List<GameEffectSpec> _tickPool = new(128);
-        
+
+        private void TickGameEffect(float dt)
+        {
+            _tickPool.Clear();
+            _tickPool.AddRange(_gameEffectSpecs);
+            for (int i = 0; i < _tickPool.Count; i++)
+            {
+                var spec = _tickPool[i];
+                if (spec.IsActive)
+                {
+                    spec.Tick(dt);
+                }
+            }
+        }
         
         public void ApplyInstantGameEffect(GameEffectSpec spec)
         {
@@ -107,6 +120,7 @@ namespace Runtime
                 if (spec.CanRunning())
                 {
                     spec.OnActive();
+                    OnGameEffectDirty();
                 }
                 return true;
             }
@@ -123,22 +137,29 @@ namespace Runtime
         
         public void UpdateEffectState()
         {
+            var hasDirty = false;
             foreach (var spec in _gameEffectSpecs)
             {
                 if (spec.IsActive)
                 {
                     if (!spec.CanRunning())
                     {
-                        spec.OnDeActive();
+                        var dirty = spec.OnDeActive();
+                        hasDirty = hasDirty || dirty;
                     }
                 }
                 else
                 {
                     if (spec.CanRunning())
                     {
-                        spec.OnActive();
+                        var dirty =  spec.OnActive();
+                        hasDirty = hasDirty || dirty;
                     }
                 }
+            }
+            if (hasDirty)
+            {
+                OnGameEffectDirty();
             }
         }
     }

@@ -75,7 +75,7 @@ namespace Runtime
             return _gameAttrs[(int)attr];
         }
 
-        public void UpdateAttr()
+        public void OnGameEffectDirty()
         {
             for (int i = 0; i < _gameAttrs.Count; i++)
             {
