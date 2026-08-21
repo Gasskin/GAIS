@@ -1,5 +1,5 @@
 <module name="battle">
-    <bean name="FloatCalculator" sep="," parent="BaseCalculator" comment="简单浮点计算器">
+    <bean name="FloatCalculator" parent="BaseCalculator" comment="简单浮点计算器">
         <var name="value" type="DynamicValue" comment="数值，需要指定" />
     </bean>
 </module>

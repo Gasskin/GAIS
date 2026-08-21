@@ -1,16 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using cfg.battle;
 using Cysharp.Threading.Tasks;
+using Framework;
 
-namespace Framework
+namespace Runtime
 {
     public partial class GAISComponent : BaseComponent
     {
         public override int ID => ComponentID.GAIS;
         public override bool IsDefaultUpdate => true;
-        
-        public Dictionary<EGameAttr,float> InitValues { get; set; }
-        
+        public Dictionary<EGameAttr, float> InitValues { get; set; }
+
+
         public override async UniTask Initialize()
         {
             InitGameAttr(InitValues);
@@ -27,9 +29,13 @@ namespace Framework
             ClearGameAttr();
         }
 
-        public GameAttr GetAttr(EGameAttr attr)
+    
+
+        public float GetTime()
         {
-            return null;
+            return UnityEngine.Time.time;
         }
+
+
     }
 }

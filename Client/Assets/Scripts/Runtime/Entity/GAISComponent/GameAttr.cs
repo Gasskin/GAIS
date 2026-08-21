@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using cfg.battle;
+using Framework;
 using UnityEngine;
+using UnityEngine.Pool;
 
-namespace Framework
+namespace Runtime
 {
     public class GameAttr : IPoolObject
     {
@@ -101,6 +103,41 @@ namespace Framework
         {
             var final = _base.Current * (1f + _mult.Current) + _add.Current;
             SetCurrentValue(final);
+        }
+
+        public void UpdateAttr(List<GameEffectSpec> effects)
+        {
+            var isDirty = _modifierCache.Count > 0;
+
+            foreach (var m in _modifierCache)
+            {
+                ObjectPool.Release(m);
+            }
+            _modifierCache.Clear();
+            
+            foreach (var spec in effects)
+            {
+                if (spec.IsActive)
+                {
+                    foreach (var modifier in spec.GameEffect.AttrModifiers)
+                    {
+                        if (modifier.Attr == AttrId)
+                        {
+                            var cache = ObjectPool.Get<GameAttrModifierCache>();
+                            cache.Modifier = modifier;
+                            cache.GameEffectSpec = spec;
+                            _modifierCache.Add(cache);
+                        }
+                    }
+                }
+            }
+
+            isDirty = isDirty || _modifierCache.Count > 0;
+
+            if (isDirty)
+            {
+                CalculateCurrent();
+            }
         }
     }
 }

@@ -1,0 +1,7 @@
+<module name="battle">
+    <enum name="EStackType" flags="false" unique="true" comment="堆叠类型">
+        <var name="None" value="0" alias="不堆叠" />
+        <var name="Source" alias="按来源" />
+        <var name="Target" alias="按目标" />
+    </enum>
+</module>

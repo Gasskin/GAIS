@@ -1,0 +1,7 @@
+<module name="battle">
+    <enum name="EDurationType" flags="false" unique="true" comment="持续时间类型">
+        <var name="None" value="0" alias="即时" />
+        <var name="Duration" alias="持续" />
+        <var name="Infinite" alias="永久" />
+    </enum>
+</module>

@@ -1,4 +1,5 @@
 ﻿using Framework;
+using Runtime;
 
 namespace cfg.battle
 {

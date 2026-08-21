@@ -1,5 +1,5 @@
 <module name="battle">
-    <bean name="GameAttrModifier" sep="," comment="属性修改器">
+    <bean name="GameAttrModifier" comment="属性修改器">
         <var name="attr" type="EGameAttr" comment="属性类型，需要指定" />
         <var name="calculator" type="BaseCalculator" comment="数值计算器，代表修改的值，需要指定" />
     </bean>

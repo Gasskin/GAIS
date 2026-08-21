@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using cfg.battle;
+using Framework;
 
-namespace Framework
+namespace Runtime
 {
     partial class GAISComponent
     {
@@ -66,6 +67,19 @@ namespace Framework
                 var mult = attr + 2;
                 var add = attr + 3;
                 _gameAttrs[(int)attr].RegisterDerived(_gameAttrs[(int)b], _gameAttrs[(int)mult], _gameAttrs[(int)add]);
+            }
+        }
+        
+        public GameAttr GetAttr(EGameAttr attr)
+        {
+            return _gameAttrs[(int)attr];
+        }
+
+        public void UpdateAttr()
+        {
+            for (int i = 0; i < _gameAttrs.Count; i++)
+            {
+                _gameAttrs[i].UpdateAttr(_gameEffectSpecs);
             }
         }
     }

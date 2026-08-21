@@ -1,0 +1,39 @@
+<module name="battle">
+    <bean name="GameEffectRow" comment="游戏效果">
+        <var name="id" type="int" comment="不需要也禁止用户输入。默认等于文件名序号" />
+        <var name="desc" type="string" comment="描述" />
+        <!-- 持续类型 -->
+        <var name="durationType" type="EDurationType"
+            comment="持续时间类型。默认 即时" />
+        <var name="durationTime" type="float" comment="持续时间。非即时效果时才需要用户指定。否则默认0" />
+        <!-- 标签 -->
+        <var name="grantedTags" type="list,EGameTag" comment="附加的标签。永久GE才可以添加。默认为空" />
+        <var name="applyRequiredTags" type="list,EGameTag"
+            comment="添加所需要的标签。没有这些标签时效果不会被添加。默认为空" />
+        <var name="onGoingRequiredTags" type="list,EGameTag"
+            comment="激活所需要的标签。没有这些标签时效果会被暂时移除。非即时效果才可以填写。默认为空" />
+        <var name="immuneWhenTags" type="list,EGameTag"
+            comment="拥有这些标签时免疫该效果。默认为空" />
+        <!-- 周期效果 -->
+        <var name="periodDuration" type="float"
+            comment="周期时间 >0 时代表存在周期效果。非即时效果时才可以填写。最小是0.1。并且必须要有periodEffect。默认为0" />
+        <var name="firstPeriodImmediately" type="bool"
+            comment="立刻触发第一次周期效果。存在周期时间时才可以修改。默认为FALSE" />
+        <var name="periodEffect" type="list,int#ref=battle.GameEffectTable"
+            comment="触发的周期效果。周期效果必须是即时效果。引用GameEffectTable且禁止引用自身。当存在周期时间>0时必须指定。否则为空" />
+        <!-- 堆叠类型 -->
+        <var name="stackType" type="EStackType"
+            comment="堆叠类型。非即时效果才可以填写。否则默认为 不堆叠" />
+        <var name="stackCountLimit" type="int" comment="堆叠数量限制。堆叠类型非0才可以指定。默认为1" />
+        <var name="overflowStackRefreshDuration" type="bool"
+            comment="添加层数时如果溢出是否刷新持续时间。堆叠类型非0才可以指定。默认为TRUE" />
+        <var name="stackExpireType" type="EStackExpireType"
+            comment="层数失效类型。堆叠类型非0时才可以指定。默认为 删除全部" />
+        <!-- 属性修改 -->
+        <var name="attrModifiers" type="list,GameAttrModifier" comment="属性修改。默认为空" />
+        <!-- 自定义逻辑 -->
+        <var name="bindCodeLogic" type="int"
+            comment="存在代码逻辑。如果不为0。说明这个BUFF有对应值的自定义逻辑存在。非即时BUFF才可以添加自定义逻辑。默认0" />
+        <var name="dynamicParams" type="list,float" comment="自由参数。默认空" />
+    </bean>
+</module>

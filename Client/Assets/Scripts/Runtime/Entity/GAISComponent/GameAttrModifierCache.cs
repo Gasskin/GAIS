@@ -1,6 +1,7 @@
 ﻿using cfg.battle;
+using Framework;
 
-namespace Framework
+namespace Runtime
 {
     public class GameAttrModifierCache : IPoolObject
     {

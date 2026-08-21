@@ -14,16 +14,19 @@ namespace cfg
 public partial class Tables
 {
     public battle.GameAttrInitTable GameAttrInitTable {get; }
+    public battle.GameEffectTable GameEffectTable {get; }
 
     public Tables(System.Func<string, ByteBuf> loader)
     {
         GameAttrInitTable = new battle.GameAttrInitTable(loader("battle_gameattrinittable"));
+        GameEffectTable = new battle.GameEffectTable(loader("battle_gameeffecttable"));
         ResolveRef();
     }
     
     private void ResolveRef()
     {
         GameAttrInitTable.ResolveRef(this);
+        GameEffectTable.ResolveRef(this);
     }
 }
 
