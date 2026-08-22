@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using cfg.battle;
 using Cysharp.Threading.Tasks;
 using Framework;
+using UnityEngine;
 
 namespace Runtime
 {
@@ -13,6 +14,7 @@ namespace Runtime
         public Dictionary<EGameAttr, float> InitValues { get; set; }
         public List<EGameTag> InitTags { get; set; }
 
+        public float BattleTime { get; private set; }
 
         public override async UniTask Initialize()
         {
@@ -25,6 +27,7 @@ namespace Runtime
 
         public override void Update(float dt)
         {
+            BattleTime += dt;
             TickGameEffect(dt);
         }
 
@@ -34,6 +37,5 @@ namespace Runtime
             ClearGameAttr();
             ClearGameTag();
         }
-        
     }
 }

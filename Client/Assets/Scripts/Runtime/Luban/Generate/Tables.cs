@@ -15,11 +15,15 @@ public partial class Tables
 {
     public battle.GameAttrInitTable GameAttrInitTable {get; }
     public battle.GameEffectTable GameEffectTable {get; }
+    public battle.GameRougeEffectTable GameRougeEffectTable {get; }
+    public battle.GameSkillTable GameSkillTable {get; }
 
     public Tables(System.Func<string, ByteBuf> loader)
     {
         GameAttrInitTable = new battle.GameAttrInitTable(loader("battle_gameattrinittable"));
         GameEffectTable = new battle.GameEffectTable(loader("battle_gameeffecttable"));
+        GameRougeEffectTable = new battle.GameRougeEffectTable(loader("battle_gamerougeeffecttable"));
+        GameSkillTable = new battle.GameSkillTable(loader("battle_gameskilltable"));
         ResolveRef();
     }
     
@@ -27,6 +31,8 @@ public partial class Tables
     {
         GameAttrInitTable.ResolveRef(this);
         GameEffectTable.ResolveRef(this);
+        GameRougeEffectTable.ResolveRef(this);
+        GameSkillTable.ResolveRef(this);
     }
 }
 

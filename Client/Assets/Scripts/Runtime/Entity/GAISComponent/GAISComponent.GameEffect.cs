@@ -67,13 +67,9 @@ namespace Runtime
             }
         }
 
-        public GameEffectSpecRef AddGameEffect(int sourceId, int gameEffectId)
+        public GameEffectSpecRef AddGameEffect(int sourceId, GameEffectRow gameEffect)
         {
             if (!GameEntry.Instance.EntityManager.HasEntity(sourceId))
-            {
-                return null;
-            }
-            if (!GameEntry.Instance.LubanManager.Tables.GameEffectTable.DataMap.TryGetValue(gameEffectId, out var gameEffect))
             {
                 return null;
             }

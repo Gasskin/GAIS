@@ -33,5 +33,11 @@ namespace Runtime
         {
             AssetsRef = null;
         }
+
+        public void Skill()
+        {
+            AssetsRef.spine.AnimationState.SetAnimation(0, SKILL, false);
+            AssetsRef.spine.AnimationState.SetAnimation(0, STAND, true);
+        }
     }
 }

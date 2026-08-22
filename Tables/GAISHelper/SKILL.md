@@ -5,7 +5,7 @@ description: 你是一个战斗配置大师，你需要参考战斗配置规则�
 
 ## 何时使用
 
-当用户需要进行技能配置、词条配置、效果配置、BUFF配置、触发器配置时
+当用户需要进行技能配置、词条配置、效果配置时
 
 可以使用该SKILL
 
@@ -41,7 +41,7 @@ description: 你是一个战斗配置大师，你需要参考战斗配置规则�
 
 ### 配置路径
 
-./config/Datas/BattleJson/配置目录/根ID/xxxx.json
+../Datas/GAIS/配置目录/根ID/xxxx.json
 
 配置目录会在具体配置中说明
 
@@ -81,11 +81,9 @@ description: 你是一个战斗配置大师，你需要参考战斗配置规则�
 
 bean类型=json，其中x12就是一个bean类型，至于字段是否是bean类型，会在详细配置内说明
 
-如果你见到一个非常规类型，并且也不是定义好的枚举，那么他就是bean，然后你需要寻找bean的详细说明，如果没有找到，那么提出问题
+如果你见到一个非常规类型，并且也不是枚举，那么他就是bean，然后你需要寻找bean的详细说明，如果没有找到，那么提出问题
 
 #### 默认值
-
-不允许配置null为默认值
 
 常规类型就直接使用默认值，比如int float等
 
@@ -95,9 +93,9 @@ bean类型的空值需要你读取该bean定义的默认值
 
 ### 单位配置说明
 
-位置：./config/BattleConfigDefine/根ID_描述.md
+位置：../GAISDefine/根ID_描述.md
 
-例：1101_火枪.md
+例：1101_剑士.md
 
 如果没有显示的定义单位类型，那么使用默认名称：1101_配置说明.md
 
@@ -105,11 +103,9 @@ bean类型的空值需要你读取该bean定义的默认值
 
 对于该单位的配置的详细说明文档，你需要对各种ID的引用关系进行说明
 
-你尤其需要说明该单位的动态属性是什么作用，被哪些效果或者技能使用
+修改或者新增任何配置数据后，需要在配置说明中写入说明
 
-修改或者新增任何配置后，需要在配置说明中写入说明
-
-如果存在位置说明，你需要优先阅读
+如果存在单位对应的配置说明，你需要优先阅读
 
 配置格式举例：
 
@@ -118,46 +114,34 @@ bean类型的空值需要你读取该bean定义的默认值
 
 ### 1 技能
 
-#### [101](../Datas/BattleJson/SkillTable/1106101.json) <--- 序号不需要根ID
+#### [101](../Datas/GAIS/GameSkill/1106101.json) 括号内是相对路。101作为序号，不需要根ID
 
 普通攻击。<--- 第一行是配置说明，第二行开始是参数说明。
 
-技能类型为普通攻击，距离限制 `2`，冷却时间 `2`
+XXX的普通攻击，技能类型为普通攻击，冷却时间 `2`...
 
 ### 2 词条
 
 #### [201](相对路径)
 
-兵团人数 +1。
+攻击力+20%。
 
-星级要求 `1`，可选次数 `1`，无前置词条。
+可选次数 `1`，无前置词条。
 
 ### 3 效果
 
-#### [301](相对路径) DamageEffectParam
+#### [301](相对路径)
 
-**技能101** 的XX伤害。
+**技能101** 的伤害。
 
-基础倍率 `2`，读取动态属性 1 作为普通攻击额外伤害。
-
-...
-
-### 5 BUff
-
-#### [501](相对路径)
-
-...
+基础倍率 `2`，伤害类型是DOT。
 
 ### 标签
 
 （如果存在标签，在这里说明它由谁添加，由谁使用，起到的作用）
-
-### 动态属性
-
-（如果存在动态属性，在这里说明动态属性的定义）
 ```
 
-注：对于每一个配置（任何配置，技能，词条，效果等等），都要求用户给出明确定义，需要用户明确说明这一条配置是什么。
+注：对于每一个配置（任何技能，词条，效果等等），都要求用户给出明确定义，需要用户明确说明这一条配置是什么。
 
 举例：XXXX501是XX BUFF，作用是给玩家添加XX标签。
 
@@ -185,7 +169,7 @@ bean类型的空值需要你读取该bean定义的默认值
 
 #### 枚举
 
-位置：./config/Defines/battle.Enum/
+位置：../Defines/Enum/
 
 你不需要提前阅读所有枚举，按配置需求逐步阅读
 
@@ -201,41 +185,33 @@ bean类型的空值需要你读取该bean定义的默认值
 
 ##### 技能配置
 
-位置：./config/Defines/battle.Table/SkillTable.xml
+位置：../Defines/Enum/GameSkillRow.xml
 
 配置类型：1
 
-配置目录：SkillTable
+配置目录：GameSkill
 
 ##### 词条配置
 
-位置：./config/Defines/battle.Table/RougeEffectTable.xml
+位置：../Defines/GameRougeEffectRow.xml
 
 配置类型：2
 
-配置目录：RougeEffectTable
+配置目录：GameRougeEffect
 
 ##### 效果配置
 
-位置：./config/Defines/battle.Table/SkillEffectTable.xml
+位置：../Defines/GameEffectRow.xml
 
 配置类型：3
 
-配置目录：SkillEffectTable
-
-##### BUFF
-
-位置：./config/Defines/battle.Table/GameBuffTable.xml
-
-配置类型：5
-
-配置目录：GameBuffTable
+配置目录：GameEffect
 
 #### Bean
 
-位置：./config/Defines/battle.Bean/
+位置：../Defines/Bean/
 
-你不需要提前阅读所有bean，按配置需求逐步阅读，但你需要提前阅读内置bean：./config/Defines/builtin.xml
+你不需要提前阅读所有bean，按配置需求逐步阅读
 
 bean不可以单独定义，必须被表头或者其他bean引用
 
@@ -245,7 +221,7 @@ bean不可以单独定义，必须被表头或者其他bean引用
 
 某个配置可能会新增或者删除字段，此时需要一次性处理所有旧数据
 
-根据用户的输入，遍历：./config/Datas/BattleJson/配置目录/xxxx.json
+根据用户的输入，遍历：../Datas/GAIS/配置目录/xxxx.json
 
 遍历所有的json，根据用户的输入，增加或者删除字段
 

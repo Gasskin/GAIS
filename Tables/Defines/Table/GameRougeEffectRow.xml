@@ -1,0 +1,11 @@
+<module name="battle">
+    <bean name="GameRougeEffectRow" comment="肉鸽词条">
+        <var name="id" type="int" comment="不需要也禁止用户输入。默认等于文件名序号" />
+        <var name="desc" type="string" comment="描述。需要指定" />
+
+        <var name="quality" type="EGameRougeEffectQuality" comment="磁条的品质。需要指定" />
+        <var name="countLimit" type="int" comment="磁条可以选择的次数。需要指定" />
+
+        <var name="gameEffects" type="list,int#ref=battle.GameEffectTable" comment="该磁条触发的效果。需要指定" />
+    </bean>
+</module>
