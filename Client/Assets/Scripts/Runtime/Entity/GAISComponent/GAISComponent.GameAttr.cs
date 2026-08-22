@@ -80,9 +80,52 @@ namespace Runtime
 
         public void OnGameEffectDirty()
         {
+            EvaluateUntilStable(activate: false);
+            EvaluateUntilStable(activate: true);
+            
             for (int i = 1; i < _gameAttrs.Count; i++)
             {
-                _gameAttrs[i].UpdateAttr(_gameEffectSpecs);
+                if (_gameAttrs[i].IsDerived)
+                {
+                    continue;
+                }
+                _gameAttrs[i].UpdateCurrent(_gameEffectSpecs);
+            }
+        }
+      
+        private void EvaluateUntilStable(bool activate)
+        {
+            var maxPasses = _gameEffectSpecs.Count + 1;
+
+            for (var pass = 0; pass < maxPasses; pass++)
+            {
+                var changed = false;
+
+                for (int i = 0; i < _gameEffectSpecs.Count; i++)
+                {
+                    var spec = _gameEffectSpecs[i];
+                    if (activate)
+                    {
+                        if (!spec.IsActive && spec.CanRunning())
+                        {
+                            spec.OnActive();
+                            changed = true;
+                        }
+                    }
+                    else
+                    {
+                        if (spec.IsActive && !spec.CanRunning())
+                        {
+                            spec.OnDeActive();
+                            changed = true;
+                        }
+                    }
+                }
+
+                if (!changed)
+                {
+                    return;
+                }
             }
         }
     }

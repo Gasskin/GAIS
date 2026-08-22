@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using cfg.battle;
 using Framework;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Runtime
@@ -10,7 +12,7 @@ namespace Runtime
     #region static
         private static int _uidFactory = 1;
 
-        public static GameEffectSpec Get(GameEffectRow gameEffect, GAISComponent source, GAISComponent target)
+        public static GameEffectSpec Get(GameEffectRow gameEffect, int sourceId, GAISComponent target)
         {
             var spec = ObjectPool.Get<GameEffectSpec>();
             if (_uidFactory >= int.MaxValue)
@@ -20,7 +22,7 @@ namespace Runtime
 
             spec.Uid = _uidFactory++;
 
-            spec.Source = source;
+            spec.Source = sourceId;
             spec.Target = target;
             spec.GameEffect = gameEffect;
 
@@ -46,7 +48,7 @@ namespace Runtime
         public bool IsValid => Uid > 0;
         public int Uid { get; private set; }
 
-        public GAISComponent Source { get; private set; }
+        public int Source { get; private set; }
 
         public GAISComponent Target { get; private set; }
 
@@ -63,31 +65,36 @@ namespace Runtime
         
         public GameEffectSpecRef Ref { get; private set; }
 
+        private const float MIN_PERIOD_INTERVAL = 0.1f;
 
         public void OnRelease()
         {
             Uid = 0;
-            Source = null;
+            Source = 0;
             Target = null;
             ElapsedTime = 0;
             StackCount = 0;
             PeriodRemaining = 0;
             IsActive = false;
+            GameEffect = null;
             ObjectPool.Release(Ref);
             Ref = null;
         }
 
     #region 条件判断
+        // 仅添加时判断1次
         public bool CanApply()
         {
             return Target.HasAllTags(GameEffect.ApplyRequiredTags);
         }
 
+        // 有变化时会再次判断
         public bool CanRunning()
         {
             return Target.HasAllTags(GameEffect.OnGoingRequiredTags);
         }
 
+        // 仅添加时判断1次
         public bool IsImmune()
         {
             return Target.HasAnyTags(GameEffect.ImmuneWhenTags);
@@ -110,25 +117,31 @@ namespace Runtime
         {
         }
 
-        public bool OnActive()
+        public void OnActive()
         {
             if (IsActive)
             {
-                return false;
+                return;
             }
             IsActive = true;
 
-            return Target.AddTagsWithDirty(GameEffect.GrantedTags);
+            for (int i = 0; i < GameEffect.GrantedTags.Count; i++)
+            {
+                Target.AddTag(GameEffect.GrantedTags[i]);
+            }
         }
 
-        public bool OnDeActive()
+        public void OnDeActive()
         {
             if (!IsActive)
             {
-                return false;
+                return;
             }
             IsActive = false;
-            return Target.RemoveTagsWithDirty(GameEffect.GrantedTags);
+            for (int i = 0; i < GameEffect.GrantedTags.Count; i++)
+            {
+                Target.RemoveTag(GameEffect.GrantedTags[i]);
+            }
         }
 
         public void Tick(float dt)
@@ -138,27 +151,47 @@ namespace Runtime
                 return;
             }
 
-            TickPeriod(dt);
+            var activeDt = dt;
+            var shouldExpire = false;
 
-            TickDuration();
+            if (GameEffect.DurationType == EDurationType.Duration)
+            {
+                var remaining = GameEffect.DurationTime - ElapsedTime;
 
-            ElapsedTime += dt;
+                if (remaining <= 0f)
+                {
+                    Expire();
+                    return;
+                }
+
+                activeDt = Mathf.Min(dt, remaining);
+                shouldExpire = dt >= remaining;
+            }
+
+            TickPeriod(activeDt);
+            ElapsedTime += activeDt;
+
+            if (shouldExpire)
+            {
+                Expire();
+            }
         }
     #endregion
 
     #region 堆叠
-        public void AddStack(int count, bool refreshDuration, bool refreshPeriod)
+        public bool AddStack(int count, bool refreshDuration, bool refreshPeriod)
         {
             if (count <= 0)
             {
-                return;
+                return false;
             }
 
             var oldCount = StackCount;
             StackCount += count;
-            StackCount = Mathf.Clamp(StackCount, 1, GameEffect.StackCountLimit);
+            StackCount = Math.Min(StackCount, GameEffect.StackCountLimit);
+            StackCount = Math.Max(StackCount, 1);
 
-            if (refreshDuration)
+            if (refreshDuration && (oldCount < StackCount || GameEffect.OverflowStackRefreshDuration))
             {
                 RefreshDuration();
             }
@@ -166,23 +199,29 @@ namespace Runtime
             {
                 PeriodRemaining = GameEffect.PeriodDuration;
             }
+            return oldCount < StackCount;
         }
 
         public void RemoveStack(int count, bool refreshDuration)
         {
+            if (count <= 0)
+            {
+                return;
+            }
             if (count >= StackCount)
             {
                 Target.InternalRemoveGameEffectSpec(this);
             }
             else
             {
-                var oldCount = StackCount;
                 StackCount -= count;
 
                 if (refreshDuration)
                 {
                     RefreshDuration();
                 }
+                
+                Target.OnGameEffectDirty();
             }
         }
     #endregion
@@ -190,22 +229,27 @@ namespace Runtime
     #region 持续时间
         private void TickPeriod(float dt)
         {
-            if (GameEffect.PeriodEffect_Ref is not { Count: > 0 } || GameEffect.PeriodDuration <= 0.1f)
+            if (GameEffect.PeriodEffect_Ref is not { Count: > 0 } || GameEffect.PeriodDuration < MIN_PERIOD_INTERVAL)
             {
                 return;
             }
 
             PeriodRemaining -= dt;
 
+            if (!IsActive)
+            {
+                return;
+            }
+
             // period触发的行为可能导致所属的GE(_spec)失活/移除, 所属GE移除时会将_spec设置为null
-            while (PeriodRemaining < 0f && IsActive)
+            while (PeriodRemaining <= 0f)
             {
                 // 不能直接重置为Period, 累计误差
                 PeriodRemaining += GameEffect.PeriodDuration;
                 for (int i = 0; i < GameEffect.PeriodEffect_Ref.Count; i++)
                 {
                     var child = GameEffect.PeriodEffect_Ref[i];
-                    if (child.DurationType != EDurationType.None)
+                    if (child is not { DurationType: EDurationType.None })
                     {
                         continue;
                     }
@@ -218,19 +262,8 @@ namespace Runtime
             }
         }
 
-        private void TickDuration()
+        void Expire()
         {
-            if (GameEffect.DurationType != EDurationType.Duration)
-            {
-                return;
-            }
-
-            var remaining = GameEffect.DurationTime - ElapsedTime;
-            if (remaining > 0)
-            {
-                return;
-            }
-
             if (GameEffect.StackType == EStackType.None)
             {
                 Target.InternalRemoveGameEffectSpec(this);

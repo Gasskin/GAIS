@@ -9,6 +9,7 @@ namespace Framework
         public static Transform EntityRoot { get; private set; }
 
         private List<Entity> _entities = new();
+        private Dictionary<int, Entity> _entitiesDict = new();
 
         public override async UniTask Initialize()
         {
@@ -28,6 +29,7 @@ namespace Framework
                 ObjectPool.Release(_entities[i]);
             }
             _entities.Clear();
+            _entitiesDict.Clear();
             Object.Destroy(EntityRoot.gameObject);
         }
 
@@ -41,7 +43,7 @@ namespace Framework
 
         public void AddEntity(Entity entity)
         {
-            if (entity == null)
+            if (!_entitiesDict.TryAdd(entity.Uid, entity))
             {
                 return;
             }
@@ -61,6 +63,11 @@ namespace Framework
             }
             _entities.RemoveAt(_entities.Count - 1);
             ObjectPool.Release(entity);
+        }
+
+        public bool HasEntity(int sourceId)
+        {
+            return  _entitiesDict.ContainsKey(sourceId);
         }
     }
 }

@@ -10,8 +10,6 @@ namespace Runtime
 
         private static EGameTag[] _tagParentTree;
 
-        private bool _addTagWithDirty;
-
         private void InitTag(List<EGameTag> initTags)
         {
             InitTagTree();
@@ -25,7 +23,7 @@ namespace Runtime
             }
         }
 
-        private void ClearTag()
+        private void ClearGameTag()
         {
             Array.Fill(_tags, 0, 0, _tags.Length);
         }
@@ -50,52 +48,30 @@ namespace Runtime
             }
         }
 
+        /// <summary>
+        /// 只允许GAIS框架调用，禁止业务自己调用
+        /// </summary>
         public void AddTag(EGameTag tag)
         {
             if (tag is <= EGameTag.None or >= EGameTag.Max)
             {
-                return;
+                return ;
             }
             TravelAdd(tag, 1);
         }
 
+        /// <summary>
+        /// 只允许GAIS框架调用，禁止业务自己调用
+        /// </summary>
         public void RemoveTag(EGameTag tag)
         {
             if (tag is <= EGameTag.None or >= EGameTag.Max)
             {
-                return;
+                return ;
             }
             TravelAdd(tag, -1);
         }
         
-        public bool AddTagsWithDirty(List<EGameTag> grantedTags)
-        {
-            if (grantedTags == null)
-            {
-                return false;
-            }
-            _addTagWithDirty = false;
-            foreach (var tag in grantedTags)
-            {
-                AddTag(tag);
-            }
-            return _addTagWithDirty;
-        }
-        
-        public bool RemoveTagsWithDirty(List<EGameTag> grantedTags)
-        {
-            if (grantedTags == null)
-            {
-                return false;
-            }
-            _addTagWithDirty = false;
-            foreach (var tag in grantedTags)
-            {
-                RemoveTag(tag);
-            }
-            return _addTagWithDirty;
-        }
-
         public bool HasTag(EGameTag tag)
         {
             if (tag is <= EGameTag.None or >= EGameTag.Max)
@@ -141,7 +117,7 @@ namespace Runtime
         {
             if (tags == null)
             {
-                return true;
+                return false;
             }
             for (int i = 0; i < tags.Count; i++)
             {
@@ -150,18 +126,17 @@ namespace Runtime
                     return true;
                 }
             }
-            return true;
+            return false;
         }
 
         private void TravelAdd(EGameTag tag, int value)
         {
             while (tag != EGameTag.None)
             {
-                var oldValue = _tags[(int)tag];
                 _tags[(int)tag] += value;
                 _tags[(int)tag] = Math.Max(_tags[(int)tag], 0);
-                var newValue = _tags[(int)tag];
-                _addTagWithDirty = _addTagWithDirty || ((oldValue == 0) != (newValue == 0));
+
+                tag = _tagParentTree[(int)tag];
             }
         }
     }

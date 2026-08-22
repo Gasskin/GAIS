@@ -76,6 +76,11 @@ namespace Runtime
             _min = null;
             _fixedMax = null;
             _fixedMin = null;
+            for (int i = 0; i < _modifierCache.Count; i++)
+            {
+                ObjectPool.Release(_modifierCache[i]);
+            }
+            _modifierCache.Clear();
         }
 
         public void InitValue(EGameAttr id, float value)
@@ -99,6 +104,10 @@ namespace Runtime
 
         public void SetBaseValue(float newValue)
         {
+            if (IsDerived)
+            {
+                return;
+            }
             var prev = Base;
             OnPreBaseValueChange?.Invoke(prev, ref newValue);
             newValue = Mathf.Clamp(newValue, MinValue, MaxValue);
@@ -153,7 +162,7 @@ namespace Runtime
             SetCurrentValue(final);
         }
 
-        public void UpdateAttr(List<GameEffectSpec> effects)
+        public void UpdateCurrent(List<GameEffectSpec> effects)
         {
             var isDirty = _modifierCache.Count > 0;
 
@@ -167,8 +176,9 @@ namespace Runtime
             {
                 if (spec.IsActive)
                 {
-                    foreach (var modifier in spec.GameEffect.AttrModifiers)
+                    for (int i = 0; i < spec.GameEffect.AttrModifiers.Count; i++)
                     {
+                        var modifier = spec.GameEffect.AttrModifiers[i];
                         if (modifier.Attr == AttrId)
                         {
                             var cache = ObjectPool.Get<GameAttrModifierCache>();

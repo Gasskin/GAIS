@@ -1,6 +1,6 @@
 <module name="battle">
     <enum name="EStackExpireType" flags="false" unique="true" comment="堆叠失效类型">
-        <var name="RemoveOne" value="0" alias="删除单层" />
-        <var name="RemoveAll" value="1" alias="删除全部" />
+        <var name="RemoveAll" alias="删除全部" />
+        <var name="RemoveOne" alias="删除单层" />
     </enum>
 </module>
