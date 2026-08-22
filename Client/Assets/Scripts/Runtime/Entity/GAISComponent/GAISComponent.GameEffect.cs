@@ -7,6 +7,7 @@ namespace Runtime
     partial class GAISComponent
     {
         private readonly List<GameEffectSpec> _gameEffectSpecs = new();
+        private readonly Dictionary<int, GameEffectSpec> _gameEffectSpecsDict = new();
         private List<GameEffectSpec> _tickPool = new(128);
 
         private void TickGameEffect(float dt)
@@ -22,32 +23,60 @@ namespace Runtime
                 }
             }
         }
-        
+
+        private void ClearGameEffectSpecs()
+        {
+            for (int i = 0; i < _gameEffectSpecs.Count; i++)
+            {
+                var spec = _gameEffectSpecs[i];
+                spec.OnDeActive();
+                spec.OnRemove();
+                ObjectPool.Release(spec);
+            }
+            _gameEffectSpecs.Clear();
+            _gameEffectSpecsDict.Clear();
+        }
+
         public void ApplyInstantGameEffect(GameEffectSpec spec)
         {
-            foreach (var modifier in spec.GameEffect.AttrModifiers)
+            for (int i = 0; i < spec.GameEffect.AttrModifiers.Count; i++)
             {
+                var modifier = spec.GameEffect.AttrModifiers[i];
                 var attr = _gameAttrs[(int)modifier.Attr];
-                if (attr == null)
+                if (attr == null || attr.IsDerived)
                 {
-                    return;
+                    continue;
                 }
                 attr.SetBaseValue(attr.Base + modifier.Calculator.Calculate(spec));
             }
         }
 
-        public int AddGameEffectSpec(GameEffectSpec spec)
+        public GameEffectSpecRef AddGameEffect(int sourceId, int gameEffectId)
+        {
+            if (!GameEntry.Instance.EntityManager.HasEntity(sourceId))
+            {
+                return null;
+            }
+            if (!GameEntry.Instance.LubanManager.Tables.GameEffectTable.DataMap.TryGetValue(gameEffectId, out var gameEffect))
+            {
+                return null;
+            }
+            var spec = GameEffectSpec.Get(gameEffect, sourceId, this);
+            return AddGameEffectSpec(spec);
+        }
+
+        public GameEffectSpecRef AddGameEffectSpec(GameEffectSpec spec)
         {
             if (!spec.CanApply())
             {
                 ObjectPool.Release(spec);
-                return 0;
+                return null;
             }
 
             if (spec.IsImmune())
             {
                 ObjectPool.Release(spec);
-                return 0;
+                return null;
             }
 
             // 瞬时GE
@@ -55,18 +84,14 @@ namespace Runtime
             {
                 spec.OnExecute();
                 ObjectPool.Release(spec);
-                return 0;
+                return null;
             }
 
             // 不堆叠
             if (spec.GameEffect.StackType == EStackType.None)
             {
-                if (AddNewGameEffectSpec(spec.GameEffect.StackCountLimit))
-                {
-                    return spec.Uid;
-                }
-                ObjectPool.Release(spec);
-                return 0;
+                AddNewGameEffectSpec();
+                return spec.Ref;
             }
 
             GameEffectSpec stackSpec = null;
@@ -88,79 +113,41 @@ namespace Runtime
             // 不存在，直接新增
             if (stackSpec == null)
             {
-                AddNewGameEffectSpec(0);
-                return spec.Uid;
+                AddNewGameEffectSpec();
+                return spec.Ref;
             }
-            stackSpec.AddStack(1, true, false);
+            if (stackSpec.AddStack(1, true, false))
+            {
+                OnGameEffectDirty();
+            }
+
             // 堆叠后可以直接释放
             ObjectPool.Release(spec);
 
-            return stackSpec.Uid;
+            return stackSpec.Ref;
 
-            bool AddNewGameEffectSpec(int countLimit)
+            void AddNewGameEffectSpec()
             {
-                // 总数检查
-                if (countLimit > 0)
-                {
-                    var has = 0;
-                    for (int i = 0; i < _gameEffectSpecs.Count; i++)
-                    {
-                        if (_gameEffectSpecs[i].GameEffect.Id == spec.GameEffect.Id)
-                        {
-                            has++;
-                            if (has >= countLimit)
-                            {
-                                return false;
-                            }
-                        }
-                    }
-                }
                 _gameEffectSpecs.Add(spec);
+                _gameEffectSpecsDict.Add(spec.Uid, spec);
                 spec.OnAdd();
                 if (spec.CanRunning())
                 {
                     spec.OnActive();
                     OnGameEffectDirty();
                 }
-                return true;
             }
         }
-        
+
         public void InternalRemoveGameEffectSpec(GameEffectSpec spec)
         {
             // 必须先删除，DeActive可能触发TagDirty
             _gameEffectSpecs.Remove(spec);
+            _gameEffectSpecsDict.Remove(spec.Uid);
             spec.OnDeActive();
             spec.OnRemove();
+            OnGameEffectDirty();
             ObjectPool.Release(spec);
-        }
-        
-        public void UpdateEffectState()
-        {
-            var hasDirty = false;
-            foreach (var spec in _gameEffectSpecs)
-            {
-                if (spec.IsActive)
-                {
-                    if (!spec.CanRunning())
-                    {
-                        var dirty = spec.OnDeActive();
-                        hasDirty = hasDirty || dirty;
-                    }
-                }
-                else
-                {
-                    if (spec.CanRunning())
-                    {
-                        var dirty =  spec.OnActive();
-                        hasDirty = hasDirty || dirty;
-                    }
-                }
-            }
-            if (hasDirty)
-            {
-                OnGameEffectDirty();
-            }
         }
     }
 }

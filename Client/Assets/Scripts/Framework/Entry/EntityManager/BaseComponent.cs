@@ -10,7 +10,7 @@ namespace Framework
         
         public Entity Entity { get; set; } = null;
 
-        public int UpdateIndex { get; set; } = -1;
+        public bool IsUpdate { get; set; } = false;
         
         public abstract UniTask Initialize();
 

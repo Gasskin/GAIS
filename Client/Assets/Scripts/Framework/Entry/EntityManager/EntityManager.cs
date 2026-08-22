@@ -7,9 +7,10 @@ namespace Framework
     public class EntityManager : BaseManager, IUpdateManager
     {
         public static Transform EntityRoot { get; private set; }
-        
+
         private List<Entity> _entities = new();
-        
+        private Dictionary<int, Entity> _entitiesDict = new();
+
         public override async UniTask Initialize()
         {
             if (EntityRoot == null)
@@ -17,7 +18,7 @@ namespace Framework
                 EntityRoot = new GameObject("[EntityManager]").transform;
                 EntityRoot.SetParent(GameEntry.Instance.transform, false);
             }
-            
+
             await UniTask.Yield();
         }
 
@@ -28,6 +29,7 @@ namespace Framework
                 ObjectPool.Release(_entities[i]);
             }
             _entities.Clear();
+            _entitiesDict.Clear();
             Object.Destroy(EntityRoot.gameObject);
         }
 
@@ -41,14 +43,30 @@ namespace Framework
 
         public void AddEntity(Entity entity)
         {
-            entity.ManagerIndex = _entities.Count - 1;
+            if (!_entitiesDict.TryAdd(entity.Uid, entity))
+            {
+                return;
+            }
+            entity.ManagerIndex = _entities.Count;
             _entities.Add(entity);
         }
 
         public void RemoveEntity(Entity entity)
         {
-            _entities.RemoveAt(entity.ManagerIndex);
+            if (!_entitiesDict.Remove(entity.Uid))
+            {
+                ObjectPool.Release(entity);
+                return;
+            }
+            _entities[^1].ManagerIndex = entity.ManagerIndex;
+            _entities[entity.ManagerIndex] = _entities[^1];
+            _entities.RemoveAt(_entities.Count - 1);
             ObjectPool.Release(entity);
+        }
+
+        public bool HasEntity(int sourceId)
+        {
+            return  _entitiesDict.ContainsKey(sourceId);
         }
     }
 }

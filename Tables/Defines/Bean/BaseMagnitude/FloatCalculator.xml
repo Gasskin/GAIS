@@ -1,5 +1,6 @@
 <module name="battle">
     <bean name="FloatCalculator" parent="BaseCalculator" comment="简单浮点计算器">
-        <var name="value" type="DynamicValue" comment="数值，需要指定" />
+        <var name="value" type="float" comment="数值，需要指定" />
+        <var name="multStackCount" type="bool" comment="乘以层数，默认FALSE" />
     </bean>
 </module>

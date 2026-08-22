@@ -61,7 +61,7 @@ public sealed partial class GameEffectRow : Luban.BeanBase
     /// </summary>
     public readonly float DurationTime;
     /// <summary>
-    /// 附加的标签。默认为空
+    /// 附加的标签。永久GE才可以添加。默认为空
     /// </summary>
     public readonly System.Collections.Generic.List<battle.EGameTag> GrantedTags;
     /// <summary>

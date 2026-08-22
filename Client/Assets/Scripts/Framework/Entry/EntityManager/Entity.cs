@@ -10,7 +10,7 @@ namespace Framework
         public int Uid { get; private set; }
         private static int _uidFactory = 1;
 
-        private List<int> _needUpdateComponentIndex = new(16);
+        private List<BaseComponent> _needUpdateComponents = new(16);
         private BaseComponent[] _components = new BaseComponent[ComponentID.MAX];
 
 
@@ -28,25 +28,26 @@ namespace Framework
                 {
                     if (com.IsDefaultUpdate)
                     {
-                        EnableComponentUpdate(com);
+                        _needUpdateComponents.Add(com);
+                        com.IsUpdate = true;
                     }
                     await com.Initialize();
                 }
             }
-            _needUpdateComponentIndex.Sort();
+            _needUpdateComponents.Sort(SortUpdateComponent);
             await UniTask.Yield();
         }
 
+
         public void Update(float deltaTime)
         {
-            if (_needUpdateComponentIndex.Count <= 0)
+            if (_needUpdateComponents.Count <= 0)
             {
                 return;
             }
-            for (int i = 0; i < _needUpdateComponentIndex.Count; i++)
+            for (int i = 0; i < _needUpdateComponents.Count; i++)
             {
-                var index = _needUpdateComponentIndex[i];
-                var com = _components[index];
+                var com = _needUpdateComponents[i];
                 if (com != null)
                 {
                     com.Update(deltaTime);
@@ -74,24 +75,40 @@ namespace Framework
 
         public void EnableComponentUpdate(BaseComponent com)
         {
-            if (com.UpdateIndex >= 0)
+            if (com.IsUpdate)
             {
                 return;
             }
-            com.UpdateIndex = _needUpdateComponentIndex.Count - 1;
-            _needUpdateComponentIndex.Add(com.ID);
-            _needUpdateComponentIndex.Sort();
+            com.IsUpdate = true;
+            _needUpdateComponents.Add(com);
+            _needUpdateComponents.Sort(SortUpdateComponent);
         }
 
         public void DisableComponentUpdate(BaseComponent com)
         {
-            if (com.UpdateIndex < 0 || com.UpdateIndex >= _needUpdateComponentIndex.Count)
+            if (!com.IsUpdate)
             {
                 return;
             }
-            _needUpdateComponentIndex.RemoveAt(com.UpdateIndex);
-            com.UpdateIndex = -1;
-            _needUpdateComponentIndex.Sort();
+            com.IsUpdate = false;
+            for (int i = 0; i < _needUpdateComponents.Count; i++)
+            {
+                var check = _needUpdateComponents[i];
+                if (check.ID == com.ID)
+                {
+                    for (int j = i; j < _needUpdateComponents.Count - 1; j++)
+                    {
+                        _needUpdateComponents[j] = _needUpdateComponents[j + 1];
+                    }
+                    _needUpdateComponents.RemoveAt(_needUpdateComponents.Count - 1);
+                    break;
+                }
+            }
+        }
+
+        private int SortUpdateComponent(BaseComponent x, BaseComponent y)
+        {
+            return x.ID - y.ID;
         }
 
         public void OnRelease()
@@ -102,13 +119,13 @@ namespace Framework
                 if (com != null)
                 {
                     com.Entity = null;
-                    com.UpdateIndex = -1;
+                    com.IsUpdate = false;
                     ObjectPool.Release(com);
                 }
             }
             Array.Fill(_components, null, 0, _components.Length);
             Uid = 0;
-            _needUpdateComponentIndex.Clear();
+            _needUpdateComponents.Clear();
         }
     }
 }

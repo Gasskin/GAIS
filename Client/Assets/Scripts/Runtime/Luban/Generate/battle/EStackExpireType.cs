@@ -17,13 +17,13 @@ namespace cfg.battle
     public enum EStackExpireType
     {
         /// <summary>
-        /// 删除单层
-        /// </summary>
-        RemoveOne = 0,
-        /// <summary>
         /// 删除全部
         /// </summary>
-        RemoveAll = 1,
+        RemoveAll = 0,
+        /// <summary>
+        /// 删除单层
+        /// </summary>
+        RemoveOne = 1,
     }
 
 } 

@@ -6,7 +6,7 @@ namespace cfg.battle
     {
         public override float Calculate(GameEffectSpec gameEffectSpec)
         {
-            return Value.Get(gameEffectSpec.Source);
+            return MultStackCount ? Value * gameEffectSpec.StackCount : Value;
         }
     }
 }

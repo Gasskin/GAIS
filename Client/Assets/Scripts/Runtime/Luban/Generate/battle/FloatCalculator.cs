@@ -19,7 +19,8 @@ public sealed partial class FloatCalculator : BaseCalculator
 {
     public FloatCalculator(ByteBuf _buf)  : base(_buf) 
     {
-        Value = global::cfg.battle.DynamicValue.DeserializeDynamicValue(_buf);
+        Value = _buf.ReadFloat();
+        MultStackCount = _buf.ReadBool();
     }
 
     public static FloatCalculator DeserializeFloatCalculator(ByteBuf _buf)
@@ -30,7 +31,11 @@ public sealed partial class FloatCalculator : BaseCalculator
     /// <summary>
     /// 数值，需要指定
     /// </summary>
-    public readonly battle.DynamicValue Value;
+    public readonly float Value;
+    /// <summary>
+    /// 乘以层数，默认FALSE
+    /// </summary>
+    public readonly bool MultStackCount;
    
     public const int __ID__ = -1883529944;
     public override int GetTypeId() => __ID__;
@@ -38,13 +43,13 @@ public sealed partial class FloatCalculator : BaseCalculator
     public override void ResolveRef(Tables tables)
     {
         base.ResolveRef(tables);
-        Value?.ResolveRef(tables);
     }
 
     public override string ToString()
     {
         return "{ "
         + "value:" + Value + ","
+        + "multStackCount:" + MultStackCount + ","
         + "}";
     }
 }
