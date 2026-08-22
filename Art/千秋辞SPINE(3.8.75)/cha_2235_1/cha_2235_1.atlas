@@ -1,0 +1,195 @@
+
+cha_2235_1.png
+size: 1024,420
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+fx_guang_2
+  rotate: false
+  xy: 659, 347
+  size: 121, 69
+  orig: 121, 69
+  offset: 0, 0
+  index: -1
+fx_guang_3
+  rotate: false
+  xy: 882, 279
+  size: 121, 139
+  orig: 121, 176
+  offset: 0, 14
+  index: -1
+jianshen
+  rotate: false
+  xy: 2, 3
+  size: 211, 413
+  orig: 211, 413
+  offset: 0, 0
+  index: -1
+jianshen_2
+  rotate: 180
+  xy: 156, 12
+  size: 194, 404
+  orig: 194, 404
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: false
+  xy: 457, 139
+  size: 137, 59
+  orig: 137, 59
+  offset: 0, 0
+  index: -1
+shitou_1
+  rotate: false
+  xy: 860, 29
+  size: 72, 86
+  orig: 72, 86
+  offset: 0, 0
+  index: -1
+shitou_2
+  rotate: false
+  xy: 856, 339
+  size: 31, 77
+  orig: 31, 77
+  offset: 0, 0
+  index: -1
+shitou_3
+  rotate: false
+  xy: 334, 357
+  size: 61, 59
+  orig: 61, 59
+  offset: 0, 0
+  index: -1
+shitou_4
+  rotate: false
+  xy: 660, 70
+  size: 113, 128
+  orig: 113, 128
+  offset: 0, 0
+  index: -1
+shitou_5
+  rotate: false
+  xy: 544, 11
+  size: 51, 77
+  orig: 51, 77
+  offset: 0, 0
+  index: -1
+shitou_6
+  rotate: false
+  xy: 991, 211
+  size: 31, 46
+  orig: 37, 55
+  offset: 0, 0
+  index: -1
+suipian_1_1
+  rotate: false
+  xy: 336, 42
+  size: 61, 157
+  orig: 64, 157
+  offset: 3, 0
+  index: -1
+suipian_1_10
+  rotate: false
+  xy: 938, 38
+  size: 53, 152
+  orig: 53, 152
+  offset: 0, 0
+  index: -1
+suipian_1_2
+  rotate: false
+  xy: 688, 27
+  size: 48, 90
+  orig: 48, 90
+  offset: 0, 0
+  index: -1
+suipian_1_3
+  rotate: false
+  xy: 349, 153
+  size: 46, 45
+  orig: 46, 45
+  offset: 0, 0
+  index: -1
+suipian_1_4
+  rotate: false
+  xy: 709, 272
+  size: 44, 77
+  orig: 44, 77
+  offset: 0, 0
+  index: -1
+suipian_1_5
+  rotate: true
+  xy: 458, 73
+  size: 65, 136
+  orig: 69, 136
+  offset: 4, 0
+  index: -1
+suipian_1_6
+  rotate: true
+  xy: 910, 220
+  size: 63, 111
+  orig: 63, 111
+  offset: 0, 0
+  index: -1
+suipian_1_7
+  rotate: false
+  xy: 472, 14
+  size: 52, 67
+  orig: 52, 71
+  offset: 0, 0
+  index: -1
+suipian_1_8
+  rotate: false
+  xy: 482, 287
+  size: 52, 80
+  orig: 52, 80
+  offset: 0, 0
+  index: -1
+suipian_1_9
+  rotate: false
+  xy: 151, 214
+  size: 45, 106
+  orig: 45, 106
+  offset: 0, 0
+  index: -1
+suipian_2_1
+  rotate: true
+  xy: 449, 352
+  size: 64, 158
+  orig: 64, 158
+  offset: 0, 0
+  index: -1
+suipian_2_2
+  rotate: false
+  xy: 728, 6
+  size: 61, 157
+  orig: 61, 157
+  offset: 0, 0
+  index: -1
+suipian_b
+  rotate: false
+  xy: 870, 83
+  size: 152, 126
+  orig: 189, 283
+  offset: 3, 1
+  index: -1
+weapon_bing
+  rotate: false
+  xy: 518, 23
+  size: 193, 393
+  orig: 193, 393
+  offset: 0, 0
+  index: -1
+weapon_bing_1
+  rotate: false
+  xy: 323, 21
+  size: 193, 395
+  orig: 193, 395
+  offset: 0, 0
+  index: -1
+weapon_bing_2
+  rotate: false
+  xy: 713, 21
+  size: 193, 395
+  orig: 193, 395
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,27 @@
+
+cha_5116_1.png
+size: 656,240
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+yan
+  rotate: false
+  xy: 2, 3
+  size: 257, 234
+  orig: 257, 234
+  offset: 0, 0
+  index: -1
+yan_2
+  rotate: false
+  xy: 258, 3
+  size: 257, 234
+  orig: 257, 234
+  offset: 0, 0
+  index: -1
+yan_3
+  rotate: true
+  xy: 508, 16
+  size: 221, 144
+  orig: 221, 144
+  offset: 0, 0
+  index: -1

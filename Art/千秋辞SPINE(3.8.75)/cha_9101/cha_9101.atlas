@@ -1,0 +1,426 @@
+
+cha_9101.png
+size: 2048,1176
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+gonghui_boss_fire1_00
+  rotate: false
+  xy: 2, 818
+  size: 320, 355
+  orig: 320, 355
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire1_02
+  rotate: false
+  xy: 324, 818
+  size: 320, 355
+  orig: 320, 355
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire1_04
+  rotate: false
+  xy: 646, 818
+  size: 320, 355
+  orig: 320, 355
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire1_06
+  rotate: false
+  xy: 968, 818
+  size: 320, 355
+  orig: 320, 355
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire1_08
+  rotate: false
+  xy: 1290, 818
+  size: 320, 355
+  orig: 320, 355
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire1_10
+  rotate: false
+  xy: 1612, 818
+  size: 320, 355
+  orig: 320, 355
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire1_12
+  rotate: true
+  xy: 2, 496
+  size: 320, 355
+  orig: 320, 355
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire1_14
+  rotate: true
+  xy: 359, 496
+  size: 320, 355
+  orig: 320, 355
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire1_16
+  rotate: true
+  xy: 716, 496
+  size: 320, 355
+  orig: 320, 355
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire1_18
+  rotate: true
+  xy: 1073, 496
+  size: 320, 355
+  orig: 320, 355
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire1_20
+  rotate: true
+  xy: 1430, 496
+  size: 320, 355
+  orig: 320, 355
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire1_22
+  rotate: true
+  xy: 2, 174
+  size: 320, 355
+  orig: 320, 355
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire1_24
+  rotate: true
+  xy: 359, 174
+  size: 320, 355
+  orig: 320, 355
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire1_26
+  rotate: true
+  xy: 716, 174
+  size: 320, 355
+  orig: 320, 355
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire1_28
+  rotate: true
+  xy: 1073, 174
+  size: 320, 355
+  orig: 320, 355
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire2_00
+  rotate: false
+  xy: 588, 62
+  size: 50, 110
+  orig: 50, 110
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire2_02
+  rotate: false
+  xy: 925, 62
+  size: 50, 110
+  orig: 50, 110
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire2_04
+  rotate: false
+  xy: 1289, 62
+  size: 50, 110
+  orig: 50, 110
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire2_06
+  rotate: false
+  xy: 1435, 38
+  size: 50, 110
+  orig: 50, 110
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire2_08
+  rotate: false
+  xy: 1341, 29
+  size: 50, 110
+  orig: 50, 110
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire2_10
+  rotate: true
+  xy: 1813, 572
+  size: 50, 110
+  orig: 50, 110
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire2_12
+  rotate: true
+  xy: 1936, 46
+  size: 50, 110
+  orig: 50, 110
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire2_14
+  rotate: true
+  xy: 1784, 45
+  size: 50, 110
+  orig: 50, 110
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire2_16
+  rotate: true
+  xy: 1672, 31
+  size: 50, 110
+  orig: 50, 110
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire2_18
+  rotate: true
+  xy: 977, 28
+  size: 50, 110
+  orig: 50, 110
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire2_20
+  rotate: true
+  xy: 154, 24
+  size: 50, 110
+  orig: 50, 110
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire2_22
+  rotate: true
+  xy: 1487, 24
+  size: 50, 110
+  orig: 50, 110
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire2_24
+  rotate: true
+  xy: 2, 10
+  size: 50, 110
+  orig: 50, 110
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire2_26
+  rotate: true
+  xy: 323, 4
+  size: 50, 110
+  orig: 50, 110
+  offset: 0, 0
+  index: -1
+gonghui_boss_fire2_28
+  rotate: true
+  xy: 865, 2
+  size: 50, 110
+  orig: 50, 110
+  offset: 0, 0
+  index: -1
+head_1
+  rotate: false
+  xy: 1942, 234
+  size: 104, 40
+  orig: 106, 40
+  offset: 2, 0
+  index: -1
+head_2
+  rotate: true
+  xy: 1390, 141
+  size: 353, 225
+  orig: 353, 225
+  offset: 0, 0
+  index: -1
+head_3
+  rotate: false
+  xy: 1978, 601
+  size: 48, 40
+  orig: 48, 40
+  offset: 0, 0
+  index: -1
+head_4
+  rotate: false
+  xy: 641, 29
+  size: 129, 143
+  orig: 129, 143
+  offset: 0, 0
+  index: -1
+head_4_1
+  rotate: false
+  xy: 154, 76
+  size: 92, 96
+  orig: 92, 96
+  offset: 0, 0
+  index: -1
+head_5
+  rotate: false
+  xy: 1879, 772
+  size: 42, 44
+  orig: 42, 44
+  offset: 0, 0
+  index: -1
+head_6
+  rotate: false
+  xy: 1539, 87
+  size: 243, 274
+  orig: 243, 274
+  offset: 0, 0
+  index: -1
+l_foot
+  rotate: false
+  xy: 981, 80
+  size: 183, 92
+  orig: 183, 92
+  offset: 0, 0
+  index: -1
+l_leg_1
+  rotate: false
+  xy: 1481, 72
+  size: 200, 127
+  orig: 200, 127
+  offset: 0, 0
+  index: -1
+l_leg_2
+  rotate: false
+  xy: 1940, 711
+  size: 103, 164
+  orig: 103, 164
+  offset: 0, 0
+  index: -1
+n_halo
+  rotate: false
+  xy: 1430, 444
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+r_foot
+  rotate: false
+  xy: 1155, 29
+  size: 67, 143
+  orig: 67, 143
+  offset: 0, 0
+  index: -1
+r_foot_1
+  rotate: false
+  xy: 2007, 944
+  size: 39, 73
+  orig: 39, 73
+  offset: 0, 0
+  index: -1
+r_foot_2
+  rotate: false
+  xy: 1967, 643
+  size: 59, 66
+  orig: 59, 66
+  offset: 0, 0
+  index: -1
+r_foot_3
+  rotate: false
+  xy: 1430, 380
+  size: 31, 62
+  orig: 31, 62
+  offset: 0, 0
+  index: -1
+r_foot_4
+  rotate: false
+  xy: 1516, 204
+  size: 30, 55
+  orig: 30, 55
+  offset: 0, 0
+  index: -1
+r_foot_5
+  rotate: false
+  xy: 2017, 468
+  size: 29, 61
+  orig: 29, 61
+  offset: 0, 0
+  index: -1
+r_foot_a
+  rotate: false
+  xy: 1224, 41
+  size: 63, 131
+  orig: 63, 131
+  offset: 0, 0
+  index: -1
+r_foot_b
+  rotate: false
+  xy: 831, 54
+  size: 92, 118
+  orig: 92, 118
+  offset: 0, 0
+  index: -1
+r_leg_1
+  rotate: true
+  xy: 1824, 97
+  size: 141, 222
+  orig: 141, 222
+  offset: 0, 0
+  index: -1
+r_leg_2
+  rotate: false
+  xy: 2, 62
+  size: 150, 110
+  orig: 150, 110
+  offset: 0, 0
+  index: -1
+r_leg_3
+  rotate: false
+  xy: 1617, 398
+  size: 67, 96
+  orig: 67, 96
+  offset: 0, 0
+  index: -1
+r_leg_4
+  rotate: false
+  xy: 1991, 886
+  size: 51, 56
+  orig: 51, 56
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: false
+  xy: 431, 133
+  size: 90, 39
+  orig: 90, 39
+  offset: 0, 0
+  index: -1
+tail
+  rotate: true
+  xy: 295, 29
+  size: 144, 291
+  orig: 153, 291
+  offset: 0, 0
+  index: -1
+tail_1
+  rotate: true
+  xy: 1612, 361
+  size: 116, 133
+  orig: 116, 133
+  offset: 0, 0
+  index: -1
+torso
+  rotate: 180
+  xy: 1632, 195
+  size: 413, 368
+  orig: 413, 368
+  offset: 0, 0
+  index: -1
+torso_1
+  rotate: false
+  xy: 1787, 508
+  size: 245, 308
+  orig: 314, 308
+  offset: 69, 0
+  index: -1
+torso_2
+  rotate: false
+  xy: 740, 35
+  size: 123, 137
+  orig: 123, 137
+  offset: 0, 0
+  index: -1
+torso_3
+  rotate: false
+  xy: 1934, 877
+  size: 94, 296
+  orig: 94, 296
+  offset: 0, 0
+  index: -1

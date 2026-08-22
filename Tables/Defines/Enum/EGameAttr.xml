@@ -109,6 +109,7 @@
 
         <!-- 孤立属性 -->
         <var name="CurHp" alias="当前血量" />
+        <var name="CurActionEnergy" alias="行动能量" />
 
         <!-- MetaAttr -->
         <var name="MetaAttrNone" alias="Meta无" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Runtime;
 using UnityEngine;
 
 namespace Framework
@@ -10,11 +11,19 @@ namespace Framework
         public static GameEntry Instance { get; private set; }
         public LubanManager LubanManager { get; private set; } = new();
         public EntityManager EntityManager { get; private set; } = new();
+        public ProcedureManager ProcedureManager { get; private set; } = new();
+        
+        // 业务
+        public UnitManager UnitManager { get; private set; } = new();
+        public LevelManager LevelManager { get; private set; } = new();
 
+        
+        public AssetsRef assetsRef;
+        
         private List<BaseManager> _baseManagers = new();
         private List<IUpdateManager> _updateManagers = new();
-        // private List<ILateUpdateManager> _lateUpdateManagers = new();
 
+        
         private bool _isInitEnd = false;
 
 
@@ -27,8 +36,13 @@ namespace Framework
 
         private void Start()
         {
+            // 框架层
             RegisterManager(LubanManager);
             RegisterManager(EntityManager);
+            RegisterManager(ProcedureManager);
+            // 业务层
+            RegisterManager(UnitManager);
+            RegisterManager(LevelManager);
 
             Initialize().Forget();
         }
@@ -106,6 +120,8 @@ namespace Framework
                 await _baseManagers[i].Initialize();
             }
             _isInitEnd = true;
+            
+            ProcedureManager.ChangeProcedure<InitProcedure>();
         }
     }
 }

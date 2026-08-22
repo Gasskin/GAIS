@@ -1,0 +1,76 @@
+
+cha_9201.png
+size: 96,172
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+l_ear
+  rotate: false
+  xy: 2, 30
+  size: 34, 26
+  orig: 34, 26
+  offset: 0, 0
+  index: -1
+l_leg
+  rotate: true
+  xy: 69, 7
+  size: 32, 19
+  orig: 32, 20
+  offset: 0, 1
+  index: -1
+l_shoulder
+  rotate: false
+  xy: 36, 11
+  size: 34, 29
+  orig: 34, 29
+  offset: 0, 0
+  index: -1
+r_ear
+  rotate: true
+  xy: 2, 3
+  size: 25, 26
+  orig: 25, 26
+  offset: 0, 0
+  index: -1
+r_leg
+  rotate: true
+  xy: 2, 116
+  size: 14, 12
+  orig: 14, 12
+  offset: 0, 0
+  index: -1
+r_shoulder
+  rotate: 180
+  xy: 74, 67
+  size: 16, 26
+  orig: 16, 26
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: true
+  xy: 68, 95
+  size: 72, 14
+  orig: 72, 14
+  offset: 0, 0
+  index: -1
+torso
+  rotate: false
+  xy: 2, 58
+  size: 50, 34
+  orig: 50, 34
+  offset: 0, 0
+  index: -1
+torso_head
+  rotate: false
+  xy: 2, 94
+  size: 65, 74
+  orig: 65, 74
+  offset: 0, 0
+  index: -1
+weiba
+  rotate: false
+  xy: 52, 37
+  size: 28, 56
+  orig: 28, 56
+  offset: 0, 0
+  index: -1

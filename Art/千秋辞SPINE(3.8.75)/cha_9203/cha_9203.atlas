@@ -1,0 +1,34 @@
+
+cha_9203.png
+size: 264,608
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+cha_9203/deng
+  rotate: false
+  xy: 2, 124
+  size: 235, 224
+  orig: 235, 224
+  offset: 0, 0
+  index: -1
+cha_9203/dian
+  rotate: false
+  xy: 133, 11
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+cha_9203/glow
+  rotate: false
+  xy: 2, 350
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+cha_9203/shadow
+  rotate: true
+  xy: 31, 3
+  size: 137, 59
+  orig: 137, 59
+  offset: 0, 0
+  index: -1

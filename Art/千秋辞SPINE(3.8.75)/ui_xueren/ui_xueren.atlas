@@ -1,0 +1,62 @@
+
+ui_xueren.png
+size: 988,428
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+eye
+  rotate: false
+  xy: 127, 395
+  size: 106, 30
+  orig: 106, 30
+  offset: 0, 0
+  index: -1
+lower
+  rotate: false
+  xy: 452, 133
+  size: 312, 292
+  orig: 312, 292
+  offset: 0, 0
+  index: -1
+saihong
+  rotate: false
+  xy: 563, 38
+  size: 180, 56
+  orig: 180, 56
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: 180
+  xy: 154, 3
+  size: 402, 176
+  orig: 503, 176
+  offset: 68, 0
+  index: -1
+torso
+  rotate: false
+  xy: 2, 152
+  size: 74, 97
+  orig: 74, 97
+  offset: 0, 0
+  index: -1
+upper
+  rotate: 270
+  xy: 766, 166
+  size: 259, 219
+  orig: 259, 219
+  offset: 0, 0
+  index: -1
+weibo
+  rotate: false
+  xy: 2, 132
+  size: 448, 293
+  orig: 448, 293
+  offset: 0, 0
+  index: -1
+weibo_bei
+  rotate: 180
+  xy: 664, 74
+  size: 279, 94
+  orig: 279, 212
+  offset: 0, 0
+  index: -1

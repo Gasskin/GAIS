@@ -1,0 +1,69 @@
+
+cha_7014.png
+size: 1000,1004
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+fa_chai_diao_zhui
+  rotate: false
+  xy: 2, 935
+  size: 16, 64
+  orig: 16, 64
+  offset: 0, 0
+  index: -1
+hair_back_01
+  rotate: false
+  xy: 747, 721
+  size: 154, 278
+  orig: 154, 278
+  offset: 0, 0
+  index: -1
+hair_back_03
+  rotate: false
+  xy: 487, 119
+  size: 167, 331
+  orig: 167, 331
+  offset: 0, 0
+  index: -1
+hair_back_04
+  rotate: false
+  xy: 2, 78
+  size: 137, 338
+  orig: 137, 338
+  offset: 0, 0
+  index: -1
+hair_front_02
+  rotate: false
+  xy: 401, 384
+  size: 48, 166
+  orig: 48, 166
+  offset: 0, 0
+  index: -1
+head_torso
+  rotate: false
+  xy: 2, 2
+  size: 430, 997
+  orig: 430, 997
+  offset: 0, 0
+  index: -1
+l_shoulder
+  rotate: false
+  xy: 366, 262
+  size: 536, 714
+  orig: 536, 714
+  offset: 0, 0
+  index: -1
+low_torso
+  rotate: 180
+  xy: 296, 43
+  size: 395, 339
+  orig: 395, 339
+  offset: 0, 0
+  index: -1
+r_waist
+  rotate: false
+  xy: 837, 104
+  size: 157, 581
+  orig: 157, 581
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,198 @@
+姬方离战斗.png
+size:1324,1036
+filter:Linear,Linear
+pma:true
+Fire001
+bounds:354,173,128,128
+Fire002
+bounds:921,326,128,128
+Fire003
+bounds:333,43,128,128
+Fire004
+bounds:463,36,128,128
+Fire005
+bounds:593,36,128,128
+Fire006
+bounds:737,189,128,128
+Fire007
+bounds:723,59,128,128
+Fire008
+bounds:867,189,128,128
+Fire009
+bounds:853,59,128,128
+J1
+bounds:107,5,33,43
+J2
+bounds:1253,700,46,69
+offsets:0,8,46,77
+rotate:90
+J3
+bounds:1074,473,63,96
+offsets:9,3,72,99
+rotate:90
+VFX001
+bounds:997,196,128,128
+VFX003
+bounds:1051,326,127,128
+VFX005
+bounds:1127,196,128,128
+VFX007
+bounds:1075,798,127,128
+VFX009
+bounds:1080,668,128,128
+VFX011
+bounds:1080,538,128,128
+VFX013
+bounds:983,59,128,128
+VFX015
+bounds:1113,66,128,128
+VFX016
+bounds:1180,350,128,128
+上身
+bounds:938,456,134,181
+上身 侧
+bounds:1089,936,98,200
+rotate:90
+侧摆
+bounds:142,101,100,376
+offsets:0,3,100,379
+右小臂 1
+bounds:1214,480,56,35
+offsets:0,0,76,35
+rotate:90
+右手 1
+bounds:976,5,53,52
+右手2
+bounds:1291,968,25,66
+右手3
+bounds:1201,8,56,40
+rotate:90
+右手4
+bounds:1257,198,51,43
+右手5
+bounds:625,181,41,29
+外衫 侧
+bounds:2,479,151,555
+外衫 正侧 1
+bounds:525,928,106,562
+offsets:0,0,133,562
+rotate:90
+外衫 正侧 2
+bounds:525,639,88,553
+rotate:90
+外衫 背
+bounds:155,522,183,512
+外衫 背内
+bounds:340,522,183,512
+大臂 1
+bounds:484,212,79,183
+offsets:0,60,79,243
+rotate:90
+大臂2
+bounds:985,735,191,88
+offsets:55,0,246,88
+rotate:90
+大臂L
+bounds:244,2,87,176
+头发1
+bounds:2,14,103,48
+offsets:26,0,129,48
+头发后02
+bounds:525,729,197,458
+rotate:90
+左小臂
+bounds:669,234,66,57
+offsets:0,4,93,61
+左手1
+bounds:723,2,53,55
+左手2
+bounds:1031,23,34,66
+rotate:90
+左手3
+bounds:1253,660,64,38
+左手4
+bounds:1210,538,38,35
+rotate:90
+左手5
+bounds:669,191,66,41
+眼白
+bounds:484,293,23,8
+眼黑1
+bounds:512,513,7,7
+眼黑2
+bounds:921,466,7,7
+offsets:13,0,20,8
+睫毛1
+bounds:142,5,94,98
+offsets:0,0,99,98
+rotate:90
+脚 背
+bounds:484,166,44,139
+rotate:90
+脚外侧1
+bounds:333,4,37,79
+offsets:0,0,38,79
+rotate:90
+脚外侧2
+bounds:155,479,41,67
+rotate:90
+脚外侧3
+bounds:1180,326,38,22
+脚正1
+bounds:1210,654,41,92
+脚正2
+bounds:1172,480,40,56
+offsets:1,34,48,90
+脚正3
+bounds:1257,243,48,50
+脚踩内1
+bounds:668,166,37,23
+脚踩内2
+bounds:778,2,55,50
+rotate:90
+脚踩外1
+bounds:414,21,36,20
+脚踩外2
+bounds:1257,295,53,47
+rotate:90
+脚踩外3
+bounds:1210,578,34,74
+脚踩正
+bounds:907,10,47,67
+rotate:90
+脸 侧
+bounds:1210,748,88,82
+rotate:90
+脸 正
+bounds:1113,2,62,86
+rotate:90
+脸 背
+bounds:830,6,51,75
+rotate:90
+脸 背侧
+bounds:1204,838,96,93
+rotate:90
+衣带
+bounds:121,50,19,427
+袖子 右
+bounds:525,475,80,411
+rotate:90
+袖子 右 背
+bounds:525,557,80,411
+rotate:90
+袖摆 后
+bounds:244,180,108,340
+裙摆 前
+bounds:2,64,117,413
+offsets:0,0,117,461
+身体 正
+bounds:737,319,154,182
+offsets:49,419,259,601
+rotate:90
+身体 背
+bounds:512,293,180,223
+offsets:39,378,259,601
+rotate:90
+身体 背侧
+bounds:354,303,156,217
+offsets:56,384,258,601

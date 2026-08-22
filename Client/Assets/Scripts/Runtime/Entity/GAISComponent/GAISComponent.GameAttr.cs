@@ -36,7 +36,7 @@ namespace Runtime
 
         private void ClearGameAttr()
         {
-            for (int i = 0; i < _gameAttrs.Count; i++)
+            for (int i = 1; i < _gameAttrs.Count; i++)
             {
                 ObjectPool.Release(_gameAttrs[i]);
             }
@@ -77,7 +77,7 @@ namespace Runtime
 
         public void OnGameEffectDirty()
         {
-            for (int i = 0; i < _gameAttrs.Count; i++)
+            for (int i = 1; i < _gameAttrs.Count; i++)
             {
                 _gameAttrs[i].UpdateAttr(_gameEffectSpecs);
             }

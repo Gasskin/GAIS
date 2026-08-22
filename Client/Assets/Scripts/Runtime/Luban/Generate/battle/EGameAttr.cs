@@ -310,14 +310,18 @@ namespace cfg.battle
         /// </summary>
         CurHp = 73,
         /// <summary>
+        /// 行动能量
+        /// </summary>
+        CurActionEnergy = 74,
+        /// <summary>
         /// Meta无
         /// </summary>
-        MetaAttrNone = 74,
+        MetaAttrNone = 75,
         /// <summary>
         /// 伤害
         /// </summary>
-        MetaAttrDamage = 75,
-        Max = 76,
+        MetaAttrDamage = 76,
+        Max = 77,
     }
 
 } 

@@ -1,0 +1,132 @@
+
+ui_douli.png
+size: 1024,604
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bao_touying
+  rotate: false
+  xy: 231, 3
+  size: 199, 148
+  orig: 214, 148
+  offset: 15, 0
+  index: -1
+beibao
+  rotate: false
+  xy: 228, 66
+  size: 266, 270
+  orig: 276, 270
+  offset: 10, 0
+  index: -1
+body
+  rotate: false
+  xy: 256, 247
+  size: 275, 354
+  orig: 275, 354
+  offset: 0, 0
+  index: -1
+bozitouying
+  rotate: false
+  xy: 636, 70
+  size: 230, 110
+  orig: 230, 121
+  offset: 0, 0
+  index: -1
+face
+  rotate: 270
+  xy: 396, 124
+  size: 169, 216
+  orig: 169, 216
+  offset: 0, 0
+  index: -1
+head_1
+  rotate: true
+  xy: 533, 150
+  size: 450, 198
+  orig: 450, 198
+  offset: 0, 0
+  index: -1
+head_touying
+  rotate: false
+  xy: 540, 87
+  size: 117, 45
+  orig: 117, 45
+  offset: 0, 0
+  index: -1
+houfa
+  rotate: false
+  xy: 2, 148
+  size: 285, 453
+  orig: 285, 453
+  offset: 0, 0
+  index: -1
+l_erhuan
+  rotate: false
+  xy: 693, 560
+  size: 19, 41
+  orig: 19, 41
+  offset: 0, 0
+  index: -1
+l_hand
+  rotate: false
+  xy: 2, 69
+  size: 236, 122
+  orig: 236, 122
+  offset: 0, 0
+  index: -1
+l_piao
+  rotate: false
+  xy: 733, 313
+  size: 169, 288
+  orig: 169, 288
+  offset: 0, 0
+  index: -1
+l_shoulder
+  rotate: true
+  xy: 896, 69
+  size: 128, 125
+  orig: 128, 125
+  offset: 0, 0
+  index: -1
+r_erhuan
+  rotate: false
+  xy: 601, 559
+  size: 19, 42
+  orig: 19, 42
+  offset: 0, 0
+  index: -1
+r_hand
+  rotate: true
+  xy: 868, 344
+  size: 257, 142
+  orig: 257, 142
+  offset: 0, 0
+  index: -1
+r_piao
+  rotate: true
+  xy: 759, 172
+  size: 157, 262
+  orig: 157, 262
+  offset: 0, 0
+  index: -1
+r_shoulder
+  rotate: false
+  xy: 505, 476
+  size: 96, 125
+  orig: 96, 125
+  offset: 0, 0
+  index: -1
+touzhu
+  rotate: false
+  xy: 904, 415
+  size: 47, 95
+  orig: 47, 95
+  offset: 0, 0
+  index: -1
+zui
+  rotate: false
+  xy: 714, 586
+  size: 42, 16
+  orig: 45, 17
+  offset: 1, 1
+  index: -1

@@ -1,0 +1,97 @@
+
+cha_7013.png
+size: 688,696
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+cha_7013
+  rotate: false
+  xy: 2, 9
+  size: 353, 683
+  orig: 353, 683
+  offset: 0, 0
+  index: -1
+hair_2
+  rotate: false
+  xy: 2, 346
+  size: 45, 132
+  orig: 45, 132
+  offset: 0, 0
+  index: -1
+hair_back
+  rotate: false
+  xy: 325, 501
+  size: 77, 191
+  orig: 77, 191
+  offset: 0, 0
+  index: -1
+hair_front_01
+  rotate: false
+  xy: 24, 568
+  size: 39, 40
+  orig: 39, 40
+  offset: 0, 0
+  index: -1
+hair_front_02
+  rotate: false
+  xy: 2, 575
+  size: 37, 59
+  orig: 37, 59
+  offset: 0, 0
+  index: -1
+hair_front_03
+  rotate: false
+  xy: 2, 623
+  size: 30, 69
+  orig: 30, 69
+  offset: 0, 0
+  index: -1
+head_torso
+  rotate: false
+  xy: 411, 333
+  size: 215, 359
+  orig: 215, 359
+  offset: 0, 0
+  index: -1
+l_shoulder
+  rotate: 180
+  xy: 2, 10
+  size: 131, 218
+  orig: 131, 218
+  offset: 0, 0
+  index: -1
+l_waist_02
+  rotate: false
+  xy: 603, 418
+  size: 82, 274
+  orig: 82, 274
+  offset: 0, 0
+  index: -1
+l_waist_03
+  rotate: false
+  xy: 555, 290
+  size: 121, 182
+  orig: 121, 182
+  offset: 0, 0
+  index: -1
+low_torso
+  rotate: 180
+  xy: 339, 21
+  size: 172, 411
+  orig: 172, 411
+  offset: 0, 0
+  index: -1
+r_shoulder
+  rotate: false
+  xy: 506, 83
+  size: 157, 265
+  orig: 157, 265
+  offset: 0, 0
+  index: -1
+r_waist_01
+  rotate: 180
+  xy: 277, 3
+  size: 63, 292
+  orig: 63, 292
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,111 @@
+
+zzt_xiongmao.png
+size: 768,232
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 270, 3
+  size: 247, 225
+  orig: 247, 225
+  offset: 0, 0
+  index: -1
+hair_1
+  rotate: false
+  xy: 2, 19
+  size: 28, 35
+  orig: 29, 35
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 2, 8
+  size: 266, 219
+  orig: 266, 219
+  offset: 0, 0
+  index: -1
+hear_2
+  rotate: 180
+  xy: 238, 4
+  size: 45, 51
+  orig: 45, 51
+  offset: 0, 0
+  index: -1
+l_ear
+  rotate: false
+  xy: 516, 132
+  size: 74, 96
+  orig: 74, 96
+  offset: 0, 0
+  index: -1
+l_eye
+  rotate: false
+  xy: 682, 169
+  size: 60, 59
+  orig: 60, 59
+  offset: 0, 0
+  index: -1
+l_foot
+  rotate: false
+  xy: 495, 3
+  size: 97, 85
+  orig: 97, 85
+  offset: 0, 0
+  index: -1
+l_hand
+  rotate: true
+  xy: 567, 38
+  size: 100, 81
+  orig: 103, 84
+  offset: 0, 3
+  index: -1
+nose
+  rotate: false
+  xy: 19, 10
+  size: 38, 20
+  orig: 38, 20
+  offset: 0, 0
+  index: -1
+r_ear
+  rotate: false
+  xy: 670, 94
+  size: 57, 75
+  orig: 57, 75
+  offset: 0, 0
+  index: -1
+r_eye
+  rotate: false
+  xy: 708, 14
+  size: 48, 50
+  orig: 48, 50
+  offset: 0, 0
+  index: -1
+r_foot
+  rotate: 270
+  xy: 646, 9
+  size: 85, 64
+  orig: 85, 64
+  offset: 0, 0
+  index: -1
+r_hand
+  rotate: true
+  xy: 588, 110
+  size: 117, 100
+  orig: 117, 100
+  offset: 0, 0
+  index: -1
+zui
+  rotate: false
+  xy: 2, 210
+  size: 13, 18
+  orig: 14, 19
+  offset: 0, 0
+  index: -1
+zuzi
+  rotate: false
+  xy: 704, 74
+  size: 61, 60
+  orig: 61, 60
+  offset: 0, 0
+  index: -1

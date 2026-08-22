@@ -7,9 +7,9 @@ namespace Framework
     public class EntityManager : BaseManager, IUpdateManager
     {
         public static Transform EntityRoot { get; private set; }
-        
+
         private List<Entity> _entities = new();
-        
+
         public override async UniTask Initialize()
         {
             if (EntityRoot == null)
@@ -17,7 +17,7 @@ namespace Framework
                 EntityRoot = new GameObject("[EntityManager]").transform;
                 EntityRoot.SetParent(GameEntry.Instance.transform, false);
             }
-            
+
             await UniTask.Yield();
         }
 
@@ -41,13 +41,25 @@ namespace Framework
 
         public void AddEntity(Entity entity)
         {
-            entity.ManagerIndex = _entities.Count - 1;
+            if (entity == null)
+            {
+                return;
+            }
+            entity.ManagerIndex = _entities.Count;
             _entities.Add(entity);
         }
 
         public void RemoveEntity(Entity entity)
         {
-            _entities.RemoveAt(entity.ManagerIndex);
+            if (entity == null)
+            {
+                return;
+            }
+            for (int i = entity.ManagerIndex; i < _entities.Count - 1; i++)
+            {
+                _entities[i] = _entities[i + 1];
+            }
+            _entities.RemoveAt(_entities.Count - 1);
             ObjectPool.Release(entity);
         }
     }

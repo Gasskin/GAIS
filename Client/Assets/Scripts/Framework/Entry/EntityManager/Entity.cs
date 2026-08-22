@@ -54,6 +54,11 @@ namespace Framework
             }
         }
 
+        public T GetComponent<T>(int id) where T : BaseComponent
+        {
+            return _components[id] as T;
+        }
+
         public void AddComponent(BaseComponent com)
         {
             if (com == null)
