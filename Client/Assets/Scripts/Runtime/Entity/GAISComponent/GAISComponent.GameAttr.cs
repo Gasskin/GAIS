@@ -32,6 +32,9 @@ namespace Runtime
 
             // 初始化血量
             _gameAttrs[(int)EGameAttr.CurHp].InitValue(EGameAttr.CurHp, _gameAttrs[(int)EGameAttr.MaxHp].Current);
+
+            // 设置有效范围
+            _gameAttrs[(int)EGameAttr.CurHp].SetRange(max: _gameAttrs[(int)EGameAttr.MaxHp]);
         }
 
         private void ClearGameAttr()
@@ -47,9 +50,9 @@ namespace Runtime
         {
             RegisterDerivedAttr(EGameAttr.MaxHp);
             RegisterDerivedAttr(EGameAttr.Atk);
-            RegisterDerivedAttr(EGameAttr.Defence);
-            RegisterDerivedAttr(EGameAttr.DefenceFixedIgnore);
-            RegisterDerivedAttr(EGameAttr.DefencePctIgnore);
+            // RegisterDerivedAttr(EGameAttr.Defence);
+            // RegisterDerivedAttr(EGameAttr.DefenceFixedIgnore);
+            // RegisterDerivedAttr(EGameAttr.DefencePctIgnore);
             RegisterDerivedAttr(EGameAttr.CriticalRate);
             RegisterDerivedAttr(EGameAttr.DeCriticalRate);
             RegisterDerivedAttr(EGameAttr.CriticalRatio);
@@ -69,7 +72,7 @@ namespace Runtime
                 _gameAttrs[(int)attr].RegisterDerived(_gameAttrs[(int)b], _gameAttrs[(int)mult], _gameAttrs[(int)add]);
             }
         }
-        
+
         public GameAttr GetAttr(EGameAttr attr)
         {
             return _gameAttrs[(int)attr];

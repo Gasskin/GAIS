@@ -1,0 +1,6 @@
+<module name="battle">
+    <bean name="DamageCalculator" parent="BaseCalculator" comment="伤害计算器">
+        <var name="value" type="DynamicValue" comment="数值，需要指定" />
+        <var name="type" type="EDamageType" comment="伤害类型，需要指定" />
+    </bean>
+</module>

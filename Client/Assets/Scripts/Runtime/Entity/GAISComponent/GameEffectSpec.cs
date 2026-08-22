@@ -36,6 +36,9 @@ namespace Runtime
             {
                 spec.PeriodRemaining = spec.GameEffect.PeriodDuration;
             }
+            var f = ObjectPool.Get<GameEffectSpecRef>();
+            f.GameEffectSpec = spec;
+            spec.Ref = f;
             return spec;
         }
     #endregion
@@ -57,6 +60,8 @@ namespace Runtime
         public float PeriodRemaining { get; private set; }
 
         public bool IsActive { get; private set; }
+        
+        public GameEffectSpecRef Ref { get; private set; }
 
 
         public void OnRelease()
@@ -68,6 +73,8 @@ namespace Runtime
             StackCount = 0;
             PeriodRemaining = 0;
             IsActive = false;
+            ObjectPool.Release(Ref);
+            Ref = null;
         }
 
     #region 条件判断

@@ -1,0 +1,10 @@
+<module name="battle">
+    <enum name="EGameSkillType" flags="false" unique="true" comment="技能类型">
+        <var name="None" value="0" alias="无" />
+        <var name="Attack" alias="普通攻击" />
+        <var name="Passive" alias="被动技能" />
+        <var name="Normal" alias="常规技能" />
+        <var name="Move" alias="身法技能" />
+        <var name="Heart" alias="心法技能" />
+    </enum>
+</module>

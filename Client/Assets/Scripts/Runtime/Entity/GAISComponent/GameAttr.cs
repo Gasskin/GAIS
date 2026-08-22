@@ -32,16 +32,50 @@ namespace Runtime
         private GameAttr _mult;
         private GameAttr _add;
 
+        private GameAttr _max;
+        private GameAttr _min;
+        private float? _fixedMax;
+        private float? _fixedMin;
+
+        private float MaxValue
+        {
+            get
+            {
+                if (_max != null)
+                {
+                    return _max.Current;
+                }
+                return _fixedMax ?? float.MaxValue;
+            }
+        }
+
+        private float MinValue
+        {
+            get
+            {
+                if (_min != null)
+                {
+                    return _min.Current;
+                }
+                return _fixedMin ?? float.MinValue;
+            }
+        }
+
         public void OnRelease()
         {
             Base = 0;
             Current = 0;
             AttrId = EGameAttr.None;
+            IsDerived = false;
             _base = null;
             _mult = null;
             _add = null;
             OnPreBaseValueChange = null;
             OnPostCurrentValueChange = null;
+            _max = null;
+            _min = null;
+            _fixedMax = null;
+            _fixedMin = null;
         }
 
         public void InitValue(EGameAttr id, float value)
@@ -52,10 +86,22 @@ namespace Runtime
             IsDerived = false;
         }
 
+        public void SetRange(GameAttr max = null, float? maxValue = null, GameAttr min = null, float? minValue = null)
+        {
+            _max = max;
+            _fixedMax = maxValue;
+            _min = min;
+            _fixedMin = minValue;
+
+            Base = Mathf.Clamp(Base, MinValue, MaxValue);
+            Current = Mathf.Clamp(Current, MinValue, MaxValue);
+        }
+
         public void SetBaseValue(float newValue)
         {
             var prev = Base;
             OnPreBaseValueChange?.Invoke(prev, ref newValue);
+            newValue = Mathf.Clamp(newValue, MinValue, MaxValue);
             Base = newValue;
             if (!Mathf.Approximately(prev, newValue))
             {
@@ -66,6 +112,7 @@ namespace Runtime
         private void SetCurrentValue(float newValue)
         {
             var prev = Current;
+            newValue = Mathf.Clamp(newValue, MinValue, MaxValue);
             Current = newValue;
             if (!Mathf.Approximately(prev, newValue))
             {
@@ -87,7 +134,8 @@ namespace Runtime
         public void RegisterDerived(GameAttr b, GameAttr mult, GameAttr add)
         {
             Base = 0f;
-            
+            IsDerived = true;
+
             _base = b;
             _mult = mult;
             _add = add;
@@ -114,7 +162,7 @@ namespace Runtime
                 ObjectPool.Release(m);
             }
             _modifierCache.Clear();
-            
+
             foreach (var spec in effects)
             {
                 if (spec.IsActive)

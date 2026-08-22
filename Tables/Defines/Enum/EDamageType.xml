@@ -1,0 +1,7 @@
+<module name="battle">
+    <enum name="EDamageType" flags="true" unique="true" comment="伤害类型">
+        <var name="None" value="0" alias="无" />
+        <var name="Direct" alias="直伤" />
+        <var name="Dot" alias="DOT" />
+    </enum>
+</module>

@@ -4,8 +4,8 @@
     对于一级属性A_Base, 原则上是基础值, 初始化时就应该确定, 所以一般也不允许修改, 如果用户想要修改, 你必须警告二次确。
 
     特别的, 对于动态属性DynamicAttrN, 没有计算公式, 也没有明确的作用, 具体作用由具体逻辑确定, 在属性上这是一个完全没有明确意义的数值，
-    对于不同的单位, DynamicAttrN的含义是不相同的，
-    对于同一个单位, DynamicAttrN的逻辑含义是唯一且确定的, 如果存在多种定义, 需要警告用户。 
+    动态属性不属于某个单位而是属于某个技能，对于不同的技能, DynamicAttrN的含义是不相同的，
+    对于同一个技能, DynamicAttrN的逻辑含义是唯一且确定的, 如果存在多种定义, 需要警告用户。 
 
     同时, 还存在另一种特殊的属性称为MetaAttr, MetaAttr原则上已经不属于数值属性范畴, 是通过修改这个属性间接的执行游戏逻辑, 
     例如：MetaAttrDamage, 
@@ -14,8 +14,9 @@
     
     此外，属性枚举的定义顺序有严格要求
     首先必须是属性组，且每一组属性的顺序必须是A, A_Base, A_Mult, A_Add,
-    然后是DynamicAttrN, 中间不允许穿插, 之后是孤立属性,
-    最后是MetaAttr，且必须定义在MetaAttrNone之后。 -->
+    随后是孤立属性，然后是Max，Max以上的属性会作为单位的实例属性，
+    然后是DynamicAttrN和MetaAttr,
+    DynamicAttrN和MetaAttr不属于单位，无法通过单位读取。 -->
     <enum name="EGameAttr" flags="false" unique="true">
         <var name="None" value="0" alias="无" />
 
@@ -30,7 +31,7 @@
         <var name="AtkMult" alias="攻击力Mult" />
         <var name="AtkAdd" alias="攻击力Add" />
 
-        <var name="Defence" alias="防御力" />
+        <!-- <var name="Defence" alias="防御力" />
         <var name="DefenceBase" alias="防御力Base" />
         <var name="DefenceMult" alias="防御力Mult" />
         <var name="DefenceAdd" alias="防御力Add" />
@@ -43,7 +44,7 @@
         <var name="DefencePctIgnore" alias="百分比防御穿透" />
         <var name="DefencePctIgnoreBase" alias="百分比防御穿透Base" />
         <var name="DefencePctIgnoreMult" alias="百分比防御穿透Mult" />
-        <var name="DefencePctIgnoreAdd" alias="百分比防御穿透Add" />
+        <var name="DefencePctIgnoreAdd" alias="百分比防御穿透Add" /> -->
 
         <var name="CriticalRate" alias="暴击率" />
         <var name="CriticalRateBase" alias="暴击率Base" />
@@ -85,6 +86,12 @@
         <var name="ActionChargeMult" alias="行动充能Mult" />
         <var name="ActionChargeAdd" alias="行动充能Add" />
 
+        <!-- 孤立属性 -->
+        <var name="CurHp" alias="当前血量" />
+        <var name="CurActionEnergy" alias="行动能量" />
+
+        <var name="Max" alias="" />
+
         <!-- 动态属性 -->
         <var name="DynamicAttr01" alias="动态属性01" />
         <var name="DynamicAttr02" alias="动态属性02" />
@@ -107,14 +114,8 @@
         <var name="DynamicAttr19" alias="动态属性19" />
         <var name="DynamicAttr20" alias="动态属性20" />
 
-        <!-- 孤立属性 -->
-        <var name="CurHp" alias="当前血量" />
-        <var name="CurActionEnergy" alias="行动能量" />
-
         <!-- MetaAttr -->
-        <var name="MetaAttrNone" alias="Meta无" />
-        <var name="MetaAttrDamage" alias="伤害" />
-
-        <var name="Max" />
+        <var name="MetaNone" alias="Meta无" />
+        <var name="MetaDamage" alias="Meta伤害" />
     </enum>
 </module>

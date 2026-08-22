@@ -22,11 +22,27 @@ namespace Runtime
                 }
             }
         }
-        
+
         public void ApplyInstantGameEffect(GameEffectSpec spec)
         {
+            // Meta Attr
+            if (spec.GameEffect.AttrModifiers is { Count: 1 })
+            {
+                var modifier = spec.GameEffect.AttrModifiers[0];
+                if (modifier.Attr >= EGameAttr.MetaNone)
+                {
+                    modifier.Calculator.Calculate(spec);
+                    return;
+                }
+            }
+
             foreach (var modifier in spec.GameEffect.AttrModifiers)
             {
+                if (modifier.Attr is >= EGameAttr.Max)
+                {
+                    continue;
+                }
+
                 var attr = _gameAttrs[(int)modifier.Attr];
                 if (attr == null)
                 {
@@ -36,18 +52,18 @@ namespace Runtime
             }
         }
 
-        public int AddGameEffectSpec(GameEffectSpec spec)
+        public GameEffectSpecRef AddGameEffectSpec(GameEffectSpec spec)
         {
             if (!spec.CanApply())
             {
                 ObjectPool.Release(spec);
-                return 0;
+                return null;
             }
 
             if (spec.IsImmune())
             {
                 ObjectPool.Release(spec);
-                return 0;
+                return null;
             }
 
             // 瞬时GE
@@ -55,7 +71,7 @@ namespace Runtime
             {
                 spec.OnExecute();
                 ObjectPool.Release(spec);
-                return 0;
+                return null;
             }
 
             // 不堆叠
@@ -63,10 +79,10 @@ namespace Runtime
             {
                 if (AddNewGameEffectSpec(spec.GameEffect.StackCountLimit))
                 {
-                    return spec.Uid;
+                    return spec.Ref;
                 }
                 ObjectPool.Release(spec);
-                return 0;
+                return null;
             }
 
             GameEffectSpec stackSpec = null;
@@ -89,13 +105,13 @@ namespace Runtime
             if (stackSpec == null)
             {
                 AddNewGameEffectSpec(0);
-                return spec.Uid;
+                return spec.Ref;
             }
             stackSpec.AddStack(1, true, false);
             // 堆叠后可以直接释放
             ObjectPool.Release(spec);
 
-            return stackSpec.Uid;
+            return stackSpec.Ref;
 
             bool AddNewGameEffectSpec(int countLimit)
             {
@@ -125,7 +141,7 @@ namespace Runtime
                 return true;
             }
         }
-        
+
         public void InternalRemoveGameEffectSpec(GameEffectSpec spec)
         {
             // 必须先删除，DeActive可能触发TagDirty
@@ -134,7 +150,7 @@ namespace Runtime
             spec.OnRemove();
             ObjectPool.Release(spec);
         }
-        
+
         public void UpdateEffectState()
         {
             var hasDirty = false;
@@ -152,7 +168,7 @@ namespace Runtime
                 {
                     if (spec.CanRunning())
                     {
-                        var dirty =  spec.OnActive();
+                        var dirty = spec.OnActive();
                         hasDirty = hasDirty || dirty;
                     }
                 }

@@ -49,7 +49,7 @@ public sealed partial class GameEffectRow : Luban.BeanBase
     /// </summary>
     public readonly int Id;
     /// <summary>
-    /// 描述
+    /// 描述。需要指定
     /// </summary>
     public readonly string Desc;
     /// <summary>
@@ -106,7 +106,7 @@ public sealed partial class GameEffectRow : Luban.BeanBase
     /// </summary>
     public readonly battle.EStackExpireType StackExpireType;
     /// <summary>
-    /// 属性修改。默认为空
+    /// 属性修改。设计上你可以一次性修改多个属性，但是，如果这个效果的属性修改涉及MetaAttr，那么这一个效果只允许有一个属性修改器，并且一旦涉及MetaAttr，那么这个效果只能是一个最普通的即时效果，不可以有持续时间和堆叠或者子效果。默认为空
     /// </summary>
     public readonly System.Collections.Generic.List<battle.GameAttrModifier> AttrModifiers;
     /// <summary>

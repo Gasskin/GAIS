@@ -19,6 +19,9 @@ namespace Runtime
             unit.AssetsRef = assetsRef;
             e.AddComponent(unit);
             
+            var skill = ObjectPool.Get<SkillComponent>();
+            e.AddComponent(skill);
+            
             await e.Initialize();
             GameEntry.Instance.EntityManager.AddEntity(e);
             return e;

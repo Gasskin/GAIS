@@ -1,7 +1,7 @@
 <module name="battle">
     <bean name="GameEffectRow" comment="游戏效果">
         <var name="id" type="int" comment="不需要也禁止用户输入。默认等于文件名序号" />
-        <var name="desc" type="string" comment="描述" />
+        <var name="desc" type="string" comment="描述。需要指定" />
         <!-- 持续类型 -->
         <var name="durationType" type="EDurationType"
             comment="持续时间类型。默认 即时" />
@@ -30,7 +30,7 @@
         <var name="stackExpireType" type="EStackExpireType"
             comment="层数失效类型。堆叠类型非0时才可以指定。默认为 删除全部" />
         <!-- 属性修改 -->
-        <var name="attrModifiers" type="list,GameAttrModifier" comment="属性修改。默认为空" />
+        <var name="attrModifiers" type="list,GameAttrModifier" comment="属性修改。设计上你可以一次性修改多个属性，但是，如果这个效果的属性修改涉及MetaAttr，那么这一个效果只允许有一个属性修改器，并且一旦涉及MetaAttr，那么这个效果只能是一个最普通的即时效果，不可以有持续时间和堆叠或者子效果。默认为空" />
         <!-- 自定义逻辑 -->
         <var name="bindCodeLogic" type="int"
             comment="存在代码逻辑。如果不为0。说明这个BUFF有对应值的自定义逻辑存在。非即时BUFF才可以添加自定义逻辑。默认0" />

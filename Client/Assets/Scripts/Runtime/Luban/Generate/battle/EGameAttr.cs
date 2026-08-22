@@ -50,278 +50,230 @@ namespace cfg.battle
         /// </summary>
         AtkAdd = 8,
         /// <summary>
-        /// 防御力
-        /// </summary>
-        Defence = 9,
-        /// <summary>
-        /// 防御力Base
-        /// </summary>
-        DefenceBase = 10,
-        /// <summary>
-        /// 防御力Mult
-        /// </summary>
-        DefenceMult = 11,
-        /// <summary>
-        /// 防御力Add
-        /// </summary>
-        DefenceAdd = 12,
-        /// <summary>
-        /// 固定防御穿透
-        /// </summary>
-        DefenceFixedIgnore = 13,
-        /// <summary>
-        /// 固定防御穿透Base
-        /// </summary>
-        DefenceFixedIgnoreBase = 14,
-        /// <summary>
-        /// 固定防御穿透Mult
-        /// </summary>
-        DefenceFixedIgnoreMult = 15,
-        /// <summary>
-        /// 固定防御穿透Add
-        /// </summary>
-        DefenceFixedIgnoreAdd = 16,
-        /// <summary>
-        /// 百分比防御穿透
-        /// </summary>
-        DefencePctIgnore = 17,
-        /// <summary>
-        /// 百分比防御穿透Base
-        /// </summary>
-        DefencePctIgnoreBase = 18,
-        /// <summary>
-        /// 百分比防御穿透Mult
-        /// </summary>
-        DefencePctIgnoreMult = 19,
-        /// <summary>
-        /// 百分比防御穿透Add
-        /// </summary>
-        DefencePctIgnoreAdd = 20,
-        /// <summary>
         /// 暴击率
         /// </summary>
-        CriticalRate = 21,
+        CriticalRate = 9,
         /// <summary>
         /// 暴击率Base
         /// </summary>
-        CriticalRateBase = 22,
+        CriticalRateBase = 10,
         /// <summary>
         /// 暴击率Mult
         /// </summary>
-        CriticalRateMult = 23,
+        CriticalRateMult = 11,
         /// <summary>
         /// 暴击率Add
         /// </summary>
-        CriticalRateAdd = 24,
+        CriticalRateAdd = 12,
         /// <summary>
         /// 抗暴击率
         /// </summary>
-        DeCriticalRate = 25,
+        DeCriticalRate = 13,
         /// <summary>
         /// 抗暴击率Base
         /// </summary>
-        DeCriticalRateBase = 26,
+        DeCriticalRateBase = 14,
         /// <summary>
         /// 抗暴击率Mult
         /// </summary>
-        DeCriticalRateMult = 27,
+        DeCriticalRateMult = 15,
         /// <summary>
         /// 抗暴击率Add
         /// </summary>
-        DeCriticalRateAdd = 28,
+        DeCriticalRateAdd = 16,
         /// <summary>
         /// 暴击倍率
         /// </summary>
-        CriticalRatio = 29,
+        CriticalRatio = 17,
         /// <summary>
         /// 暴击倍率Base
         /// </summary>
-        CriticalRatioBase = 30,
+        CriticalRatioBase = 18,
         /// <summary>
         /// 暴击倍率Mult
         /// </summary>
-        CriticalRatioMult = 31,
+        CriticalRatioMult = 19,
         /// <summary>
         /// 暴击倍率Add
         /// </summary>
-        CriticalRatioAdd = 32,
+        CriticalRatioAdd = 20,
         /// <summary>
         /// 抗暴击倍率
         /// </summary>
-        DeCriticalRatio = 33,
+        DeCriticalRatio = 21,
         /// <summary>
         /// 抗暴击倍率Base
         /// </summary>
-        DeCriticalRatioBase = 34,
+        DeCriticalRatioBase = 22,
         /// <summary>
         /// 抗暴击倍率Mult
         /// </summary>
-        DeCriticalRatioMult = 35,
+        DeCriticalRatioMult = 23,
         /// <summary>
         /// 抗暴击倍率Add
         /// </summary>
-        DeCriticalRatioAdd = 36,
+        DeCriticalRatioAdd = 24,
         /// <summary>
         /// 总增伤
         /// </summary>
-        DamageMore = 37,
+        DamageMore = 25,
         /// <summary>
         /// 总增Base
         /// </summary>
-        DamageMoreBase = 38,
+        DamageMoreBase = 26,
         /// <summary>
         /// 总增Mult
         /// </summary>
-        DamageMoreMult = 39,
+        DamageMoreMult = 27,
         /// <summary>
         /// 总增Add
         /// </summary>
-        DamageMoreAdd = 40,
+        DamageMoreAdd = 28,
         /// <summary>
         /// 总减伤
         /// </summary>
-        DamageLess = 41,
+        DamageLess = 29,
         /// <summary>
         /// 总减伤Base
         /// </summary>
-        DamageLessBase = 42,
+        DamageLessBase = 30,
         /// <summary>
         /// 总减伤Mult
         /// </summary>
-        DamageLessMult = 43,
+        DamageLessMult = 31,
         /// <summary>
         /// 总减伤Add
         /// </summary>
-        DamageLessAdd = 44,
+        DamageLessAdd = 32,
         /// <summary>
         /// 技能极速
         /// </summary>
-        SkillHaste = 45,
+        SkillHaste = 33,
         /// <summary>
         /// 技能极速Base
         /// </summary>
-        SkillHasteBase = 46,
+        SkillHasteBase = 34,
         /// <summary>
         /// 技能极速Mult
         /// </summary>
-        SkillHasteMult = 47,
+        SkillHasteMult = 35,
         /// <summary>
         /// 技能极速Add
         /// </summary>
-        SkillHasteAdd = 48,
+        SkillHasteAdd = 36,
         /// <summary>
         /// 行动充能
         /// </summary>
-        ActionCharge = 49,
+        ActionCharge = 37,
         /// <summary>
         /// 行动充能Base
         /// </summary>
-        ActionChargeBase = 50,
+        ActionChargeBase = 38,
         /// <summary>
         /// 行动充能Mult
         /// </summary>
-        ActionChargeMult = 51,
+        ActionChargeMult = 39,
         /// <summary>
         /// 行动充能Add
         /// </summary>
-        ActionChargeAdd = 52,
-        /// <summary>
-        /// 动态属性01
-        /// </summary>
-        DynamicAttr01 = 53,
-        /// <summary>
-        /// 动态属性02
-        /// </summary>
-        DynamicAttr02 = 54,
-        /// <summary>
-        /// 动态属性03
-        /// </summary>
-        DynamicAttr03 = 55,
-        /// <summary>
-        /// 动态属性04
-        /// </summary>
-        DynamicAttr04 = 56,
-        /// <summary>
-        /// 动态属性05
-        /// </summary>
-        DynamicAttr05 = 57,
-        /// <summary>
-        /// 动态属性06
-        /// </summary>
-        DynamicAttr06 = 58,
-        /// <summary>
-        /// 动态属性07
-        /// </summary>
-        DynamicAttr07 = 59,
-        /// <summary>
-        /// 动态属性08
-        /// </summary>
-        DynamicAttr08 = 60,
-        /// <summary>
-        /// 动态属性09
-        /// </summary>
-        DynamicAttr09 = 61,
-        /// <summary>
-        /// 动态属性10
-        /// </summary>
-        DynamicAttr10 = 62,
-        /// <summary>
-        /// 动态属性11
-        /// </summary>
-        DynamicAttr11 = 63,
-        /// <summary>
-        /// 动态属性12
-        /// </summary>
-        DynamicAttr12 = 64,
-        /// <summary>
-        /// 动态属性13
-        /// </summary>
-        DynamicAttr13 = 65,
-        /// <summary>
-        /// 动态属性14
-        /// </summary>
-        DynamicAttr14 = 66,
-        /// <summary>
-        /// 动态属性15
-        /// </summary>
-        DynamicAttr15 = 67,
-        /// <summary>
-        /// 动态属性16
-        /// </summary>
-        DynamicAttr16 = 68,
-        /// <summary>
-        /// 动态属性17
-        /// </summary>
-        DynamicAttr17 = 69,
-        /// <summary>
-        /// 动态属性18
-        /// </summary>
-        DynamicAttr18 = 70,
-        /// <summary>
-        /// 动态属性19
-        /// </summary>
-        DynamicAttr19 = 71,
-        /// <summary>
-        /// 动态属性20
-        /// </summary>
-        DynamicAttr20 = 72,
+        ActionChargeAdd = 40,
         /// <summary>
         /// 当前血量
         /// </summary>
-        CurHp = 73,
+        CurHp = 41,
         /// <summary>
         /// 行动能量
         /// </summary>
-        CurActionEnergy = 74,
+        CurActionEnergy = 42,
+        Max = 43,
+        /// <summary>
+        /// 动态属性01
+        /// </summary>
+        DynamicAttr01 = 44,
+        /// <summary>
+        /// 动态属性02
+        /// </summary>
+        DynamicAttr02 = 45,
+        /// <summary>
+        /// 动态属性03
+        /// </summary>
+        DynamicAttr03 = 46,
+        /// <summary>
+        /// 动态属性04
+        /// </summary>
+        DynamicAttr04 = 47,
+        /// <summary>
+        /// 动态属性05
+        /// </summary>
+        DynamicAttr05 = 48,
+        /// <summary>
+        /// 动态属性06
+        /// </summary>
+        DynamicAttr06 = 49,
+        /// <summary>
+        /// 动态属性07
+        /// </summary>
+        DynamicAttr07 = 50,
+        /// <summary>
+        /// 动态属性08
+        /// </summary>
+        DynamicAttr08 = 51,
+        /// <summary>
+        /// 动态属性09
+        /// </summary>
+        DynamicAttr09 = 52,
+        /// <summary>
+        /// 动态属性10
+        /// </summary>
+        DynamicAttr10 = 53,
+        /// <summary>
+        /// 动态属性11
+        /// </summary>
+        DynamicAttr11 = 54,
+        /// <summary>
+        /// 动态属性12
+        /// </summary>
+        DynamicAttr12 = 55,
+        /// <summary>
+        /// 动态属性13
+        /// </summary>
+        DynamicAttr13 = 56,
+        /// <summary>
+        /// 动态属性14
+        /// </summary>
+        DynamicAttr14 = 57,
+        /// <summary>
+        /// 动态属性15
+        /// </summary>
+        DynamicAttr15 = 58,
+        /// <summary>
+        /// 动态属性16
+        /// </summary>
+        DynamicAttr16 = 59,
+        /// <summary>
+        /// 动态属性17
+        /// </summary>
+        DynamicAttr17 = 60,
+        /// <summary>
+        /// 动态属性18
+        /// </summary>
+        DynamicAttr18 = 61,
+        /// <summary>
+        /// 动态属性19
+        /// </summary>
+        DynamicAttr19 = 62,
+        /// <summary>
+        /// 动态属性20
+        /// </summary>
+        DynamicAttr20 = 63,
         /// <summary>
         /// Meta无
         /// </summary>
-        MetaAttrNone = 75,
+        MetaNone = 64,
         /// <summary>
-        /// 伤害
+        /// Meta伤害
         /// </summary>
-        MetaAttrDamage = 76,
-        Max = 77,
+        MetaDamage = 65,
     }
 
 } 
