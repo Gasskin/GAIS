@@ -67,7 +67,12 @@ namespace Framework
 
         public bool HasEntity(int sourceId)
         {
-            return  _entitiesDict.ContainsKey(sourceId);
+            return _entitiesDict.ContainsKey(sourceId);
+        }
+
+        public Entity GetEntity(int sourceId)
+        {
+            return _entitiesDict.GetValueOrDefault(sourceId);
         }
     }
 }

@@ -18,5 +18,21 @@ namespace Runtime
             SkillAttrs.Clear();
             Cooldown = 0f;
         }
+
+        public float GetDynamic(EGameAttr attr)
+        {
+            return SkillAttrs.GetValueOrDefault(attr, 0f);
+        }
+
+        public void AddDynamic(EGameAttr attr, float value)
+        {
+            SkillAttrs.TryAdd(attr, 0);
+            SkillAttrs[attr] += value;
+        }
+
+        public void SetCoolDown()
+        {
+            Cooldown = Skill.Cd;
+        }
     }
 }

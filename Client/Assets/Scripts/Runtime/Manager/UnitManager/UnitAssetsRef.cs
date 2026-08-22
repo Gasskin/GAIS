@@ -8,5 +8,6 @@ namespace Runtime
         public SkeletonGraphic spine;
         public HpBar hpBar;
         public ActionBar actionBar;
+        public DamageNumBar damageNumBar;
     }
 }

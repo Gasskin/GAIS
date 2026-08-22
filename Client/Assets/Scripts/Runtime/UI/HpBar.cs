@@ -10,11 +10,15 @@ namespace Runtime
         public Image hp;
         public Image hpWhite;
 
+        [SerializeField] private float _hpChangeSpeed = 2f;
+        [SerializeField] private float _hpWhiteChangeSpeed = 0.5f;
+
         private Entity _entity;
 
         private GAISComponent _gais;
         private GameAttr _curHp;
         private GameAttr _maxHp;
+        private float _targetFillAmount;
 
         public void Init(Entity e)
         {
@@ -30,7 +34,22 @@ namespace Runtime
 
         private void CurHpOnPostCurrentValueChange(float prev, float now)
         {
-            hp.fillAmount = now / _maxHp.Current;
+            _targetFillAmount = _maxHp.Current > 0f
+                ? Mathf.Clamp01(now / _maxHp.Current)
+                : 0f;
+        }
+
+        private void Update()
+        {
+            hp.fillAmount = Mathf.MoveTowards(
+                hp.fillAmount,
+                _targetFillAmount,
+                _hpChangeSpeed * Time.deltaTime);
+
+            hpWhite.fillAmount = Mathf.MoveTowards(
+                hpWhite.fillAmount,
+                _targetFillAmount,
+                _hpWhiteChangeSpeed * Time.deltaTime);
         }
     }
 }

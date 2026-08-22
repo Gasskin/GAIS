@@ -1,0 +1,33 @@
+{
+  "id": 1011301,
+  "desc": "狼牙棒普通攻击伤害",
+  "durationType": "即时",
+  "durationTime": 0,
+  "grantedTags": [],
+  "applyRequiredTags": [],
+  "onGoingRequiredTags": [],
+  "immuneWhenTags": [],
+  "periodDuration": 0,
+  "firstPeriodImmediately": false,
+  "periodEffect": [],
+  "stackType": "不堆叠",
+  "stackCountLimit": 1,
+  "overflowStackRefreshDuration": true,
+  "stackExpireType": "删除全部",
+  "attrModifiers": [
+    {
+      "attr": "Meta伤害",
+      "calculator": {
+        "$type": "DamageCalculator",
+        "value": {
+          "baseValue": 1,
+          "dynamicAttr": "无"
+        },
+        "skillId": 1011101,
+        "type": "直伤"
+      }
+    }
+  ],
+  "bindCodeLogic": 0,
+  "dynamicParams": []
+}

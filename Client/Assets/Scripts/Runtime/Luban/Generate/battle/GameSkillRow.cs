@@ -36,7 +36,7 @@ public sealed partial class GameSkillRow : Luban.BeanBase
     }
 
     /// <summary>
-    /// 不需要也禁止用户输入。默认等于文件名序号
+    /// 需要指定，必须与文件名序号一致
     /// </summary>
     public readonly int Id;
     /// <summary>

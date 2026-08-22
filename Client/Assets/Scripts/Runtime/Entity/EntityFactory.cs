@@ -7,10 +7,10 @@ namespace Runtime
 {
     public static class EntityFactory
     {
-        public static async UniTask<Entity> CreateBattleUnit(Dictionary<EGameAttr, float> initValues, UnitAssetsRef assetsRef)
+        public static async UniTask<Entity> CreateBattleUnit(Dictionary<EGameAttr, float> initValues, UnitAssetsRef assetsRef, List<int> initSkills)
         {
             var e = ObjectPool.Get<Entity>();
-            
+
             var gais = ObjectPool.Get<GAISComponent>();
             gais.InitValues = initValues;
             e.AddComponent(gais);
@@ -18,14 +18,14 @@ namespace Runtime
             var unit = ObjectPool.Get<UnitComponent>();
             unit.AssetsRef = assetsRef;
             e.AddComponent(unit);
-            
+
             var skill = ObjectPool.Get<SkillComponent>();
+            skill.InitSkills = initSkills;
             e.AddComponent(skill);
-            
+
             await e.Initialize();
             GameEntry.Instance.EntityManager.AddEntity(e);
             return e;
         }
     }
 }
-

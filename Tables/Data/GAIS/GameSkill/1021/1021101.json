@@ -1,0 +1,11 @@
+{
+  "id": 1021101,
+  "desc": "普通攻击",
+  "type": "普通攻击",
+  "cd": 3,
+  "duration": 1.433,
+  "toTargetEffectTimeline": [0.6],
+  "toTargetEffect": [1021301],
+  "toSelfEffectTimeline": [],
+  "toSelfEffect": []
+}

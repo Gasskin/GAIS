@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Framework;
 
 namespace Runtime
@@ -23,7 +24,7 @@ namespace Runtime
         {
             var entry = GameEntry.Instance;
             var row = entry.LubanManager.Tables.GameAttrInitTable.Get(1001);
-            var e = await EntityFactory.CreateBattleUnit(row.InitValues, entry.assetsRef.player);
+            var e = await EntityFactory.CreateBattleUnit(row.InitValues, entry.assetsRef.player, new List<int>() { 1011101 });
             Player = e;
             await UniTask.Yield();
         }
@@ -32,7 +33,7 @@ namespace Runtime
         {
             var entry = GameEntry.Instance;
             var init = entry.LevelManager.LevelAttr;
-            var e = await EntityFactory.CreateBattleUnit(init, entry.assetsRef.enemy);
+            var e = await EntityFactory.CreateBattleUnit(init, entry.assetsRef.enemy,  new List<int>() { 1021101 });
             Enemy = e;
             await UniTask.Yield();
         }

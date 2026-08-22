@@ -20,6 +20,8 @@ public sealed partial class DamageCalculator : BaseCalculator
     public DamageCalculator(ByteBuf _buf)  : base(_buf) 
     {
         Value = global::cfg.battle.DynamicValue.DeserializeDynamicValue(_buf);
+        SkillId = _buf.ReadInt();
+        SkillId_Ref = null;
         Type = (battle.EDamageType)_buf.ReadInt();
     }
 
@@ -29,9 +31,14 @@ public sealed partial class DamageCalculator : BaseCalculator
     }
 
     /// <summary>
-    /// 数值，需要指定
+    /// 伤害倍率，需要指定
     /// </summary>
     public readonly battle.DynamicValue Value;
+    /// <summary>
+    /// 来源技能，需要指定
+    /// </summary>
+    public readonly int SkillId;
+    public battle.GameSkillRow SkillId_Ref;
     /// <summary>
     /// 伤害类型，需要指定
     /// </summary>
@@ -44,12 +51,14 @@ public sealed partial class DamageCalculator : BaseCalculator
     {
         base.ResolveRef(tables);
         Value?.ResolveRef(tables);
+        SkillId_Ref = tables.GameSkillTable.GetOrDefault(SkillId);
     }
 
     public override string ToString()
     {
         return "{ "
         + "value:" + Value + ","
+        + "skillId:" + SkillId + ","
         + "type:" + Type + ","
         + "}";
     }

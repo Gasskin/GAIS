@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using cfg.battle;
+using Cysharp.Threading.Tasks;
 using Framework;
 
 namespace Runtime
@@ -7,16 +8,16 @@ namespace Runtime
     {
         public override int ID => ComponentID.UNIT;
         public override bool IsDefaultUpdate => false;
-        
+
         public UnitAssetsRef AssetsRef;
-        
+
         public const string STAND = "stand";
         public const string ATTACK = "attack";
         public const string SKILL = "skill";
         public const string HURT = "hurt";
         public const string DEAD = "dead";
-        
-        
+
+
         public override async UniTask Initialize()
         {
             AssetsRef.spine.AnimationState.SetAnimation(0, STAND, true);
@@ -34,10 +35,18 @@ namespace Runtime
             AssetsRef = null;
         }
 
-        public void Skill()
+        public void Skill(EGameSkillType type)
         {
-            AssetsRef.spine.AnimationState.SetAnimation(0, SKILL, false);
-            AssetsRef.spine.AnimationState.SetAnimation(0, STAND, true);
+            switch (type)
+            {
+                case EGameSkillType.Attack:
+                    AssetsRef.spine.AnimationState.SetAnimation(0, ATTACK, false);
+                    break;
+                default:
+                    AssetsRef.spine.AnimationState.SetAnimation(0, SKILL, false);
+                    break;
+            }
+            AssetsRef.spine.AnimationState.AddAnimation(0, STAND, true, 0);
         }
     }
 }

@@ -55,10 +55,68 @@ namespace Framework
             }
         }
 
+    #region GetComponent
         public T GetComponent<T>(int id) where T : BaseComponent
         {
             return _components[id] as T;
         }
+
+        public bool GetAllComponents<T1, T2>(
+            int id1, int id2,
+            out T1 t1, out T2 t2)
+            where T1 : BaseComponent
+            where T2 : BaseComponent
+        {
+            t1 = _components[id1] as T1;
+            t2 = _components[id2] as T2;
+            return t1 != null && t2 != null;
+        }
+
+        public bool GetAllComponents<T1, T2, T3>(
+            int id1, int id2, int id3,
+            out T1 t1, out T2 t2, out T3 t3)
+            where T1 : BaseComponent
+            where T2 : BaseComponent
+            where T3 : BaseComponent
+        {
+            t1 = _components[id1] as T1;
+            t2 = _components[id2] as T2;
+            t3 = _components[id3] as T3;
+            return t1 != null && t2 != null && t3 != null;
+        }
+
+        public bool GetAllComponents<T1, T2, T3, T4>(
+            int id1, int id2, int id3, int id4,
+            out T1 t1, out T2 t2, out T3 t3, out T4 t4)
+            where T1 : BaseComponent
+            where T2 : BaseComponent
+            where T3 : BaseComponent
+            where T4 : BaseComponent
+        {
+            t1 = _components[id1] as T1;
+            t2 = _components[id2] as T2;
+            t3 = _components[id3] as T3;
+            t4 = _components[id4] as T4;
+            return t1 != null && t2 != null && t3 != null && t4 != null;
+        }
+
+        public bool GetAllComponents<T1, T2, T3, T4, T5>(
+            int id1, int id2, int id3, int id4, int id5,
+            out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5)
+            where T1 : BaseComponent
+            where T2 : BaseComponent
+            where T3 : BaseComponent
+            where T4 : BaseComponent
+            where T5 : BaseComponent
+        {
+            t1 = _components[id1] as T1;
+            t2 = _components[id2] as T2;
+            t3 = _components[id3] as T3;
+            t4 = _components[id4] as T4;
+            t5 = _components[id5] as T5;
+            return t1 != null && t2 != null && t3 != null && t4 != null && t5 != null;
+        }
+    #endregion
 
         public void AddComponent(BaseComponent com)
         {
