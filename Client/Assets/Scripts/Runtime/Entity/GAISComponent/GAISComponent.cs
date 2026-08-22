@@ -30,9 +30,9 @@ namespace Runtime
 
         public override void OnRelease()
         {
+            ClearGameEffectSpecs();
             ClearGameAttr();
             ClearGameTag();
-            ClearGameEffectSpecs();
         }
         
     }
