@@ -18,7 +18,7 @@ namespace Framework
         public LevelManager LevelManager { get; private set; } = new();
 
         
-        public AssetsRef assetsRef;
+        public AssetsRef AssetsRef;
         
         private List<BaseManager> _baseManagers = new();
         private List<IUpdateManager> _updateManagers = new();
@@ -121,7 +121,7 @@ namespace Framework
             }
             _isInitEnd = true;
             
-            ProcedureManager.ChangeProcedure<InitLubanProcedure>();
+            ProcedureManager.ChangeProcedure<InitLubanProcedure>(null);
         }
     }
 }

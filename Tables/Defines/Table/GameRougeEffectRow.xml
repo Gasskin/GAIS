@@ -5,8 +5,8 @@
 
         <var name="quality" type="EGameRougeEffectQuality" comment="词条品质。需要指定" />
         <var name="countLimit" type="int" comment="可以选择的次数。需要指定" />
-        <var name="needRougeEffect" type="int#ref=battle.GameRougeEffectTable" comment="前置词条要求，默认为0" />
-        <var name="noRougeEffect" type="int#ref=battle.GameRougeEffectTable" comment="互斥词条要求，默认为0" />
+        <var name="needRougeEffect" type="int#ref=battle.GameRougeEffectTable?" comment="前置词条要求，默认为空" />
+        <var name="noRougeEffect" type="int#ref=battle.GameRougeEffectTable?" comment="互斥词条要求，默认为空" />
         
         <var name="gameEffects" type="list,int#ref=battle.GameEffectTable" comment="该词条触发的效果。默认为空" />
     </bean>

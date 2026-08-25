@@ -23,6 +23,7 @@ namespace Runtime
             AssetsRef.spine.AnimationState.SetAnimation(0, STAND, true);
             AssetsRef.hpBar.Init(Entity);
             AssetsRef.actionBar.Init(Entity);
+            AssetsRef.gameObject.SetActive(true);
             await UniTask.Yield();
         }
 

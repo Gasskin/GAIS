@@ -655,7 +655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04fed96a4dcc45c1921e74916ccf7057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  assetsRef: {fileID: 1003926319}
+  AssetsRef: {fileID: 1003926319}
 --- !u!4 &1003926318
 Transform:
   m_ObjectHideFlags: 0

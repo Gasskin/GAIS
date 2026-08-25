@@ -12,9 +12,11 @@ namespace Runtime
 
         private readonly List<GameRougeEffectRow> _randomResults = new();
         private bool _widgetsInitialized;
+        private bool _isRandomBase = false;
 
         public void RandomBase()
         {
+            _isRandomBase = true;
             gameObject.SetActive(true);
             InitializeWidgets();
             GameEntry.Instance.LubanManager.Tables.GameRougeEffectTable.RandomBase(_randomResults);
@@ -34,6 +36,14 @@ namespace Runtime
         {
             row.ChooseCount++;
             gameObject.SetActive(false);
+            if (_isRandomBase)
+            {
+                if (GameEntry.Instance.ProcedureManager.IsNow<ChooseBaseProcedure>(out var p))
+                {
+                    p.WaitForChooseBase = row;
+                }
+            }
+            _isRandomBase = false;
         }
 
         private void InitializeWidgets()

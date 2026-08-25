@@ -23,6 +23,10 @@ public sealed partial class GameRougeEffectRow : Luban.BeanBase
         Desc = _buf.ReadString();
         Quality = (battle.EGameRougeEffectQuality)_buf.ReadInt();
         CountLimit = _buf.ReadInt();
+        NeedRougeEffect = _buf.ReadInt();
+        NeedRougeEffect_Ref = null;
+        NoRougeEffect = _buf.ReadInt();
+        NoRougeEffect_Ref = null;
         {int n0 = _buf.ReadSize(); GameEffects = new System.Collections.Generic.List<int>(n0);for(var i0 = 0 ; i0 < n0 ; i0++) { int _e0;  _e0 = _buf.ReadInt(); GameEffects.Add(_e0);}}
     }
 
@@ -48,6 +52,16 @@ public sealed partial class GameRougeEffectRow : Luban.BeanBase
     /// </summary>
     public readonly int CountLimit;
     /// <summary>
+    /// 前置词条要求，默认为空
+    /// </summary>
+    public readonly int NeedRougeEffect;
+    public battle.GameRougeEffectRow NeedRougeEffect_Ref;
+    /// <summary>
+    /// 互斥词条要求，默认为空
+    /// </summary>
+    public readonly int NoRougeEffect;
+    public battle.GameRougeEffectRow NoRougeEffect_Ref;
+    /// <summary>
     /// 该词条触发的效果。默认为空
     /// </summary>
     public readonly System.Collections.Generic.List<int> GameEffects;
@@ -58,6 +72,8 @@ public sealed partial class GameRougeEffectRow : Luban.BeanBase
 
     public  void ResolveRef(Tables tables)
     {
+        NeedRougeEffect_Ref = tables.GameRougeEffectTable.GetOrDefault(NeedRougeEffect);
+        NoRougeEffect_Ref = tables.GameRougeEffectTable.GetOrDefault(NoRougeEffect);
         GameEffects_Ref = new System.Collections.Generic.List<battle.GameEffectRow>();
         foreach (var _v in GameEffects) { GameEffects_Ref.Add(tables.GameEffectTable.GetOrDefault(_v)); }
 
@@ -70,6 +86,8 @@ public sealed partial class GameRougeEffectRow : Luban.BeanBase
         + "desc:" + Desc + ","
         + "quality:" + Quality + ","
         + "countLimit:" + CountLimit + ","
+        + "needRougeEffect:" + NeedRougeEffect + ","
+        + "noRougeEffect:" + NoRougeEffect + ","
         + "gameEffects:" + Luban.StringUtil.CollectionToString(GameEffects) + ","
         + "}";
     }

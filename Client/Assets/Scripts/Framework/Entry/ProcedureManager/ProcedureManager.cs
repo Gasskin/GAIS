@@ -13,8 +13,17 @@ namespace Framework
 
         public override async UniTask Initialize()
         {
-            RegisterProcedure(new InitLubanProcedure());
-            RegisterProcedure(new ChooseBaseProcedure());
+            RegisterProcedure(new InitLubanProcedure { Manager = this });
+            
+            RegisterProcedure(new ChooseBaseProcedure { Manager = this });
+            
+            RegisterProcedure(new CreatePlayerProcedure { Manager = this });
+            
+            RegisterProcedure(new CreateEnemy { Manager = this });
+            RegisterProcedure(new ConfirmBattle { Manager = this });
+            RegisterProcedure(new BattleCircle { Manager = this });
+            RegisterProcedure(new BattleEnd { Manager = this });
+            
             await UniTask.Yield();
         }
 
@@ -29,20 +38,26 @@ namespace Framework
             _nowProcedure?.Update(dt);
         }
 
-        public void ChangeProcedure<T>() where T : BaseProcedure, new()
+        public void ChangeProcedure<T>(object data) where T : BaseProcedure, new()
         {
             var type = typeof(T);
             if (_procedures.TryGetValue(type, out var procedure) && procedure != _nowProcedure)
             {
                 _nowProcedure?.Exit();
                 _nowProcedure = procedure;
-                _nowProcedure.Enter();
+                _nowProcedure.Enter(data);
             }
         }
 
-        public T GetNow<T>() where T : BaseProcedure, new()
+        public bool IsNow<T>(out T now) where T : BaseProcedure, new()
         {
-            return  (T)_nowProcedure;
+            now = null;
+            if (_nowProcedure is T t)
+            {
+                now = t;
+                return true;
+            }
+            return false;
         }
 
         private void RegisterProcedure(BaseProcedure procedure)

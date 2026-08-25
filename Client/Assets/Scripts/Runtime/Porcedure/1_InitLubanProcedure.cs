@@ -6,7 +6,7 @@ namespace Runtime
     {
         private int _delayExit;
         
-        public override void Enter()
+        public override void Enter(object data = null)
         {
             _delayExit = 1;
             var tables = GameEntry.Instance.LubanManager.Tables;
@@ -18,7 +18,7 @@ namespace Runtime
             _delayExit--;
             if (_delayExit < 0)
             {
-                // GameEntry.Instance.ProcedureManager.ChangeProcedure<>();
+                ChangeProcedure<ChooseBaseProcedure>();
             }
         }
 
