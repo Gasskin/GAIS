@@ -45,7 +45,7 @@ public sealed partial class GameEffectRow : Luban.BeanBase
     }
 
     /// <summary>
-    /// 需要指定，必须与文件名序号一致
+    /// 默认与文件名序号一致，由你自动填充，禁止用户主动修改
     /// </summary>
     public readonly int Id;
     /// <summary>

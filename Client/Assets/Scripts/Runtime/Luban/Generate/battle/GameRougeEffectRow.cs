@@ -32,7 +32,7 @@ public sealed partial class GameRougeEffectRow : Luban.BeanBase
     }
 
     /// <summary>
-    /// 不需要也禁止用户输入。默认等于文件名序号
+    /// 默认与文件名序号一致，由你自动填充，禁止用户主动修改
     /// </summary>
     public readonly int Id;
     /// <summary>
@@ -40,15 +40,15 @@ public sealed partial class GameRougeEffectRow : Luban.BeanBase
     /// </summary>
     public readonly string Desc;
     /// <summary>
-    /// 磁条的品质。需要指定
+    /// 词条品质。需要指定
     /// </summary>
     public readonly battle.EGameRougeEffectQuality Quality;
     /// <summary>
-    /// 磁条可以选择的次数。需要指定
+    /// 可以选择的次数。需要指定
     /// </summary>
     public readonly int CountLimit;
     /// <summary>
-    /// 该磁条触发的效果。需要指定
+    /// 该词条触发的效果。默认为空
     /// </summary>
     public readonly System.Collections.Generic.List<int> GameEffects;
     public System.Collections.Generic.List<battle.GameEffectRow> GameEffects_Ref;

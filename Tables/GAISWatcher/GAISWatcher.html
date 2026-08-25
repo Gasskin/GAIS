@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GAIS 战斗配置查看器</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b12;
+      --panel: rgba(17, 22, 34, .92);
+      --panel-2: #121827;
+      --line: #293248;
+      --text: #e8ecf5;
+      --muted: #8994aa;
+      --skill: #4d8fff;
+      --effect: #38c887;
+      --missing: #ff5c67;
+      --selection: #f6c85f;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+    body { font: 13px/1.45 Inter, "Microsoft YaHei", system-ui, sans-serif; color: var(--text); background: var(--bg); }
+    button, select, input { font: inherit; color: inherit; }
+    button, select, input {
+      border: 1px solid var(--line); border-radius: 8px; background: #121827; min-height: 34px;
+    }
+    button { padding: 0 12px; cursor: pointer; }
+    button:hover { border-color: #53617c; background: #182035; }
+    select, input { padding: 0 10px; }
+    input { width: 210px; }
+    .app { display: grid; grid-template-rows: 54px 1fr 26px; width: 100%; height: 100%; }
+    .toolbar {
+      display: flex; align-items: center; gap: 9px; padding: 9px 14px; z-index: 20;
+      background: rgba(12, 16, 26, .94); border-bottom: 1px solid var(--line); backdrop-filter: blur(14px);
+    }
+    .brand { display: flex; align-items: center; gap: 10px; margin-right: 10px; white-space: nowrap; }
+    .brand-mark { width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, var(--skill), var(--effect)); box-shadow: 0 0 24px rgba(77,143,255,.32); }
+    .brand strong { font-size: 15px; }
+    .brand span { color: var(--muted); font-size: 11px; display: block; margin-top: -2px; }
+    .toolbar-spacer { flex: 1; }
+    .select-kind { width: 116px; }
+    .select-unit { width: 110px; }
+    .select-entry { width: min(360px, 27vw); }
+    .canvas { position: relative; overflow: hidden; background-color: var(--bg); cursor: default;
+      background-image: radial-gradient(circle, #263047 1px, transparent 1px); background-size: 24px 24px; }
+    .canvas.panning { cursor: grabbing; }
+    .viewport { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+    .surface { position: relative; width: 1px; height: 1px; }
+    .connections { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; z-index: 0; }
+    .edge { fill: none; stroke: #61708d; stroke-width: 2; opacity: .72; }
+    .edge-label { fill: #aeb8cb; font-size: 11px; paint-order: stroke; stroke: #080b12; stroke-width: 4px; stroke-linejoin: round; }
+    .node { position: absolute; width: 330px; border: 1px solid color-mix(in srgb, var(--node-color) 52%, #243047); border-radius: 12px;
+      background: rgba(15, 20, 31, .97); box-shadow: 0 12px 35px rgba(0,0,0,.28); overflow: hidden; z-index: 2; }
+    .node.selected { outline: 2px solid var(--selection); outline-offset: 3px; z-index: 5; }
+    .node-header { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px; min-height: 48px; padding: 8px 11px;
+      border-bottom: 1px solid var(--line); background: linear-gradient(90deg, color-mix(in srgb, var(--node-color) 18%, transparent), transparent); cursor: grab; user-select: none; }
+    .node-header:active { cursor: grabbing; }
+    .node-kicker { color: var(--node-color); font-weight: 700; font-size: 10px; letter-spacing: .11em; text-transform: uppercase; }
+    .node-title { font-weight: 700; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .node-id { color: var(--muted); font: 12px ui-monospace, Consolas, monospace; }
+    .port { position: absolute; top: 29px; width: 10px; height: 10px; border-radius: 50%; background: var(--node-color); border: 2px solid #0d121d; }
+    .port.in { left: -6px; } .port.out { right: -6px; }
+    .node-body { max-height: 410px; overflow: auto; padding: 7px 10px 10px; scrollbar-width: thin; }
+    .field { display: grid; grid-template-columns: 115px 1fr; gap: 8px; padding: 6px 2px; border-bottom: 1px solid rgba(70,82,105,.28); }
+    .field:last-child { border-bottom: 0; }
+    .field-key { min-width: 0; }
+    .field-name { color: #cbd3e3; font: 11px ui-monospace, Consolas, monospace; overflow-wrap: anywhere; }
+    .field-comment { color: var(--muted); font-size: 10px; margin-top: 1px; }
+    .field-value { min-width: 0; overflow-wrap: anywhere; }
+    .scalar { color: #f0f3fa; }
+    .enum-value { display: inline-block; padding: 1px 6px; border-radius: 5px; color: #d9c4ff; background: rgba(187,117,255,.12); border: 1px solid rgba(187,117,255,.22); }
+    .null { color: #667188; font-style: italic; }
+    .array { display: flex; flex-wrap: wrap; gap: 4px; }
+    .pill { padding: 1px 6px; border: 1px solid #34405a; border-radius: 999px; background: #151c2b; }
+    details.bean { border: 1px solid #28334a; border-radius: 7px; background: #0c111c; }
+    details.bean > summary { padding: 4px 7px; cursor: pointer; color: #aeb9cf; font: 11px ui-monospace, Consolas, monospace; }
+    .bean-fields { padding: 1px 7px 5px; }
+    .bean-line { display: grid; grid-template-columns: 95px 1fr; gap: 5px; padding: 3px 0; border-top: 1px solid rgba(64,76,99,.25); }
+    .bean-name { color: #7f8ca5; font: 10px ui-monospace, Consolas, monospace; overflow-wrap: anywhere; }
+    .missing-message { color: #ff9ba2; padding: 14px 11px; }
+    .empty-state { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); pointer-events: none; }
+    .empty-card { text-align: center; padding: 32px; border: 1px dashed #303a50; border-radius: 14px; background: rgba(13,17,27,.65); }
+    .empty-card strong { color: #dfe5f1; font-size: 16px; display: block; margin-bottom: 4px; }
+    .selection-box { position: absolute; display: none; border: 1px solid #6ea1ff; background: rgba(77,143,255,.13); pointer-events: none; z-index: 10; }
+    .status { display: flex; align-items: center; gap: 18px; padding: 0 12px; color: var(--muted); border-top: 1px solid var(--line); background: #0c101a; font-size: 11px; }
+    .status .ok { color: #71d6a7; }
+    .hint { white-space: nowrap; }
+    .zoom-readout { min-width: 46px; text-align: center; color: #aeb8ca; }
+    @media (max-width: 900px) { .brand span, .hint, #search { display: none; } .toolbar { gap: 5px; } .select-entry { width: 28vw; } }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="toolbar">
+    <div class="brand"><div class="brand-mark"></div><div><strong>GAIS 战斗配置</strong><span>只读关系查看器</span></div></div>
+    <select id="kind" class="select-kind" aria-label="配置类型">
+      <option value="skill">技能</option>
+      <option value="effect">游戏效果</option>
+    </select>
+    <select id="unit" class="select-unit" aria-label="单位"></select>
+    <select id="entry" class="select-entry" aria-label="配置"></select>
+    <input id="search" type="search" placeholder="筛选 ID / 描述" aria-label="筛选配置">
+    <div class="toolbar-spacer"></div>
+    <span id="zoomReadout" class="zoom-readout">100%</span>
+    <button id="fit">适应屏幕</button>
+    <button id="reset">重新布局</button>
+  </header>
+  <main id="canvas" class="canvas">
+    <div id="viewport" class="viewport"><div id="surface" class="surface"><svg id="connections" class="connections"></svg></div></div>
+    <div id="empty" class="empty-state"></div>
+    <div id="selectionBox" class="selection-box"></div>
+  </main>
+  <footer class="status">
+    <span id="summary" class="ok"></span>
+    <span id="generated"></span>
+    <span class="hint">滚轮缩放 · 中键/Alt+拖动平移 · 空白拖动框选 · Ctrl/Shift 点击多选</span>
+  </footer>
+</div>
+<script>
+const DATA = {"generatedAt":"2026-08-25 17:40:56","definitions":[{"name":"BaseCalculator","fullName":"battle.BaseCalculator","parent":"","comment":"数值计算器 基类","fields":[]},{"name":"FloatCalculator","fullName":"battle.FloatCalculator","parent":"BaseCalculator","comment":"简单浮点计算器","fields":[{"name":"value","type":"float","comment":"数值，需要指定"},{"name":"multStackCount","type":"bool","comment":"乘以层数，默认FALSE"}]},{"name":"DamageCalculator","fullName":"battle.DamageCalculator","parent":"BaseCalculator","comment":"伤害计算器","fields":[{"name":"value","type":"DynamicValue","comment":"伤害倍率，需要指定"},{"name":"skillId","type":"int#ref=battle.GameSkillTable","comment":"来源技能，需要指定"},{"name":"type","type":"EDamageType","comment":"伤害类型，需要指定"}]},{"name":"DynamicValue","fullName":"battle.DynamicValue","parent":"","comment":"动态数值 = 基础数值 + 单位动态属性值(如果指定)","fields":[{"name":"baseValue","type":"float","comment":"基础数值，需要指定"},{"name":"dynamicAttr","type":"EGameAttr","comment":"动态属性，只能填EGameAttr中的DynamicAttrN，默认为 无"}]},{"name":"GameAttrModifier","fullName":"battle.GameAttrModifier","parent":"","comment":"属性修改器","fields":[{"name":"attr","type":"EGameAttr","comment":"属性类型，需要指定"},{"name":"calculator","type":"BaseCalculator","comment":"数值计算器，代表修改的值，需要指定"}]},{"name":"GameEffectRow","fullName":"battle.GameEffectRow","parent":"","comment":"游戏效果","fields":[{"name":"id","type":"int","comment":"默认与文件名序号一致"},{"name":"desc","type":"string","comment":"描述。需要指定"},{"name":"durationType","type":"EDurationType","comment":"持续时间类型。默认 即时"},{"name":"durationTime","type":"float","comment":"持续时间。非即时效果时才需要用户指定。否则默认0"},{"name":"grantedTags","type":"list,EGameTag","comment":"附加的标签。永久GE才可以添加。默认为空"},{"name":"applyRequiredTags","type":"list,EGameTag","comment":"添加所需要的标签。没有这些标签时效果不会被添加。默认为空"},{"name":"onGoingRequiredTags","type":"list,EGameTag","comment":"激活所需要的标签。没有这些标签时效果会被暂时移除。非即时效果才可以填写。默认为空"},{"name":"immuneWhenTags","type":"list,EGameTag","comment":"拥有这些标签时免疫该效果。默认为空"},{"name":"periodDuration","type":"float","comment":"周期时间 \u003e0 时代表存在周期效果。非即时效果时才可以填写。最小是0.1。并且必须要有periodEffect。默认为0"},{"name":"firstPeriodImmediately","type":"bool","comment":"立刻触发第一次周期效果。存在周期时间时才可以修改。默认为FALSE"},{"name":"periodEffect","type":"list,int#ref=battle.GameEffectTable","comment":"触发的周期效果。周期效果必须是即时效果。引用GameEffectTable且禁止引用自身。当存在周期时间\u003e0时必须指定。否则为空"},{"name":"stackType","type":"EStackType","comment":"堆叠类型。非即时效果才可以填写。否则默认为 不堆叠"},{"name":"stackCountLimit","type":"int","comment":"堆叠数量限制。堆叠类型非0才可以指定。默认为1"},{"name":"overflowStackRefreshDuration","type":"bool","comment":"添加层数时如果溢出是否刷新持续时间。堆叠类型非0才可以指定。默认为TRUE"},{"name":"stackExpireType","type":"EStackExpireType","comment":"层数失效类型。堆叠类型非0时才可以指定。默认为 删除全部"},{"name":"attrModifiers","type":"list,GameAttrModifier","comment":"属性修改。设计上你可以一次性修改多个属性，但是，如果这个效果的属性修改涉及MetaAttr，那么这一个效果只允许有一个属性修改器，并且一旦涉及MetaAttr，那么这个效果只能是一个最普通的即时效果，不可以有持续时间和堆叠或者子效果。默认为空"},{"name":"bindCodeLogic","type":"int","comment":"存在代码逻辑。如果不为0。说明这个BUFF有对应值的自定义逻辑存在。非即时BUFF才可以添加自定义逻辑。默认0"},{"name":"dynamicParams","type":"list,float","comment":"自由参数。默认空"}]},{"name":"GameSkillRow","fullName":"battle.GameSkillRow","parent":"","comment":"技能","fields":[{"name":"id","type":"int","comment":"默认与文件名序号一致"},{"name":"desc","type":"string","comment":"描述。需要指定"},{"name":"type","type":"EGameSkillType","comment":"技能类型。需要指定"},{"name":"cd","type":"float","comment":"冷却时间。需要指定"},{"name":"duration","type":"float","comment":"技能时长"},{"name":"toTargetEffectTimeline","type":"list,float","comment":"对目标效果的时间轴。最大值不可超过技能时长。默认为空"},{"name":"toTargetEffect","type":"list,int#ref=battle.GameEffectTable","comment":"对目标效果。和时间轴一一对应且在相应的时间触发效果。默认为空"},{"name":"toSelfEffectTimeline","type":"list,float","comment":"对自身效果的时间轴。最大值不可超过技能时长。默认为空"},{"name":"toSelfEffect","type":"list,int#ref=battle.GameEffectTable","comment":"对自身效果。和时间轴一一对应且在相应的时间触发效果。默认为空"}]}],"enums":[{"name":"EDamageType","fullName":"battle.EDamageType","comment":"伤害类型","flags":true,"values":[{"name":"None","value":"0","alias":"无"},{"name":"Direct","value":"","alias":"直伤"},{"name":"Dot","value":"","alias":"DOT"}]},{"name":"EDurationType","fullName":"battle.EDurationType","comment":"持续时间类型","flags":false,"values":[{"name":"None","value":"0","alias":"即时"},{"name":"Duration","value":"","alias":"持续"},{"name":"Infinite","value":"","alias":"永久"}]},{"name":"EGameAttr","fullName":"battle.EGameAttr","comment":"","flags":false,"values":[{"name":"None","value":"0","alias":"无"},{"name":"MaxHp","value":"","alias":"最大血量"},{"name":"MaxHpBase","value":"","alias":"最大血量Base"},{"name":"MaxHpMult","value":"","alias":"最大血量Mult"},{"name":"MaxHpAdd","value":"","alias":"最大血量Add"},{"name":"Atk","value":"","alias":"攻击力"},{"name":"AtkBase","value":"","alias":"攻击力Base"},{"name":"AtkMult","value":"","alias":"攻击力Mult"},{"name":"AtkAdd","value":"","alias":"攻击力Add"},{"name":"CriticalRate","value":"","alias":"暴击率"},{"name":"CriticalRateBase","value":"","alias":"暴击率Base"},{"name":"CriticalRateMult","value":"","alias":"暴击率Mult"},{"name":"CriticalRateAdd","value":"","alias":"暴击率Add"},{"name":"DeCriticalRate","value":"","alias":"抗暴击率"},{"name":"DeCriticalRateBase","value":"","alias":"抗暴击率Base"},{"name":"DeCriticalRateMult","value":"","alias":"抗暴击率Mult"},{"name":"DeCriticalRateAdd","value":"","alias":"抗暴击率Add"},{"name":"CriticalRatio","value":"","alias":"暴击倍率"},{"name":"CriticalRatioBase","value":"","alias":"暴击倍率Base"},{"name":"CriticalRatioMult","value":"","alias":"暴击倍率Mult"},{"name":"CriticalRatioAdd","value":"","alias":"暴击倍率Add"},{"name":"DeCriticalRatio","value":"","alias":"抗暴击倍率"},{"name":"DeCriticalRatioBase","value":"","alias":"抗暴击倍率Base"},{"name":"DeCriticalRatioMult","value":"","alias":"抗暴击倍率Mult"},{"name":"DeCriticalRatioAdd","value":"","alias":"抗暴击倍率Add"},{"name":"DamageMore","value":"","alias":"总增伤"},{"name":"DamageMoreBase","value":"","alias":"总增Base"},{"name":"DamageMoreMult","value":"","alias":"总增Mult"},{"name":"DamageMoreAdd","value":"","alias":"总增Add"},{"name":"DamageLess","value":"","alias":"总减伤"},{"name":"DamageLessBase","value":"","alias":"总减伤Base"},{"name":"DamageLessMult","value":"","alias":"总减伤Mult"},{"name":"DamageLessAdd","value":"","alias":"总减伤Add"},{"name":"SkillHaste","value":"","alias":"技能极速"},{"name":"SkillHasteBase","value":"","alias":"技能极速Base"},{"name":"SkillHasteMult","value":"","alias":"技能极速Mult"},{"name":"SkillHasteAdd","value":"","alias":"技能极速Add"},{"name":"SpecialCharge","value":"","alias":"充能"},{"name":"SpecialChargeBase","value":"","alias":"充能Base"},{"name":"SpecialChargeMult","value":"","alias":"充能Mult"},{"name":"SpecialChargeAdd","value":"","alias":"充能Add"},{"name":"CurHp","value":"","alias":"当前血量"},{"name":"CurSpecialEnergy","value":"","alias":"当前能量"},{"name":"Max","value":"","alias":""},{"name":"DynamicAttr01","value":"","alias":"动态属性01"},{"name":"DynamicAttr02","value":"","alias":"动态属性02"},{"name":"DynamicAttr03","value":"","alias":"动态属性03"},{"name":"DynamicAttr04","value":"","alias":"动态属性04"},{"name":"DynamicAttr05","value":"","alias":"动态属性05"},{"name":"DynamicAttr06","value":"","alias":"动态属性06"},{"name":"DynamicAttr07","value":"","alias":"动态属性07"},{"name":"DynamicAttr08","value":"","alias":"动态属性08"},{"name":"DynamicAttr09","value":"","alias":"动态属性09"},{"name":"DynamicAttr10","value":"","alias":"动态属性10"},{"name":"DynamicAttr11","value":"","alias":"动态属性11"},{"name":"DynamicAttr12","value":"","alias":"动态属性12"},{"name":"DynamicAttr13","value":"","alias":"动态属性13"},{"name":"DynamicAttr14","value":"","alias":"动态属性14"},{"name":"DynamicAttr15","value":"","alias":"动态属性15"},{"name":"DynamicAttr16","value":"","alias":"动态属性16"},{"name":"DynamicAttr17","value":"","alias":"动态属性17"},{"name":"DynamicAttr18","value":"","alias":"动态属性18"},{"name":"DynamicAttr19","value":"","alias":"动态属性19"},{"name":"DynamicAttr20","value":"","alias":"动态属性20"},{"name":"MetaNone","value":"","alias":"Meta无"},{"name":"MetaDamage","value":"","alias":"Meta伤害"}]},{"name":"EGameRougeEffectQuality","fullName":"battle.EGameRougeEffectQuality","comment":"肉鸽磁条的品质等级","flags":false,"values":[{"name":"Quality1","value":"","alias":"白"},{"name":"Quality2","value":"","alias":"绿"},{"name":"Quality3","value":"","alias":"蓝"},{"name":"Quality4","value":"","alias":"紫"},{"name":"Quality5","value":"","alias":"橙"},{"name":"Quality6","value":"","alias":"红"}]},{"name":"EGameSkillType","fullName":"battle.EGameSkillType","comment":"技能类型","flags":false,"values":[{"name":"None","value":"0","alias":"无"},{"name":"Attack","value":"","alias":"普通攻击"},{"name":"Normal","value":"","alias":"常规技能"},{"name":"Ultimate","value":"","alias":"奥义技能"},{"name":"Speical","value":"","alias":"心法技能"}]},{"name":"EGameTag","fullName":"battle.EGameTag","comment":"游戏标签","flags":false,"values":[{"name":"None","value":"0","alias":"无"},{"name":"Armor","value":"","alias":"霸体"},{"name":"Invincible","value":"","alias":"无敌"},{"name":"AbnormalState","value":"","alias":"异常状态"},{"name":"Freeze","value":"","alias":"冰冻"},{"name":"Stun","value":"","alias":"眩晕"},{"name":"Max","value":"","alias":""}]},{"name":"EStackExpireType","fullName":"battle.EStackExpireType","comment":"堆叠失效类型","flags":false,"values":[{"name":"RemoveAll","value":"","alias":"删除全部"},{"name":"RemoveOne","value":"","alias":"删除单层"}]},{"name":"EStackType","fullName":"battle.EStackType","comment":"堆叠类型","flags":false,"values":[{"name":"None","value":"0","alias":"不堆叠"},{"name":"Source","value":"","alias":"按来源"},{"name":"Target","value":"","alias":"按目标"}]}],"skills":[{"id":1011101,"unitId":"1011","source":"../Data/GAIS/GameSkill/1011/1011101.json","data":{"id":1011101,"desc":"狼牙棒普通攻击","type":"普通攻击","cd":3,"duration":1.433,"toTargetEffectTimeline":[0.6],"toTargetEffect":[1011301],"toSelfEffectTimeline":[],"toSelfEffect":[]}},{"id":1021101,"unitId":"1021","source":"../Data/GAIS/GameSkill/1021/1021101.json","data":{"id":1021101,"desc":"普通攻击","type":"普通攻击","cd":3,"duration":1.433,"toTargetEffectTimeline":[0.6],"toTargetEffect":[1021301],"toSelfEffectTimeline":[],"toSelfEffect":[]}}],"effects":[{"id":1011301,"unitId":"1011","source":"../Data/GAIS/GameEffect/1011/1011301.json","data":{"id":1011301,"desc":"狼牙棒普通攻击伤害","durationType":"即时","durationTime":0,"grantedTags":[],"applyRequiredTags":[],"onGoingRequiredTags":[],"immuneWhenTags":[],"periodDuration":0,"firstPeriodImmediately":false,"periodEffect":[],"stackType":"不堆叠","stackCountLimit":1,"overflowStackRefreshDuration":true,"stackExpireType":"删除全部","attrModifiers":[{"attr":"Meta伤害","calculator":{"$type":"DamageCalculator","value":{"baseValue":1,"dynamicAttr":"无"},"skillId":1011101,"type":"直伤"}}],"bindCodeLogic":0,"dynamicParams":[]}},{"id":1021301,"unitId":"1021","source":"../Data/GAIS/GameEffect/1021/1021301.json","data":{"id":1021301,"desc":"普通攻击伤害","durationType":"即时","durationTime":0,"grantedTags":[],"applyRequiredTags":[],"onGoingRequiredTags":[],"immuneWhenTags":[],"periodDuration":0,"firstPeriodImmediately":false,"periodEffect":[],"stackType":"不堆叠","stackCountLimit":1,"overflowStackRefreshDuration":true,"stackExpireType":"删除全部","attrModifiers":[{"attr":"Meta伤害","calculator":{"$type":"DamageCalculator","value":{"baseValue":1,"dynamicAttr":"无"},"skillId":1021101,"type":"直伤"}}],"bindCodeLogic":0,"dynamicParams":[]}}]};
+
+const $ = (selector) => document.querySelector(selector);
+const canvas = $('#canvas');
+const viewport = $('#viewport');
+const surface = $('#surface');
+const svg = $('#connections');
+const empty = $('#empty');
+const selectionBox = $('#selectionBox');
+const kindSelect = $('#kind');
+const unitSelect = $('#unit');
+const entrySelect = $('#entry');
+const searchInput = $('#search');
+
+const definitions = new Map();
+const enums = new Map();
+for (const definition of DATA.definitions || []) {
+  definitions.set(definition.name, definition);
+  definitions.set(definition.fullName, definition);
+}
+for (const item of DATA.enums || []) {
+  enums.set(item.name, item);
+  enums.set(item.fullName, item);
+}
+const skillRows = DATA.skills || [];
+const effectRows = DATA.effects || [];
+const skillById = new Map(skillRows.map(row => [String(row.id), row]));
+const effectById = new Map(effectRows.map(row => [String(row.id), row]));
+const tableDefinitions = {
+  skill: definitions.get('GameSkillRow'),
+  effect: definitions.get('GameEffectRow'),
+};
+const state = {
+  nodes: [], edges: [], selected: new Set(), nodeSerial: 0,
+  view: { x: 32, y: 32, scale: 1 }, filter: '', drag: null,
+};
+
+function simpleTypeName(type) {
+  let value = String(type || '').replace(/\?/g, '');
+  if (value.includes(',')) value = value.split(',').at(-1);
+  value = value.split('#')[0];
+  return value.split('.').at(-1);
+}
+function elementType(type) {
+  const value = String(type || '');
+  return value.startsWith('list,') || value.startsWith('array,') || value.startsWith('set,') ? value.slice(value.indexOf(',') + 1) : '';
+}
+function definitionFields(definition, visited = new Set()) {
+  if (!definition) return [];
+  const identity = definition.fullName || definition.name;
+  if (visited.has(identity)) return [];
+  const next = new Set(visited); next.add(identity);
+  const parent = definition.parent ? definitions.get(definition.parent) || definitions.get(simpleTypeName(definition.parent)) : null;
+  const combined = [...definitionFields(parent, next), ...(definition.fields || [])];
+  const unique = new Map();
+  for (const field of combined) unique.set(field.name, field);
+  return [...unique.values()];
+}
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+}
+function valueHtml(value, declaredType, depth = 0) {
+  if (value === null || value === undefined) return '<span class="null">空</span>';
+  const enumDefinition = enums.get(declaredType) || enums.get(simpleTypeName(declaredType));
+  if (enumDefinition && !Array.isArray(value)) {
+    const candidates = enumDefinition.values.map(v => v.alias || v.name).filter(Boolean).join('、');
+    return `<span class="enum-value" title="${escapeHtml(enumDefinition.comment || '')}\n候选：${escapeHtml(candidates)}">${escapeHtml(value)}</span>`;
+  }
+  if (Array.isArray(value)) {
+    if (!value.length) return '<span class="null">[]</span>';
+    const itemType = elementType(declaredType);
+    if (value.every(item => item === null || typeof item !== 'object')) {
+      return `<span class="array">${value.map(item => `<span class="pill">${valueHtml(item, itemType, depth + 1)}</span>`).join('')}</span>`;
+    }
+    return value.map((item, index) => `<div style="margin-bottom:4px"><span class="node-id">[${index}]</span> ${valueHtml(item, itemType, depth + 1)}</div>`).join('');
+  }
+  if (typeof value === 'object') {
+    const typeName = value.$type || simpleTypeName(declaredType) || 'Object';
+    const definition = definitions.get(typeName) || definitions.get(declaredType);
+    const fields = definitionFields(definition);
+    const fieldMap = new Map(fields.map(field => [field.name, field]));
+    const entries = Object.entries(value).filter(([name]) => name !== '$type');
+    const open = depth < 1 ? ' open' : '';
+    return `<details class="bean"${open}><summary>${escapeHtml(typeName)}</summary><div class="bean-fields">${entries.map(([name, item]) => {
+      const field = fieldMap.get(name);
+      return `<div class="bean-line"><span class="bean-name" title="${escapeHtml(field?.comment || '')}">${escapeHtml(name)}</span><span>${valueHtml(item, field?.type || '', depth + 1)}</span></div>`;
+    }).join('')}</div></details>`;
+  }
+  if (typeof value === 'boolean') return `<span class="scalar">${value ? '是' : '否'}</span>`;
+  return `<span class="scalar">${escapeHtml(value)}</span>`;
+}
+
+function themeFor(kind) {
+  return kind === 'skill' ? 'var(--skill)' : kind === 'missing' ? 'var(--missing)' : 'var(--effect)';
+}
+function labelFor(kind) { return ({skill: 'Skill · 技能', effect: 'Effect · 游戏效果', missing: 'Missing · 引用缺失'})[kind]; }
+function rowTitle(row) { return row ? `${row.id} · ${row.data.desc || '未命名'}` : ''; }
+
+function createNode(kind, row, depth, key, missingText = '') {
+  const existing = state.nodes.find(node => node.key === key);
+  if (existing) return existing;
+  const id = `node-${++state.nodeSerial}`;
+  const element = document.createElement('article');
+  element.className = 'node';
+  element.dataset.nodeId = id;
+  element.style.setProperty('--node-color', themeFor(kind));
+  let body = '';
+  if (kind === 'missing') {
+    body = `<div class="missing-message">${escapeHtml(missingText)}</div>`;
+  } else {
+    const definition = tableDefinitions[kind];
+    const fieldMap = new Map(definitionFields(definition).map(field => [field.name, field]));
+    body = Object.entries(row.data).map(([name, value]) => {
+      const field = fieldMap.get(name);
+      return `<div class="field"><div class="field-key"><div class="field-name">${escapeHtml(name)}</div><div class="field-comment">${escapeHtml(field?.comment || 'XML 中暂无注释')}</div></div><div class="field-value">${valueHtml(value, field?.type || '')}</div></div>`;
+    }).join('');
+  }
+  element.innerHTML = `<div class="port in"></div><div class="port out"></div><header class="node-header"><div><div class="node-kicker">${labelFor(kind)}</div><div class="node-title">${escapeHtml(row?.data?.desc || missingText || '引用缺失')}</div></div><div class="node-id">${escapeHtml(row?.id ?? '')}</div></header><div class="node-body">${body}</div>`;
+  surface.appendChild(element);
+  const node = { id, key, kind, row, depth, x: 0, y: 0, width: 330, height: 120, element };
+  state.nodes.push(node);
+  element.querySelector('.node-header').addEventListener('pointerdown', event => beginNodeDrag(event, node));
+  element.querySelector('.node-header').addEventListener('click', event => {
+    if (state.drag?.moved) return;
+    selectNode(node, event.ctrlKey || event.shiftKey || event.metaKey);
+  });
+  return node;
+}
+function connect(from, to, label) {
+  if (!from || !to) return;
+  if (!state.edges.some(edge => edge.from === from.id && edge.to === to.id && edge.label === label)) {
+    state.edges.push({ from: from.id, to: to.id, label });
+  }
+}
+
+function collectReferences(value, declaredType, result, path = '') {
+  if (value === null || value === undefined) return;
+  const refMatch = String(declaredType || '').match(/#ref=([\w.]+)/);
+  if (refMatch) {
+    const table = refMatch[1].split('.').at(-1);
+    const values = Array.isArray(value) ? value : [value];
+    values.forEach((item, index) => {
+      if (item !== 0 && item !== '0' && item !== '') result.push({ table, id: item, field: path, index });
+    });
+    return;
+  }
+  if (Array.isArray(value)) {
+    const itemType = elementType(declaredType);
+    value.forEach((item, index) => collectReferences(item, itemType, result, `${path}[${index}]`));
+    return;
+  }
+  if (typeof value !== 'object') return;
+  const typeName = value.$type || simpleTypeName(declaredType);
+  const definition = definitions.get(typeName) || definitions.get(declaredType);
+  const fieldMap = new Map(definitionFields(definition).map(field => [field.name, field]));
+  for (const [name, item] of Object.entries(value)) {
+    if (name === '$type') continue;
+    collectReferences(item, fieldMap.get(name)?.type || '', result, path ? `${path}.${name}` : name);
+  }
+}
+function allRowReferences(kind, row) {
+  const result = [];
+  const definition = tableDefinitions[kind];
+  const fieldMap = new Map(definitionFields(definition).map(field => [field.name, field]));
+  for (const [name, value] of Object.entries(row.data)) collectReferences(value, fieldMap.get(name)?.type || '', result, name);
+  return result;
+}
+function timelineLabel(row, reference) {
+  const match = reference.field.match(/^(toTargetEffect|toSelfEffect)$/);
+  if (!match) return `${reference.field}${Array.isArray(row.data[reference.field]) ? `[${reference.index}]` : ''}`;
+  const timeline = row.data[`${match[1]}Timeline`] || [];
+  const time = timeline[reference.index];
+  const target = match[1] === 'toSelfEffect' ? '自身' : '目标';
+  return `${target} · ${time ?? '?'}s`;
+}
+function expandRow(kind, row, node, ancestry = new Set()) {
+  const identity = `${kind}:${row.id}`;
+  if (ancestry.has(identity)) return;
+  const next = new Set(ancestry); next.add(identity);
+  for (const reference of allRowReferences(kind, row)) {
+    const tableName = reference.table.toLowerCase();
+    let targetKind = null, targetRow = null;
+    // Only GameEffect references represent an execution/trigger chain. References
+    // such as DamageCalculator.skillId are metadata and stay visible in the field
+    // details without creating a misleading reverse edge.
+    if (tableName.includes('gameeffecttable')) { targetKind = 'effect'; targetRow = effectById.get(String(reference.id)); }
+    if (!targetKind) continue;
+    const target = targetRow
+      ? createNode(targetKind, targetRow, node.depth + 1, `${targetKind}:${targetRow.id}`)
+      : createNode('missing', { id: reference.id, data: {} }, node.depth + 1, `missing:${targetKind}:${reference.id}`, `${reference.field} 引用了不存在的 ${targetKind} #${reference.id}`);
+    connect(node, target, kind === 'skill' ? timelineLabel(row, reference) : `${reference.field}${Array.isArray(row.data[reference.field]) ? `[${reference.index}]` : ''}`);
+    if (targetRow && !next.has(`${targetKind}:${targetRow.id}`)) expandRow(targetKind, targetRow, target, next);
+  }
+}
+
+function clearGraph() {
+  for (const node of state.nodes) node.element.remove();
+  state.nodes = []; state.edges = []; state.selected.clear(); state.nodeSerial = 0;
+  svg.replaceChildren();
+}
+function currentRows() { return kindSelect.value === 'skill' ? skillRows : effectRows; }
+function currentRowMap() { return kindSelect.value === 'skill' ? skillById : effectById; }
+function rebuildGraph() {
+  clearGraph();
+  const row = currentRowMap().get(entrySelect.value);
+  if (!row) {
+    empty.innerHTML = '<div class="empty-card"><strong>暂无可显示配置</strong>请检查该类型的数据目录或筛选条件。</div>';
+    return;
+  }
+  empty.innerHTML = '';
+  const root = createNode(kindSelect.value, row, 0, `${kindSelect.value}:${row.id}`);
+  expandRow(kindSelect.value, row, root);
+  layoutGraph();
+  requestAnimationFrame(fitGraph);
+}
+function layoutGraph() {
+  const columns = new Map();
+  for (const node of state.nodes) {
+    node.height = Math.min(node.element.scrollHeight, 480);
+    if (!columns.has(node.depth)) columns.set(node.depth, []);
+    columns.get(node.depth).push(node);
+  }
+  const xGap = 120, yGap = 32, margin = 60;
+  let maxHeight = 0;
+  for (const nodes of columns.values()) maxHeight = Math.max(maxHeight, nodes.reduce((sum, node) => sum + node.height, 0) + Math.max(0, nodes.length - 1) * yGap);
+  for (const [depth, nodes] of columns) {
+    let y = margin + (maxHeight - (nodes.reduce((sum, node) => sum + node.height, 0) + Math.max(0, nodes.length - 1) * yGap)) / 2;
+    for (const node of nodes) {
+      node.x = margin + depth * (330 + xGap); node.y = y;
+      node.element.style.left = `${node.x}px`; node.element.style.top = `${node.y}px`;
+      y += node.height + yGap;
+    }
+  }
+  drawEdges();
+}
+function nodeById(id) { return state.nodes.find(node => node.id === id); }
+function drawEdges() {
+  const maxX = Math.max(800, ...state.nodes.map(node => node.x + node.width + 80));
+  const maxY = Math.max(600, ...state.nodes.map(node => node.y + node.height + 80));
+  svg.setAttribute('width', maxX); svg.setAttribute('height', maxY);
+  svg.innerHTML = `<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 z" fill="#61708d"/></marker></defs>`;
+  for (const edge of state.edges) {
+    const from = nodeById(edge.from), to = nodeById(edge.to); if (!from || !to) continue;
+    const x1 = from.x + from.width, y1 = from.y + 29, x2 = to.x, y2 = to.y + 29;
+    const bend = Math.max(55, Math.abs(x2 - x1) * .42);
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('class', 'edge'); path.setAttribute('marker-end', 'url(#arrow)');
+    path.setAttribute('d', `M${x1},${y1} C${x1 + bend},${y1} ${x2 - bend},${y2} ${x2},${y2}`);
+    svg.appendChild(path);
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('class', 'edge-label'); text.setAttribute('x', (x1 + x2) / 2); text.setAttribute('y', (y1 + y2) / 2 - 7);
+    text.setAttribute('text-anchor', 'middle'); text.textContent = edge.label; svg.appendChild(text);
+  }
+}
+function applyView() {
+  viewport.style.transform = `translate(${state.view.x}px, ${state.view.y}px) scale(${state.view.scale})`;
+  $('#zoomReadout').textContent = `${Math.round(state.view.scale * 100)}%`;
+}
+function fitGraph() {
+  if (!state.nodes.length) return;
+  const left = Math.min(...state.nodes.map(node => node.x));
+  const top = Math.min(...state.nodes.map(node => node.y));
+  const right = Math.max(...state.nodes.map(node => node.x + node.width));
+  const bottom = Math.max(...state.nodes.map(node => node.y + node.height));
+  const padding = 55, width = right - left, height = bottom - top;
+  state.view.scale = Math.max(.2, Math.min(1, (canvas.clientWidth - padding * 2) / width, (canvas.clientHeight - padding * 2) / height));
+  state.view.x = (canvas.clientWidth - width * state.view.scale) / 2 - left * state.view.scale;
+  state.view.y = (canvas.clientHeight - height * state.view.scale) / 2 - top * state.view.scale;
+  applyView();
+}
+function selectNode(node, additive = false) {
+  if (!additive) state.selected.clear();
+  if (additive && state.selected.has(node.id)) state.selected.delete(node.id); else state.selected.add(node.id);
+  for (const item of state.nodes) item.element.classList.toggle('selected', state.selected.has(item.id));
+}
+function beginNodeDrag(event, node) {
+  if (event.button !== 0) return;
+  event.stopPropagation();
+  if (!state.selected.has(node.id)) selectNode(node, event.ctrlKey || event.shiftKey || event.metaKey);
+  const origins = new Map(state.nodes.filter(item => state.selected.has(item.id)).map(item => [item.id, {x: item.x, y: item.y}]));
+  state.drag = { type: 'node', startX: event.clientX, startY: event.clientY, origins, moved: false };
+  event.currentTarget.setPointerCapture(event.pointerId);
+}
+canvas.addEventListener('wheel', event => {
+  event.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  const px = event.clientX - rect.left, py = event.clientY - rect.top;
+  const worldX = (px - state.view.x) / state.view.scale, worldY = (py - state.view.y) / state.view.scale;
+  const next = Math.max(.18, Math.min(2.2, state.view.scale * Math.exp(-event.deltaY * .0012)));
+  state.view.x = px - worldX * next; state.view.y = py - worldY * next; state.view.scale = next; applyView();
+}, { passive: false });
+canvas.addEventListener('pointerdown', event => {
+  if (event.target.closest('.node')) return;
+  const pan = event.button === 1 || (event.button === 0 && event.altKey);
+  if (pan) {
+    event.preventDefault(); canvas.classList.add('panning');
+    state.drag = { type: 'pan', startX: event.clientX, startY: event.clientY, x: state.view.x, y: state.view.y };
+  } else if (event.button === 0) {
+    state.drag = { type: 'box', startX: event.clientX, startY: event.clientY, currentX: event.clientX, currentY: event.clientY, additive: event.ctrlKey || event.shiftKey || event.metaKey };
+    if (!state.drag.additive) { state.selected.clear(); state.nodes.forEach(node => node.element.classList.remove('selected')); }
+    selectionBox.style.display = 'block';
+  }
+  canvas.setPointerCapture(event.pointerId);
+});
+window.addEventListener('pointermove', event => {
+  const drag = state.drag; if (!drag) return;
+  if (drag.type === 'pan') {
+    state.view.x = drag.x + event.clientX - drag.startX; state.view.y = drag.y + event.clientY - drag.startY; applyView();
+  } else if (drag.type === 'node') {
+    const dx = (event.clientX - drag.startX) / state.view.scale, dy = (event.clientY - drag.startY) / state.view.scale;
+    if (Math.abs(dx) + Math.abs(dy) > 2) drag.moved = true;
+    for (const [id, origin] of drag.origins) { const node = nodeById(id); node.x = origin.x + dx; node.y = origin.y + dy; node.element.style.left = `${node.x}px`; node.element.style.top = `${node.y}px`; }
+    drawEdges();
+  } else if (drag.type === 'box') {
+    drag.currentX = event.clientX; drag.currentY = event.clientY;
+    const rect = canvas.getBoundingClientRect(), left = Math.min(drag.startX, drag.currentX) - rect.left, top = Math.min(drag.startY, drag.currentY) - rect.top;
+    const width = Math.abs(drag.currentX - drag.startX), height = Math.abs(drag.currentY - drag.startY);
+    Object.assign(selectionBox.style, {left:`${left}px`, top:`${top}px`, width:`${width}px`, height:`${height}px`});
+  }
+});
+window.addEventListener('pointerup', () => {
+  const drag = state.drag;
+  if (drag?.type === 'box') {
+    const canvasRect = canvas.getBoundingClientRect();
+    const left = Math.min(drag.startX, drag.currentX) - canvasRect.left, top = Math.min(drag.startY, drag.currentY) - canvasRect.top;
+    const right = Math.max(drag.startX, drag.currentX) - canvasRect.left, bottom = Math.max(drag.startY, drag.currentY) - canvasRect.top;
+    for (const node of state.nodes) {
+      const nodeLeft = state.view.x + node.x * state.view.scale, nodeTop = state.view.y + node.y * state.view.scale;
+      const hit = nodeLeft + node.width * state.view.scale >= left && nodeLeft <= right && nodeTop + node.height * state.view.scale >= top && nodeTop <= bottom;
+      if (hit) state.selected.add(node.id);
+      node.element.classList.toggle('selected', state.selected.has(node.id));
+    }
+    selectionBox.style.display = 'none';
+  }
+  canvas.classList.remove('panning');
+  setTimeout(() => { state.drag = null; }, 0);
+});
+
+function populateUnits() {
+  const rows = currentRows();
+  const previous = unitSelect.value;
+  const units = [...new Set(rows.map(row => String(row.unitId || '未分组')))].sort((a,b) => a.localeCompare(b, 'zh-CN', {numeric:true}));
+  unitSelect.innerHTML = units.map(unit => `<option value="${escapeHtml(unit)}">单位 ${escapeHtml(unit)}</option>`).join('');
+  if (units.includes(previous)) unitSelect.value = previous;
+  populateEntries();
+}
+function populateEntries() {
+  const previous = entrySelect.value;
+  const term = state.filter.trim().toLowerCase();
+  const rows = currentRows().filter(row => String(row.unitId || '未分组') === unitSelect.value)
+    .filter(row => !term || `${row.id} ${row.data.desc || ''}`.toLowerCase().includes(term));
+  entrySelect.innerHTML = rows.map(row => `<option value="${row.id}">${escapeHtml(rowTitle(row))}</option>`).join('');
+  if (rows.some(row => String(row.id) === previous)) entrySelect.value = previous;
+  rebuildGraph();
+}
+kindSelect.addEventListener('change', populateUnits);
+unitSelect.addEventListener('change', populateEntries);
+entrySelect.addEventListener('change', rebuildGraph);
+searchInput.addEventListener('input', () => { state.filter = searchInput.value; populateEntries(); });
+$('#fit').addEventListener('click', fitGraph);
+$('#reset').addEventListener('click', () => { layoutGraph(); fitGraph(); });
+window.addEventListener('resize', fitGraph);
+
+$('#summary').textContent = `${skillRows.length} 技能 · ${effectRows.length} 效果`;
+$('#generated').textContent = `生成于 ${DATA.generatedAt}`;
+populateUnits();
+</script>
+</body>
+</html>

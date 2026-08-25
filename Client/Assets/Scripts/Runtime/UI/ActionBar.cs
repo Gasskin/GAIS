@@ -11,20 +11,20 @@ namespace Runtime
         
         private Entity _entity;
         private GAISComponent _gais;
-        private GameAttr _curActionEnergy;
+        private GameAttr _curSpecialEnergy;
         
         public void Init(Entity e)
         {
             _entity = e;
             _gais = _entity.GetComponent<GAISComponent>(ComponentID.GAIS);
-            _curActionEnergy = _gais.GetAttr(EGameAttr.CurActionEnergy);
+            _curSpecialEnergy = _gais.GetAttr(EGameAttr.CurSpecialEnergy);
             
-            _curActionEnergy.OnPostCurrentValueChange += CurActionEnergyOnPostCurrentValueChange;
+            _curSpecialEnergy.OnPostCurrentValueChange += CurSpecialEnergyOnPostCurrentValueChange;
 
-            CurActionEnergyOnPostCurrentValueChange(0, 0);
+            CurSpecialEnergyOnPostCurrentValueChange(0, 0);
         }
 
-        private void CurActionEnergyOnPostCurrentValueChange(float prev, float now)
+        private void CurSpecialEnergyOnPostCurrentValueChange(float prev, float now)
         {
             actionBar.fillAmount = now / 100f;
         }

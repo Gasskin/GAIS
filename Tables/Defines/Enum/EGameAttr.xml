@@ -31,21 +31,6 @@
         <var name="AtkMult" alias="攻击力Mult" />
         <var name="AtkAdd" alias="攻击力Add" />
 
-        <!-- <var name="Defence" alias="防御力" />
-        <var name="DefenceBase" alias="防御力Base" />
-        <var name="DefenceMult" alias="防御力Mult" />
-        <var name="DefenceAdd" alias="防御力Add" />
-
-        <var name="DefenceFixedIgnore" alias="固定防御穿透" />
-        <var name="DefenceFixedIgnoreBase" alias="固定防御穿透Base" />
-        <var name="DefenceFixedIgnoreMult" alias="固定防御穿透Mult" />
-        <var name="DefenceFixedIgnoreAdd" alias="固定防御穿透Add" />
-
-        <var name="DefencePctIgnore" alias="百分比防御穿透" />
-        <var name="DefencePctIgnoreBase" alias="百分比防御穿透Base" />
-        <var name="DefencePctIgnoreMult" alias="百分比防御穿透Mult" />
-        <var name="DefencePctIgnoreAdd" alias="百分比防御穿透Add" /> -->
-
         <var name="CriticalRate" alias="暴击率" />
         <var name="CriticalRateBase" alias="暴击率Base" />
         <var name="CriticalRateMult" alias="暴击率Mult" />
@@ -81,14 +66,14 @@
         <var name="SkillHasteMult" alias="技能极速Mult" />
         <var name="SkillHasteAdd" alias="技能极速Add" />
 
-        <var name="ActionCharge" alias="行动充能" />
-        <var name="ActionChargeBase" alias="行动充能Base" />
-        <var name="ActionChargeMult" alias="行动充能Mult" />
-        <var name="ActionChargeAdd" alias="行动充能Add" />
+        <var name="SpecialCharge" alias="充能" />
+        <var name="SpecialChargeBase" alias="充能Base" />
+        <var name="SpecialChargeMult" alias="充能Mult" />
+        <var name="SpecialChargeAdd" alias="充能Add" />
 
         <!-- 孤立属性 -->
         <var name="CurHp" alias="当前血量" />
-        <var name="CurActionEnergy" alias="行动能量" />
+        <var name="CurSpecialEnergy" alias="当前能量" />
 
         <var name="Max" alias="" />
 

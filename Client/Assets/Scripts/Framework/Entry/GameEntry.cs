@@ -121,7 +121,7 @@ namespace Framework
             }
             _isInitEnd = true;
             
-            ProcedureManager.ChangeProcedure<InitProcedure>();
+            ProcedureManager.ChangeProcedure<InitLubanProcedure>();
         }
     }
 }

@@ -1,5 +1,6 @@
 <module name="battle">
-    <enum name="EGameRougeEffectQuality" flags="false" unique="true" comment="肉鸽磁条的品质等级">
+    <enum name="EGameRougeEffectQuality" flags="false" unique="true" comment="肉鸽词条的品质等级">
+        <var name="Quality0" alias="基础" />
         <var name="Quality1" alias="白" />
         <var name="Quality2" alias="绿" />
         <var name="Quality3" alias="蓝" />

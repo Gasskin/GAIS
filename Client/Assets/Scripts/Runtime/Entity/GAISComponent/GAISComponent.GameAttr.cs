@@ -50,9 +50,6 @@ namespace Runtime
         {
             RegisterDerivedAttr(EGameAttr.MaxHp);
             RegisterDerivedAttr(EGameAttr.Atk);
-            // RegisterDerivedAttr(EGameAttr.Defence);
-            // RegisterDerivedAttr(EGameAttr.DefenceFixedIgnore);
-            // RegisterDerivedAttr(EGameAttr.DefencePctIgnore);
             RegisterDerivedAttr(EGameAttr.CriticalRate);
             RegisterDerivedAttr(EGameAttr.DeCriticalRate);
             RegisterDerivedAttr(EGameAttr.CriticalRatio);
@@ -60,7 +57,7 @@ namespace Runtime
             RegisterDerivedAttr(EGameAttr.DamageMore);
             RegisterDerivedAttr(EGameAttr.DamageLess);
             RegisterDerivedAttr(EGameAttr.SkillHaste);
-            RegisterDerivedAttr(EGameAttr.ActionCharge);
+            RegisterDerivedAttr(EGameAttr.SpecialCharge);
 
             return;
 

@@ -4,7 +4,9 @@ namespace Runtime
 {
     public class AssetsRef : MonoBehaviour
     {
-        public UnitAssetsRef player;
-        public UnitAssetsRef enemy;
+        public UnitAssetsRef Player;
+        public UnitAssetsRef Enemy;
+        
+        public RougeEffectWindow RougeEffectWindow;
     }
 }

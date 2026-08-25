@@ -13,7 +13,8 @@ namespace Framework
 
         public override async UniTask Initialize()
         {
-            RegisterProcedure(new InitProcedure());
+            RegisterProcedure(new InitLubanProcedure());
+            RegisterProcedure(new ChooseBaseProcedure());
             await UniTask.Yield();
         }
 
@@ -37,6 +38,11 @@ namespace Framework
                 _nowProcedure = procedure;
                 _nowProcedure.Enter();
             }
+        }
+
+        public T GetNow<T>() where T : BaseProcedure, new()
+        {
+            return  (T)_nowProcedure;
         }
 
         private void RegisterProcedure(BaseProcedure procedure)

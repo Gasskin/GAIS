@@ -60,11 +60,6 @@ namespace Framework
             pools.Add(o);
         }
 
-        public static void Clear<T>() where T : IPoolObject
-        {
-            var type = typeof(T);
-            Clear(type);
-        }
 
         public static void Clear(Type type)
         {

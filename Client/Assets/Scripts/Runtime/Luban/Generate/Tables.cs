@@ -13,26 +13,29 @@ namespace cfg
 {
 public partial class Tables
 {
-    public battle.GameAttrInitTable GameAttrInitTable {get; }
     public battle.GameEffectTable GameEffectTable {get; }
     public battle.GameRougeEffectTable GameRougeEffectTable {get; }
     public battle.GameSkillTable GameSkillTable {get; }
+    public battle.GlobalBattleTable GlobalBattleTable {get; }
+    public battle.GameAttrInitTable GameAttrInitTable {get; }
 
     public Tables(System.Func<string, ByteBuf> loader)
     {
-        GameAttrInitTable = new battle.GameAttrInitTable(loader("battle_gameattrinittable"));
         GameEffectTable = new battle.GameEffectTable(loader("battle_gameeffecttable"));
         GameRougeEffectTable = new battle.GameRougeEffectTable(loader("battle_gamerougeeffecttable"));
         GameSkillTable = new battle.GameSkillTable(loader("battle_gameskilltable"));
+        GlobalBattleTable = new battle.GlobalBattleTable(loader("battle_globalbattletable"));
+        GameAttrInitTable = new battle.GameAttrInitTable(loader("battle_gameattrinittable"));
         ResolveRef();
     }
     
     private void ResolveRef()
     {
-        GameAttrInitTable.ResolveRef(this);
         GameEffectTable.ResolveRef(this);
         GameRougeEffectTable.ResolveRef(this);
         GameSkillTable.ResolveRef(this);
+        GlobalBattleTable.ResolveRef(this);
+        GameAttrInitTable.ResolveRef(this);
     }
 }
 

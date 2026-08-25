@@ -12,34 +12,38 @@
 namespace cfg.battle
 { 
     /// <summary>
-    /// 肉鸽磁条的品质等级
+    /// 肉鸽词条的品质等级
     /// </summary>
     public enum EGameRougeEffectQuality
     {
         /// <summary>
+        /// 基础
+        /// </summary>
+        Quality0 = 0,
+        /// <summary>
         /// 白
         /// </summary>
-        Quality1 = 0,
+        Quality1 = 1,
         /// <summary>
         /// 绿
         /// </summary>
-        Quality2 = 1,
+        Quality2 = 2,
         /// <summary>
         /// 蓝
         /// </summary>
-        Quality3 = 2,
+        Quality3 = 3,
         /// <summary>
         /// 紫
         /// </summary>
-        Quality4 = 3,
+        Quality4 = 4,
         /// <summary>
         /// 橙
         /// </summary>
-        Quality5 = 4,
+        Quality5 = 5,
         /// <summary>
         /// 红
         /// </summary>
-        Quality6 = 5,
+        Quality6 = 6,
     }
 
 } 

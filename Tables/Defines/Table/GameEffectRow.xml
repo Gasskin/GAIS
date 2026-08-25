@@ -1,6 +1,6 @@
 <module name="battle">
     <bean name="GameEffectRow" comment="游戏效果">
-        <var name="id" type="int" comment="需要指定，必须与文件名序号一致" />
+        <var name="id" type="int" comment="默认与文件名序号一致，由你自动填充，禁止用户主动修改" />
         <var name="desc" type="string" comment="描述。需要指定" />
         <!-- 持续类型 -->
         <var name="durationType" type="EDurationType"

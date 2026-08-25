@@ -14,18 +14,15 @@ namespace Runtime
 
         // 普攻
         private SkillInfo _attack;
+        
+        // 技能
+        private SkillInfo _normal;
 
-        // 身法
-        private SkillInfo _move;
+        // 大招
+        private SkillInfo _ultimate;
 
         // 心法
-        private SkillInfo _heart;
-
-        // 被动技能
-        private List<SkillInfo> _passiveSkills = new();
-
-        // 普通技能
-        private List<SkillInfo> _normalSkills = new();
+        private SkillInfo _special;
 
         public List<int> InitSkills;
 
@@ -55,10 +52,10 @@ namespace Runtime
                 ObjectPool.Release(skill);
             }
             _allSkills.Clear();
-            _move = null;
-            _heart = null;
-            _passiveSkills.Clear();
-            _normalSkills.Clear();
+            _ultimate = null;
+            _attack = null;
+            _normal = null;
+            _special = null;
 
             _coolDowns.Clear();
             _coolDownHelper.Clear();
@@ -138,15 +135,16 @@ namespace Runtime
             {
                 return;
             }
-            var skill = GameEntry.Instance.LubanManager.Tables.GameSkillTable.DataMap.GetValueOrDefault(id);
-            if (skill == null)
+            var skillRow = GameEntry.Instance.LubanManager.Tables.GameSkillTable.DataMap.GetValueOrDefault(id);
+            if (skillRow == null)
             {
                 return;
             }
             var skillInfo = ObjectPool.Get<SkillInfo>();
-            skillInfo.Skill = skill;
+            skillInfo.Skill = skillRow;
             _allSkills.Add(id, skillInfo);
-            switch (skill.Type)
+
+            switch (skillRow.Type)
             {
                 case EGameSkillType.Attack:
                     if (_attack != null)
@@ -156,28 +154,29 @@ namespace Runtime
                     }
                     _attack = skillInfo;
                     break;
-                case EGameSkillType.Move:
-                    if (_move != null)
-                    {
-                        _allSkills.Remove(_move.Skill.Id);
-                        ObjectPool.Release(_move);
-                    }
-                    _move = skillInfo;
-                    break;
-                case EGameSkillType.Heart:
-                    if (_heart != null)
-                    {
-                        _allSkills.Remove(_heart.Skill.Id);
-                        ObjectPool.Release(_heart);
-                    }
-                    _heart = skillInfo;
-                    break;
-                case EGameSkillType.Passive:
-                    _passiveSkills.Add(skillInfo);
-                    break;
                 case EGameSkillType.Normal:
-                default:
-                    _normalSkills.Add(skillInfo);
+                    if (_normal != null)
+                    {
+                        _allSkills.Remove(_normal.Skill.Id);
+                        ObjectPool.Release(_normal);
+                    }
+                    _normal = skillInfo;
+                    break;
+                case EGameSkillType.Ultimate:
+                    if (_ultimate != null)
+                    {
+                        _allSkills.Remove(_ultimate.Skill.Id);
+                        ObjectPool.Release(_ultimate);
+                    }
+                    _ultimate = skillInfo;
+                    break;
+                case EGameSkillType.Speical:
+                    if (_special != null)
+                    {
+                        _allSkills.Remove(_special.Skill.Id);
+                        ObjectPool.Release(_special);
+                    }
+                    _special = skillInfo;
                     break;
             }
         }

@@ -162,29 +162,29 @@ namespace cfg.battle
         /// </summary>
         SkillHasteAdd = 36,
         /// <summary>
-        /// 行动充能
+        /// 充能
         /// </summary>
-        ActionCharge = 37,
+        SpecialCharge = 37,
         /// <summary>
-        /// 行动充能Base
+        /// 充能Base
         /// </summary>
-        ActionChargeBase = 38,
+        SpecialChargeBase = 38,
         /// <summary>
-        /// 行动充能Mult
+        /// 充能Mult
         /// </summary>
-        ActionChargeMult = 39,
+        SpecialChargeMult = 39,
         /// <summary>
-        /// 行动充能Add
+        /// 充能Add
         /// </summary>
-        ActionChargeAdd = 40,
+        SpecialChargeAdd = 40,
         /// <summary>
         /// 当前血量
         /// </summary>
         CurHp = 41,
         /// <summary>
-        /// 行动能量
+        /// 当前能量
         /// </summary>
-        CurActionEnergy = 42,
+        CurSpecialEnergy = 42,
         Max = 43,
         /// <summary>
         /// 动态属性01

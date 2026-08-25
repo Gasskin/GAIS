@@ -1,0 +1,16 @@
+{
+  "defines": [
+    "../Defines/Table/GameSkillRow.xml",
+    "../Defines/Table/GameEffectRow.xml",
+    "../Defines/Bean",
+    "../Defines/Enum"
+  ],
+  "data": {
+    "skill": [
+      "../Data/GAIS/GameSkill"
+    ],
+    "effect": [
+      "../Data/GAIS/GameEffect"
+    ]
+  }
+}

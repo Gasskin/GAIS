@@ -25,21 +25,17 @@ namespace cfg.battle
         /// </summary>
         Attack = 1,
         /// <summary>
-        /// 被动技能
-        /// </summary>
-        Passive = 2,
-        /// <summary>
         /// 常规技能
         /// </summary>
-        Normal = 3,
+        Normal = 2,
         /// <summary>
-        /// 身法技能
+        /// 奥义技能
         /// </summary>
-        Move = 4,
+        Ultimate = 3,
         /// <summary>
         /// 心法技能
         /// </summary>
-        Heart = 5,
+        Speical = 4,
     }
 
 } 
