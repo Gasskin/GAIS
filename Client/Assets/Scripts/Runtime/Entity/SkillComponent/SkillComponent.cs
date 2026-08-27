@@ -8,7 +8,7 @@ namespace Runtime
     public class SkillComponent : BaseComponent
     {
         public override int ID => ComponentID.SKILL;
-        public override bool IsDefaultUpdate => false;
+        public override bool IsDefaultUpdate => true;
 
         private Dictionary<int, SkillInfo> _allSkills = new();
 
