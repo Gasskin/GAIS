@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using cfg.battle;
 using Framework;
 
@@ -8,16 +8,38 @@ namespace Runtime
     {
         private readonly List<GameEffectSpec> _gameEffectSpecs = new();
         private readonly Dictionary<int, GameEffectSpec> _gameEffectSpecsDict = new();
-        private List<GameEffectSpec> _tickPool = new(128);
+        private List<int> _tickPool = new(128);
+        private List<GameEffectSpec> _waitRelease = new();
 
         private void TickGameEffect(float dt)
         {
             _tickPool.Clear();
-            _tickPool.AddRange(_gameEffectSpecs);
-            for (int i = 0; i < _tickPool.Count; i++)
+
+            for (int i = 0; i < _gameEffectSpecs.Count; i++)
             {
-                var spec = _tickPool[i];
-                spec.Tick(dt);
+                _tickPool.Add(_gameEffectSpecs[i].Uid);
+            }
+
+            try
+            {
+                for (int i = 0; i < _tickPool.Count; i++)
+                {
+                    var id = _tickPool[i];
+
+                    if (_gameEffectSpecsDict.TryGetValue(id, out var spec))
+                    {
+                        spec.Tick(dt);
+                    }
+                }
+            }
+            finally
+            {
+                for (int i = 0; i < _waitRelease.Count; i++)
+                {
+                    ObjectPool.Release(_waitRelease[i]);
+                }
+
+                _waitRelease.Clear();
             }
         }
 
@@ -30,8 +52,19 @@ namespace Runtime
                 spec.OnRemove();
                 ObjectPool.Release(spec);
             }
+            for (int i = 0; i < _waitRelease.Count; i++)
+            {
+                ObjectPool.Release(_waitRelease[i]);
+            }
+
+            _waitRelease.Clear();
             _gameEffectSpecs.Clear();
             _gameEffectSpecsDict.Clear();
+        }
+
+        public GameEffectSpec Get(int uid)
+        {
+            return _gameEffectSpecsDict.GetValueOrDefault(uid, null);
         }
 
         public void ApplyInstantGameEffect(GameEffectSpec spec)
@@ -40,7 +73,7 @@ namespace Runtime
             if (spec.GameEffect.AttrModifiers is { Count: 1 })
             {
                 var modifier = spec.GameEffect.AttrModifiers[0];
-                if (modifier.Attr >= EGameAttr.MetaNone)
+                if (modifier.Attr > EGameAttr.Max)
                 {
                     modifier.Calculator.Calculate(spec);
                     return;
@@ -50,7 +83,7 @@ namespace Runtime
             for (int i = 0; i < spec.GameEffect.AttrModifiers.Count; i++)
             {
                 var modifier = spec.GameEffect.AttrModifiers[i];
-                if (modifier.Attr is >= EGameAttr.Max)
+                if (modifier.Attr >= EGameAttr.Max)
                 {
                     continue;
                 }
@@ -155,13 +188,16 @@ namespace Runtime
 
         public void InternalRemoveGameEffectSpec(GameEffectSpec spec)
         {
+            if (spec == null || !_gameEffectSpecsDict.Remove(spec.Uid))
+            {
+                return;
+            }
             // 必须先删除，DeActive可能触发TagDirty
             _gameEffectSpecs.Remove(spec);
-            _gameEffectSpecsDict.Remove(spec.Uid);
             spec.OnDeActive();
             spec.OnRemove();
             OnGameEffectDirty();
-            ObjectPool.Release(spec);
+            _waitRelease.Add(spec);
         }
     }
 }

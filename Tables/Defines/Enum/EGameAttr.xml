@@ -3,20 +3,15 @@
     单位的非动态属性分为一级属性和二级属性, 二级属性由它关联的一级属性计算而来, 所以禁止直接修改二级属性, 关联公式是: A = A_Base * (1 + A_Mult) + A_Add。
     对于一级属性A_Base, 原则上是基础值, 初始化时就应该确定, 所以一般也不允许修改, 如果用户想要修改, 你必须警告二次确。
 
-    特别的, 对于动态属性DynamicAttrN, 没有计算公式, 也没有明确的作用, 具体作用由具体逻辑确定, 在属性上这是一个完全没有明确意义的数值，
-    动态属性不属于某个单位而是属于某个技能，对于不同的技能, DynamicAttrN的含义是不相同的，
-    对于同一个技能, DynamicAttrN的逻辑含义是唯一且确定的, 如果存在多种定义, 需要警告用户。 
-
     同时, 还存在另一种特殊的属性称为MetaAttr, MetaAttr原则上已经不属于数值属性范畴, 是通过修改这个属性间接的执行游戏逻辑, 
     例如：MetaAttrDamage, 
-    当我想要对目标造成伤害时, 我会修改目标的这个属性, 但实际上我并不会真的只是简单修改这个属性的值, 而是修改这个属性时会经历完整的伤害流程, 最终还是会去修改CurHp, 
-    所以MetaAttr其实更像是对应于一种行为，而不是纯粹的一个属性值, 这个设计参考的是UE中的GAS设计。
+    当我想要对目标造成伤害时, 我会修改目标的这个属性, 但实际上我并不会真的只是简单修改这个属性的值, 而是修改这个属性时会经历完整的伤害流程, 最终还是会去修改CurHp, 所以MetaAttr其实更像是对应于一种行为，而不是纯粹的一个属性值, 这个设计参考的是UE中的GAS设计。
     
     此外，属性枚举的定义顺序有严格要求
     首先必须是属性组，且每一组属性的顺序必须是A, A_Base, A_Mult, A_Add,
     随后是孤立属性，然后是Max，Max以上的属性会作为单位的实例属性，
-    然后是DynamicAttrN和MetaAttr,
-    DynamicAttrN和MetaAttr不属于单位，无法通过单位读取。 -->
+    然后是MetaAttr,
+    MetaAttr不属于单位，无法通过单位读取。 -->
     <enum name="EGameAttr" flags="false" unique="true">
         <var name="None" value="0" alias="无" />
 
@@ -77,30 +72,7 @@
 
         <var name="Max" alias="" />
 
-        <!-- 动态属性 -->
-        <var name="DynamicAttr01" alias="动态属性01" />
-        <var name="DynamicAttr02" alias="动态属性02" />
-        <var name="DynamicAttr03" alias="动态属性03" />
-        <var name="DynamicAttr04" alias="动态属性04" />
-        <var name="DynamicAttr05" alias="动态属性05" />
-        <var name="DynamicAttr06" alias="动态属性06" />
-        <var name="DynamicAttr07" alias="动态属性07" />
-        <var name="DynamicAttr08" alias="动态属性08" />
-        <var name="DynamicAttr09" alias="动态属性09" />
-        <var name="DynamicAttr10" alias="动态属性10" />
-        <var name="DynamicAttr11" alias="动态属性11" />
-        <var name="DynamicAttr12" alias="动态属性12" />
-        <var name="DynamicAttr13" alias="动态属性13" />
-        <var name="DynamicAttr14" alias="动态属性14" />
-        <var name="DynamicAttr15" alias="动态属性15" />
-        <var name="DynamicAttr16" alias="动态属性16" />
-        <var name="DynamicAttr17" alias="动态属性17" />
-        <var name="DynamicAttr18" alias="动态属性18" />
-        <var name="DynamicAttr19" alias="动态属性19" />
-        <var name="DynamicAttr20" alias="动态属性20" />
-
         <!-- MetaAttr -->
-        <var name="MetaNone" alias="Meta无" />
         <var name="MetaDamage" alias="Meta伤害" />
     </enum>
 </module>

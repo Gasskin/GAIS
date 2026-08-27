@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Sirenix.Utilities;
 using UnityEngine;
 
 namespace Framework
@@ -84,7 +83,7 @@ namespace Framework
         {
             if (_removeQueue.Count > 0)
             {
-                _removeHelper.AddRange(_removeQueue);
+                _removeHelper.UnionWith(_removeQueue);
                 _removeQueue.Clear();
                 foreach (var id in _removeHelper)
                 {

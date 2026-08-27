@@ -11,6 +11,8 @@ namespace Runtime
 
         public override async UniTask Initialize()
         {
+            PlayerUid = 0;
+            EnemyUid = 0;
             await UniTask.Yield();
         }
 
@@ -18,6 +20,8 @@ namespace Runtime
         {
             GameEntry.Instance.EntityManager.RemoveEntity(PlayerUid);
             GameEntry.Instance.EntityManager.RemoveEntity(EnemyUid);
+            PlayerUid = 0;
+            EnemyUid = 0;
         }
 
         public async UniTaskVoid CreatePlayer()

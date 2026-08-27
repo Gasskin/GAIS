@@ -187,93 +187,9 @@ namespace cfg.battle
         CurSpecialEnergy = 42,
         Max = 43,
         /// <summary>
-        /// 动态属性01
-        /// </summary>
-        DynamicAttr01 = 44,
-        /// <summary>
-        /// 动态属性02
-        /// </summary>
-        DynamicAttr02 = 45,
-        /// <summary>
-        /// 动态属性03
-        /// </summary>
-        DynamicAttr03 = 46,
-        /// <summary>
-        /// 动态属性04
-        /// </summary>
-        DynamicAttr04 = 47,
-        /// <summary>
-        /// 动态属性05
-        /// </summary>
-        DynamicAttr05 = 48,
-        /// <summary>
-        /// 动态属性06
-        /// </summary>
-        DynamicAttr06 = 49,
-        /// <summary>
-        /// 动态属性07
-        /// </summary>
-        DynamicAttr07 = 50,
-        /// <summary>
-        /// 动态属性08
-        /// </summary>
-        DynamicAttr08 = 51,
-        /// <summary>
-        /// 动态属性09
-        /// </summary>
-        DynamicAttr09 = 52,
-        /// <summary>
-        /// 动态属性10
-        /// </summary>
-        DynamicAttr10 = 53,
-        /// <summary>
-        /// 动态属性11
-        /// </summary>
-        DynamicAttr11 = 54,
-        /// <summary>
-        /// 动态属性12
-        /// </summary>
-        DynamicAttr12 = 55,
-        /// <summary>
-        /// 动态属性13
-        /// </summary>
-        DynamicAttr13 = 56,
-        /// <summary>
-        /// 动态属性14
-        /// </summary>
-        DynamicAttr14 = 57,
-        /// <summary>
-        /// 动态属性15
-        /// </summary>
-        DynamicAttr15 = 58,
-        /// <summary>
-        /// 动态属性16
-        /// </summary>
-        DynamicAttr16 = 59,
-        /// <summary>
-        /// 动态属性17
-        /// </summary>
-        DynamicAttr17 = 60,
-        /// <summary>
-        /// 动态属性18
-        /// </summary>
-        DynamicAttr18 = 61,
-        /// <summary>
-        /// 动态属性19
-        /// </summary>
-        DynamicAttr19 = 62,
-        /// <summary>
-        /// 动态属性20
-        /// </summary>
-        DynamicAttr20 = 63,
-        /// <summary>
-        /// Meta无
-        /// </summary>
-        MetaNone = 64,
-        /// <summary>
         /// Meta伤害
         /// </summary>
-        MetaDamage = 65,
+        MetaDamage = 44,
     }
 
 } 

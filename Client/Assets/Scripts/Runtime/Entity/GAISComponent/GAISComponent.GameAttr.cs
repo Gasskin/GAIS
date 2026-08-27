@@ -75,7 +75,11 @@ namespace Runtime
 
         public GameAttr GetAttr(EGameAttr attrId)
         {
-            return _gameAttrs[(int)attrId];
+            if (attrId is > EGameAttr.None and < EGameAttr.Max)
+            {
+                return _gameAttrs[(int)attrId];
+            }
+            return null;
         }
 
         public void OnGameEffectDirty()

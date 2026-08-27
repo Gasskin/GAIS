@@ -67,6 +67,12 @@ namespace Runtime
             Current = 0;
             AttrId = EGameAttr.None;
             IsDerived = false;
+            if (_base != null) 
+                _base.OnPostCurrentValueChange -=  DerivedAttrOnPostCurrentValueChange;
+            if (_mult != null) 
+                _mult.OnPostCurrentValueChange -=  DerivedAttrOnPostCurrentValueChange;
+            if (_add != null) 
+                _add.OnPostCurrentValueChange -=  DerivedAttrOnPostCurrentValueChange;
             _base = null;
             _mult = null;
             _add = null;
