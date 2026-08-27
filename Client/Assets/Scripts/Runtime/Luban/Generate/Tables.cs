@@ -17,7 +17,7 @@ public partial class Tables
     public battle.GameRougeEffectTable GameRougeEffectTable {get; }
     public battle.GameSkillTable GameSkillTable {get; }
     public battle.GlobalBattleTable GlobalBattleTable {get; }
-    public battle.GameAttrInitTable GameAttrInitTable {get; }
+    public battle.EnityInitTable EnityInitTable {get; }
 
     public Tables(System.Func<string, ByteBuf> loader)
     {
@@ -25,7 +25,7 @@ public partial class Tables
         GameRougeEffectTable = new battle.GameRougeEffectTable(loader("battle_gamerougeeffecttable"));
         GameSkillTable = new battle.GameSkillTable(loader("battle_gameskilltable"));
         GlobalBattleTable = new battle.GlobalBattleTable(loader("battle_globalbattletable"));
-        GameAttrInitTable = new battle.GameAttrInitTable(loader("battle_gameattrinittable"));
+        EnityInitTable = new battle.EnityInitTable(loader("battle_enityinittable"));
         ResolveRef();
     }
     
@@ -35,7 +35,7 @@ public partial class Tables
         GameRougeEffectTable.ResolveRef(this);
         GameSkillTable.ResolveRef(this);
         GlobalBattleTable.ResolveRef(this);
-        GameAttrInitTable.ResolveRef(this);
+        EnityInitTable.ResolveRef(this);
     }
 }
 

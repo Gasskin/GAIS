@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Framework;
 
 namespace Runtime
@@ -27,8 +26,8 @@ namespace Runtime
         public async UniTaskVoid CreatePlayer()
         {
             var entry = GameEntry.Instance;
-            var row = entry.LubanManager.Tables.GameAttrInitTable.Get(1001);
-            var e = await EntityFactory.CreateBattleUnit(row.InitValues, entry.AssetsRef.Player, new List<int>() { 1011101 });
+            var row = entry.LubanManager.Tables.EnityInitTable.Get(1001);
+            var e = await EntityFactory.CreateBattleUnit(row.InitAttrs, AssetsRef.Instance.Player, row.InitSkills);
             PlayerUid = e;
             await UniTask.Yield();
         }
@@ -36,8 +35,8 @@ namespace Runtime
         public async UniTaskVoid CreateMonster()
         {
             var entry = GameEntry.Instance;
-            var init = entry.LevelManager.LevelAttr;
-            var e = await EntityFactory.CreateBattleUnit(init, entry.AssetsRef.Enemy,  new List<int>() { 1021101 });
+            var row = entry.LubanManager.Tables.EnityInitTable.Get(entry.LevelManager.Level);
+            var e = await EntityFactory.CreateBattleUnit(row.InitAttrs, AssetsRef.Instance.Enemy, row.InitSkills);
             EnemyUid = e;
             await UniTask.Yield();
         }

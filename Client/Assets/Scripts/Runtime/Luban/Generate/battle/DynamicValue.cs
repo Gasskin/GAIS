@@ -20,7 +20,7 @@ public sealed partial class DynamicValue : Luban.BeanBase
     public DynamicValue(ByteBuf _buf) 
     {
         BaseValue = _buf.ReadFloat();
-        DynamicAttr = (battle.EGameAttr)_buf.ReadInt();
+        DynamicAttr = (battle.ESkillAttr)_buf.ReadInt();
     }
 
     public static DynamicValue DeserializeDynamicValue(ByteBuf _buf)
@@ -33,9 +33,9 @@ public sealed partial class DynamicValue : Luban.BeanBase
     /// </summary>
     public readonly float BaseValue;
     /// <summary>
-    /// 动态属性，只能填EGameAttr中的DynamicAttrN，默认为 无
+    /// 技能属性，默认为 无
     /// </summary>
-    public readonly battle.EGameAttr DynamicAttr;
+    public readonly battle.ESkillAttr DynamicAttr;
    
     public const int __ID__ = 102410760;
     public override int GetTypeId() => __ID__;

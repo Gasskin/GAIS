@@ -31,20 +31,10 @@
         <var name="CriticalRateMult" alias="暴击率Mult" />
         <var name="CriticalRateAdd" alias="暴击率Add" />
 
-        <var name="DeCriticalRate" alias="抗暴击率" />
-        <var name="DeCriticalRateBase" alias="抗暴击率Base" />
-        <var name="DeCriticalRateMult" alias="抗暴击率Mult" />
-        <var name="DeCriticalRateAdd" alias="抗暴击率Add" />
-
         <var name="CriticalRatio" alias="暴击倍率" />
         <var name="CriticalRatioBase" alias="暴击倍率Base" />
         <var name="CriticalRatioMult" alias="暴击倍率Mult" />
         <var name="CriticalRatioAdd" alias="暴击倍率Add" />
-
-        <var name="DeCriticalRatio" alias="抗暴击倍率" />
-        <var name="DeCriticalRatioBase" alias="抗暴击倍率Base" />
-        <var name="DeCriticalRatioMult" alias="抗暴击倍率Mult" />
-        <var name="DeCriticalRatioAdd" alias="抗暴击倍率Add" />
 
         <var name="DamageMore" alias="总增伤" />
         <var name="DamageMoreBase" alias="总增Base" />
@@ -55,11 +45,6 @@
         <var name="DamageLessBase" alias="总减伤Base" />
         <var name="DamageLessMult" alias="总减伤Mult" />
         <var name="DamageLessAdd" alias="总减伤Add" />
-
-        <var name="SkillHaste" alias="技能极速" />
-        <var name="SkillHasteBase" alias="技能极速Base" />
-        <var name="SkillHasteMult" alias="技能极速Mult" />
-        <var name="SkillHasteAdd" alias="技能极速Add" />
 
         <var name="SpecialCharge" alias="充能" />
         <var name="SpecialChargeBase" alias="充能Base" />
@@ -74,5 +59,6 @@
 
         <!-- MetaAttr -->
         <var name="MetaDamage" alias="Meta伤害" />
+        <var name="MetaChangeSkillAttr" alias="Meta修改技能属性" />
     </enum>
 </module>

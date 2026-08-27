@@ -1,0 +1,7 @@
+<module name="battle">
+    <bean name="MetaChangeSkillAttrCalculator" parent="BaseCalculator" comment="修改技能属性">
+        <var name="skillId" type="int#ref=battle.GameSkillTable" comment="目标技能，需要指定" />
+        <var name="attrId" type="ESkillAttr" comment="属性类型，需要指定" />
+        <var name="value" type="float" comment="修改值，需要指定" />
+    </bean>
+</module>

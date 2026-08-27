@@ -1,0 +1,17 @@
+<module name="battle">
+    <enum name="ESkillAttr" flags="false" unique="true" comment="技能属性">
+        <var name="None" value="0" alias="无" />
+        <var name="ReduceCdFixed" alias="固定冷却缩减" />
+        <var name="ReduceCdPct" alias="百分比冷却缩减" />
+        <var name="Dynamic1" alias="动态属性1" />
+        <var name="Dynamic2" alias="动态属性2" />
+        <var name="Dynamic3" alias="动态属性3" />
+        <var name="Dynamic4" alias="动态属性4" />
+        <var name="Dynamic5" alias="动态属性5" />
+        <var name="Dynamic6" alias="动态属性6" />
+        <var name="Dynamic7" alias="动态属性7" />
+        <var name="Dynamic8" alias="动态属性8" />
+        <var name="Dynamic9" alias="动态属性9" />
+        <var name="Max" />
+    </enum>
+</module>

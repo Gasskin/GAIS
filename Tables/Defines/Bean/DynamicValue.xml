@@ -1,6 +1,6 @@
 <module name="battle">
     <bean name="DynamicValue" comment="动态数值 = 基础数值 + 单位动态属性值(如果指定)">
         <var name="baseValue" type="float" comment="基础数值，需要指定" />
-        <var name="dynamicAttr" type="EGameAttr" comment="动态属性，只能填EGameAttr中的DynamicAttrN，默认为 无" />
+        <var name="dynamicAttr" type="ESkillAttr" comment="技能属性，默认为 无" />
     </bean>
 </module>

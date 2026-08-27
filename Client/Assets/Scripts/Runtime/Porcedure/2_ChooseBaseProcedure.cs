@@ -13,7 +13,7 @@ namespace Runtime
         {
             WaitForChooseBase = null;
             _isCreatePlayer = false;
-            GameEntry.Instance.AssetsRef.RougeEffectWindow.RandomBase();
+            AssetsRef.Instance.RougeEffectWindow.RandomBase();
         }
 
         public override void Update(float dt)

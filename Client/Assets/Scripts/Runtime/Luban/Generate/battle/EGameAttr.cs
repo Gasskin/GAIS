@@ -66,130 +66,86 @@ namespace cfg.battle
         /// </summary>
         CriticalRateAdd = 12,
         /// <summary>
-        /// 抗暴击率
-        /// </summary>
-        DeCriticalRate = 13,
-        /// <summary>
-        /// 抗暴击率Base
-        /// </summary>
-        DeCriticalRateBase = 14,
-        /// <summary>
-        /// 抗暴击率Mult
-        /// </summary>
-        DeCriticalRateMult = 15,
-        /// <summary>
-        /// 抗暴击率Add
-        /// </summary>
-        DeCriticalRateAdd = 16,
-        /// <summary>
         /// 暴击倍率
         /// </summary>
-        CriticalRatio = 17,
+        CriticalRatio = 13,
         /// <summary>
         /// 暴击倍率Base
         /// </summary>
-        CriticalRatioBase = 18,
+        CriticalRatioBase = 14,
         /// <summary>
         /// 暴击倍率Mult
         /// </summary>
-        CriticalRatioMult = 19,
+        CriticalRatioMult = 15,
         /// <summary>
         /// 暴击倍率Add
         /// </summary>
-        CriticalRatioAdd = 20,
-        /// <summary>
-        /// 抗暴击倍率
-        /// </summary>
-        DeCriticalRatio = 21,
-        /// <summary>
-        /// 抗暴击倍率Base
-        /// </summary>
-        DeCriticalRatioBase = 22,
-        /// <summary>
-        /// 抗暴击倍率Mult
-        /// </summary>
-        DeCriticalRatioMult = 23,
-        /// <summary>
-        /// 抗暴击倍率Add
-        /// </summary>
-        DeCriticalRatioAdd = 24,
+        CriticalRatioAdd = 16,
         /// <summary>
         /// 总增伤
         /// </summary>
-        DamageMore = 25,
+        DamageMore = 17,
         /// <summary>
         /// 总增Base
         /// </summary>
-        DamageMoreBase = 26,
+        DamageMoreBase = 18,
         /// <summary>
         /// 总增Mult
         /// </summary>
-        DamageMoreMult = 27,
+        DamageMoreMult = 19,
         /// <summary>
         /// 总增Add
         /// </summary>
-        DamageMoreAdd = 28,
+        DamageMoreAdd = 20,
         /// <summary>
         /// 总减伤
         /// </summary>
-        DamageLess = 29,
+        DamageLess = 21,
         /// <summary>
         /// 总减伤Base
         /// </summary>
-        DamageLessBase = 30,
+        DamageLessBase = 22,
         /// <summary>
         /// 总减伤Mult
         /// </summary>
-        DamageLessMult = 31,
+        DamageLessMult = 23,
         /// <summary>
         /// 总减伤Add
         /// </summary>
-        DamageLessAdd = 32,
-        /// <summary>
-        /// 技能极速
-        /// </summary>
-        SkillHaste = 33,
-        /// <summary>
-        /// 技能极速Base
-        /// </summary>
-        SkillHasteBase = 34,
-        /// <summary>
-        /// 技能极速Mult
-        /// </summary>
-        SkillHasteMult = 35,
-        /// <summary>
-        /// 技能极速Add
-        /// </summary>
-        SkillHasteAdd = 36,
+        DamageLessAdd = 24,
         /// <summary>
         /// 充能
         /// </summary>
-        SpecialCharge = 37,
+        SpecialCharge = 25,
         /// <summary>
         /// 充能Base
         /// </summary>
-        SpecialChargeBase = 38,
+        SpecialChargeBase = 26,
         /// <summary>
         /// 充能Mult
         /// </summary>
-        SpecialChargeMult = 39,
+        SpecialChargeMult = 27,
         /// <summary>
         /// 充能Add
         /// </summary>
-        SpecialChargeAdd = 40,
+        SpecialChargeAdd = 28,
         /// <summary>
         /// 当前血量
         /// </summary>
-        CurHp = 41,
+        CurHp = 29,
         /// <summary>
         /// 当前能量
         /// </summary>
-        CurSpecialEnergy = 42,
-        Max = 43,
+        CurSpecialEnergy = 30,
+        Max = 31,
         /// <summary>
         /// Meta伤害
         /// </summary>
-        MetaDamage = 44,
+        MetaDamage = 32,
+        /// <summary>
+        /// Meta修改技能属性
+        /// </summary>
+        MetaChangeSkillAttr = 33,
     }
 
 } 

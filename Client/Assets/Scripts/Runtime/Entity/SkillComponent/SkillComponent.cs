@@ -8,7 +8,7 @@ namespace Runtime
     public class SkillComponent : BaseComponent
     {
         public override int ID => ComponentID.SKILL;
-        public override bool IsDefaultUpdate => true;
+        public override bool IsDefaultUpdate => false;
 
         private Dictionary<int, SkillInfo> _allSkills = new();
 
@@ -131,9 +131,9 @@ namespace Runtime
             {
                 return value.BaseValue;
             }
-            return skillInfo.GetDynamic(value.DynamicAttr) + value.BaseValue;
+            return skillInfo.Get(value.DynamicAttr) + value.BaseValue;
         }
-
+        
         public void AddSkill(int id)
         {
             if (_allSkills.ContainsKey(id))

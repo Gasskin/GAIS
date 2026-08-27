@@ -18,8 +18,6 @@ namespace Framework
         public LevelManager LevelManager { get; private set; } = new();
 
         
-        public AssetsRef AssetsRef;
-        
         private List<BaseManager> _baseManagers = new();
         private List<IUpdateManager> _updateManagers = new();
 

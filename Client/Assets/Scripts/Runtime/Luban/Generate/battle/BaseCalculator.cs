@@ -26,6 +26,7 @@ public abstract partial class BaseCalculator : Luban.BeanBase
         switch (_buf.ReadInt())
         {
             case battle.FloatCalculator.__ID__: return new battle.FloatCalculator(_buf);
+            case battle.MetaChangeSkillAttrCalculator.__ID__: return new battle.MetaChangeSkillAttrCalculator(_buf);
             case battle.DamageCalculator.__ID__: return new battle.DamageCalculator(_buf);
             default: throw new SerializationException();
         }

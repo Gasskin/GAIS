@@ -8,7 +8,7 @@ namespace Runtime
     {
         public GameSkillRow Skill;
 
-        public Dictionary<EGameAttr, float> SkillAttrs = new();
+        public Dictionary<ESkillAttr, float> SkillAttrs = new();
         
         public float Cooldown;
         
@@ -19,12 +19,12 @@ namespace Runtime
             Cooldown = 0f;
         }
 
-        public float GetDynamic(EGameAttr attr)
+        public float Get(ESkillAttr attr)
         {
             return SkillAttrs.GetValueOrDefault(attr, 0f);
         }
 
-        public void AddDynamic(EGameAttr attr, float value)
+        public void Add(ESkillAttr attr, float value)
         {
             SkillAttrs.TryAdd(attr, 0);
             SkillAttrs[attr] += value;
