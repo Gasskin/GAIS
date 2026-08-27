@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using cfg.battle;
 using Framework;
@@ -14,6 +14,10 @@ namespace Runtime
 
         public static GameEffectSpec Get(GameEffectRow gameEffect, int sourceId, GAISComponent target)
         {
+            if (gameEffect == null)
+            {
+                return null;
+            }
             var spec = ObjectPool.Get<GameEffectSpec>();
             if (_uidFactory >= int.MaxValue)
             {
@@ -38,9 +42,6 @@ namespace Runtime
             {
                 spec.PeriodRemaining = spec.GameEffect.PeriodDuration;
             }
-            var f = ObjectPool.Get<GameEffectSpecRef>();
-            f.GameEffectSpec = spec;
-            spec.Ref = f;
             return spec;
         }
     #endregion
@@ -62,8 +63,6 @@ namespace Runtime
         public float PeriodRemaining { get; private set; }
 
         public bool IsActive { get; private set; }
-        
-        public GameEffectSpecRef Ref { get; private set; }
 
         private const float MIN_PERIOD_INTERVAL = 0.1f;
 
@@ -77,8 +76,6 @@ namespace Runtime
             PeriodRemaining = 0;
             IsActive = false;
             GameEffect = null;
-            ObjectPool.Release(Ref);
-            Ref = null;
         }
 
     #region 条件判断
@@ -220,7 +217,7 @@ namespace Runtime
                 {
                     RefreshDuration();
                 }
-                
+
                 Target.OnGameEffectDirty();
             }
         }
@@ -236,27 +233,21 @@ namespace Runtime
 
             PeriodRemaining -= dt;
 
-            if (!IsActive)
-            {
-                return;
-            }
-
             // period触发的行为可能导致所属的GE(_spec)失活/移除, 所属GE移除时会将_spec设置为null
             while (PeriodRemaining <= 0f)
             {
                 // 不能直接重置为Period, 累计误差
                 PeriodRemaining += GameEffect.PeriodDuration;
-                for (int i = 0; i < GameEffect.PeriodEffect_Ref.Count; i++)
+                if (IsActive)
                 {
-                    var child = GameEffect.PeriodEffect_Ref[i];
-                    if (child is not { DurationType: EDurationType.None })
+                    for (int i = 0; i < GameEffect.PeriodEffect_Ref.Count; i++)
                     {
-                        continue;
-                    }
-                    var spec = Get(child, Source, Target);
-                    if (spec != null)
-                    {
-                        Target.AddGameEffectSpec(spec);
+                        var child = GameEffect.PeriodEffect_Ref[i];
+                        if (child is not { DurationType: EDurationType.None })
+                        {
+                            continue;
+                        }
+                        Target.AddGameEffect(Source, child);
                     }
                 }
             }

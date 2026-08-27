@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using cfg.battle;
 using Framework;
 
@@ -7,6 +8,7 @@ namespace Runtime
     partial class GAISComponent
     {
         private List<GameAttr> _gameAttrs = new();
+        private Dictionary<EGameAttr, List<Func<float>>> _buffAttrs = new();
 
         private void InitGameAttr(Dictionary<EGameAttr, float> initValues)
         {
@@ -44,6 +46,7 @@ namespace Runtime
                 ObjectPool.Release(_gameAttrs[i]);
             }
             _gameAttrs.Clear();
+            _buffAttrs.Clear();
         }
 
         private void RegisterDerivedAttrs()
@@ -70,16 +73,16 @@ namespace Runtime
             }
         }
 
-        public GameAttr GetAttr(EGameAttr attr)
+        public GameAttr GetAttr(EGameAttr attrId)
         {
-            return _gameAttrs[(int)attr];
+            return _gameAttrs[(int)attrId];
         }
 
         public void OnGameEffectDirty()
         {
             EvaluateUntilStable(activate: false);
             EvaluateUntilStable(activate: true);
-            
+
             for (int i = 1; i < _gameAttrs.Count; i++)
             {
                 if (_gameAttrs[i].IsDerived)
@@ -89,7 +92,7 @@ namespace Runtime
                 _gameAttrs[i].UpdateCurrent(_gameEffectSpecs);
             }
         }
-      
+
         private void EvaluateUntilStable(bool activate)
         {
             var maxPasses = _gameEffectSpecs.Count + 1;
@@ -124,6 +127,47 @@ namespace Runtime
                     return;
                 }
             }
+        }
+
+        public void RegisterDynamicAttr(EGameAttr type, Func<float> func)
+        {
+            if (type <= EGameAttr.None || type >= EGameAttr.Max || func == null)
+            {
+                return;
+            }
+            var attr = _gameAttrs[(int)type];
+            if (attr.IsDerived)
+            {
+                return;
+            }
+            if (!_buffAttrs.TryGetValue(type, out var list))
+            {
+                list = new List<Func<float>>();
+                _buffAttrs.Add(type, list);
+            }
+            list.Add(func);
+        }
+
+        public void UnRegisterDynamicAttr(EGameAttr type, Func<float> action)
+        {
+            if (_buffAttrs.TryGetValue(type, out var list))
+            {
+                list.Remove(action);
+            }
+        }
+
+        public float GetDynamicAttr(EGameAttr type)
+        {
+            if (_buffAttrs.TryGetValue(type, out var list))
+            {
+                float total = 0f;
+                foreach (var func in list)
+                {
+                    total += func.Invoke();
+                }
+                return total;
+            }
+            return 0f;
         }
     }
 }

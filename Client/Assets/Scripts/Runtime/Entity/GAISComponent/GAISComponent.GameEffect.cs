@@ -17,10 +17,7 @@ namespace Runtime
             for (int i = 0; i < _tickPool.Count; i++)
             {
                 var spec = _tickPool[i];
-                if (spec.IsActive)
-                {
-                    spec.Tick(dt);
-                }
+                spec.Tick(dt);
             }
         }
 
@@ -67,28 +64,33 @@ namespace Runtime
             }
         }
 
-        public GameEffectSpecRef AddGameEffect(int sourceId, GameEffectRow gameEffect)
+        public int AddGameEffect(int sourceId, GameEffectRow gameEffect)
         {
-            if (!GameEntry.Instance.EntityManager.HasEntity(sourceId))
+            var entity = GameEntry.Instance.EntityManager.GetEntity(sourceId);
+            if (entity == null)
             {
-                return null;
+                return 0;
             }
             var spec = GameEffectSpec.Get(gameEffect, sourceId, this);
+            if (spec == null)
+            {
+                return 0;
+            }
             return AddGameEffectSpec(spec);
         }
 
-        public GameEffectSpecRef AddGameEffectSpec(GameEffectSpec spec)
+        private int AddGameEffectSpec(GameEffectSpec spec)
         {
             if (!spec.CanApply())
             {
                 ObjectPool.Release(spec);
-                return null;
+                return 0;
             }
 
             if (spec.IsImmune())
             {
                 ObjectPool.Release(spec);
-                return null;
+                return 0;
             }
 
             // 瞬时GE
@@ -96,14 +98,14 @@ namespace Runtime
             {
                 spec.OnExecute();
                 ObjectPool.Release(spec);
-                return null;
+                return 0;
             }
 
             // 不堆叠
             if (spec.GameEffect.StackType == EStackType.None)
             {
                 AddNewGameEffectSpec();
-                return spec.Ref;
+                return spec.Uid;
             }
 
             GameEffectSpec stackSpec = null;
@@ -126,7 +128,7 @@ namespace Runtime
             if (stackSpec == null)
             {
                 AddNewGameEffectSpec();
-                return spec.Ref;
+                return spec.Uid;
             }
             if (stackSpec.AddStack(1, true, false))
             {
@@ -136,7 +138,7 @@ namespace Runtime
             // 堆叠后可以直接释放
             ObjectPool.Release(spec);
 
-            return stackSpec.Ref;
+            return stackSpec.Uid;
 
             void AddNewGameEffectSpec()
             {

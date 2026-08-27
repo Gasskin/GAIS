@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using cfg.battle;
 using Framework;
 using UnityEngine;
@@ -72,6 +72,10 @@ namespace Runtime
             _add = null;
             OnPreBaseValueChange = null;
             OnPostCurrentValueChange = null;
+            if (_max != null)
+                _max.OnPostCurrentValueChange -= ClampAttrOnPostCurrentValueChange;
+            if (_min != null)
+                _min.OnPostCurrentValueChange -= ClampAttrOnPostCurrentValueChange;
             _max = null;
             _min = null;
             _fixedMax = null;
@@ -93,6 +97,11 @@ namespace Runtime
 
         public void SetRange(GameAttr max = null, float? maxValue = null, GameAttr min = null, float? minValue = null)
         {
+            if (_max != null)
+                _max.OnPostCurrentValueChange -= ClampAttrOnPostCurrentValueChange;
+            if (_min != null)
+                _min.OnPostCurrentValueChange -= ClampAttrOnPostCurrentValueChange;
+
             _max = max;
             _fixedMax = maxValue;
             _min = min;
@@ -100,7 +109,13 @@ namespace Runtime
 
             Base = Mathf.Clamp(Base, MinValue, MaxValue);
             Current = Mathf.Clamp(Current, MinValue, MaxValue);
+
+            if (_max != null)
+                _max.OnPostCurrentValueChange += ClampAttrOnPostCurrentValueChange;
+            if (_min != null)
+                _min.OnPostCurrentValueChange += ClampAttrOnPostCurrentValueChange;
         }
+
 
         public void SetBaseValue(float newValue)
         {
@@ -160,6 +175,12 @@ namespace Runtime
         {
             var final = _base.Current * (1f + _mult.Current) + _add.Current;
             SetCurrentValue(final);
+        }
+
+
+        private void ClampAttrOnPostCurrentValueChange(float prev, float now)
+        {
+            SetCurrentValue(Current);
         }
 
         public void UpdateCurrent(List<GameEffectSpec> effects)

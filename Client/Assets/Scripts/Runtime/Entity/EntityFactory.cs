@@ -7,7 +7,7 @@ namespace Runtime
 {
     public static class EntityFactory
     {
-        public static async UniTask<Entity> CreateBattleUnit(Dictionary<EGameAttr, float> initValues, UnitAssetsRef assetsRef, List<int> initSkills)
+        public static async UniTask<int> CreateBattleUnit(Dictionary<EGameAttr, float> initValues, UnitAssetsRef assetsRef, List<int> initSkills)
         {
             var e = ObjectPool.Get<Entity>();
 
@@ -25,7 +25,7 @@ namespace Runtime
 
             await e.Initialize();
             GameEntry.Instance.EntityManager.AddEntity(e);
-            return e;
+            return e.Uid;
         }
     }
 }

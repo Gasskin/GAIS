@@ -102,7 +102,12 @@ namespace Runtime
                     {
                         continue;
                     }
-                    timeline.Target.AddGameEffect(Entity.Uid, timeline.GameEffect);
+                    var target = GameEntry.Instance.EntityManager.GetEntity(timeline.TargetUid);
+                    if (target != null)
+                    {
+                        var tGAIS = target.GetComponent<GAISComponent>(ComponentID.GAIS);
+                        tGAIS?.AddGameEffect(Entity.Uid, timeline.GameEffect);
+                    }
                     _timeline.RemoveAt(i);
                     ObjectPool.Release(timeline);
                 }
@@ -231,7 +236,7 @@ namespace Runtime
 
                 timeline.GameEffect = ge;
 
-                timeline.Target = target.GetComponent<GAISComponent>(ComponentID.GAIS);
+                timeline.TargetUid = target.Uid;
 
                 _timeline.Add(timeline);
             }
@@ -244,7 +249,7 @@ namespace Runtime
 
                 timeline.GameEffect = ge;
 
-                timeline.Target = Entity.GetComponent<GAISComponent>(ComponentID.GAIS);
+                timeline.TargetUid = Entity.Uid;
 
                 _timeline.Add(timeline);
             }

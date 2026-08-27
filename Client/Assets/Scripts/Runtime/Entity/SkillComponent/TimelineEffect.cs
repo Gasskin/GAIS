@@ -7,13 +7,13 @@ namespace Runtime
     {
         public float Delay;
         public GameEffectRow GameEffect;
-        public GAISComponent Target;
+        public int TargetUid;
 
         public void OnRelease()
         {
             Delay = 0;
             GameEffect = null;
-            Target = null;
+            TargetUid = 0;
         }
     }
 }

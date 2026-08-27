@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace Framework
@@ -10,6 +11,9 @@ namespace Framework
 
         private List<Entity> _entities = new();
         private Dictionary<int, Entity> _entitiesDict = new();
+        private Stack<int> _emptyEntityIndex = new();
+        private HashSet<int> _removeQueue = new();
+        private HashSet<int> _removeHelper = new();
 
         public override async UniTask Initialize()
         {
@@ -26,10 +30,16 @@ namespace Framework
         {
             for (int i = 0; i < _entities.Count; i++)
             {
+                if (_entities[i] == null)
+                {
+                    continue;
+                }
                 ObjectPool.Release(_entities[i]);
             }
             _entities.Clear();
             _entitiesDict.Clear();
+            _emptyEntityIndex.Clear();
+            _removeQueue.Clear();
             Object.Destroy(EntityRoot.gameObject);
         }
 
@@ -37,8 +47,10 @@ namespace Framework
         {
             for (int i = 0; i < _entities.Count; i++)
             {
-                _entities[i].Update(dt);
+                _entities[i]?.Update(dt);
             }
+
+            RemoveEntityInterval();
         }
 
         public void AddEntity(Entity entity)
@@ -47,32 +59,54 @@ namespace Framework
             {
                 return;
             }
-            entity.ManagerIndex = _entities.Count;
-            _entities.Add(entity);
+            if (_emptyEntityIndex.Count > 0)
+            {
+                entity.ManagerIndex = _emptyEntityIndex.Pop();
+                _entities[entity.ManagerIndex] = entity;
+            }
+            else
+            {
+                entity.ManagerIndex = _entities.Count;
+                _entities.Add(entity);
+            }
         }
 
-        public void RemoveEntity(Entity entity)
+        public void RemoveEntity(int uid)
         {
-            if (entity == null)
+            if (uid <= 0 || !_entitiesDict.ContainsKey(uid))
             {
                 return;
             }
-            for (int i = entity.ManagerIndex; i < _entities.Count - 1; i++)
+            _removeQueue.Add(uid);
+        }
+
+        private void RemoveEntityInterval()
+        {
+            if (_removeQueue.Count > 0)
             {
-                _entities[i] = _entities[i + 1];
+                _removeHelper.AddRange(_removeQueue);
+                _removeQueue.Clear();
+                foreach (var id in _removeHelper)
+                {
+                    if (!_entitiesDict.Remove(id, out var entity))
+                    {
+                        continue;
+                    }
+                    _emptyEntityIndex.Push(entity.ManagerIndex);
+                    _entities[entity.ManagerIndex] = null;
+                    ObjectPool.Release(entity);
+                }
+                _removeHelper.Clear();
             }
-            _entities.RemoveAt(_entities.Count - 1);
-            ObjectPool.Release(entity);
         }
 
-        public bool HasEntity(int sourceId)
+        public Entity GetEntity(int id)
         {
-            return _entitiesDict.ContainsKey(sourceId);
-        }
-
-        public Entity GetEntity(int sourceId)
-        {
-            return _entitiesDict.GetValueOrDefault(sourceId);
+            if (_removeQueue.Contains(id) || _removeHelper.Contains(id))
+            {
+                return null;
+            }
+            return _entitiesDict.GetValueOrDefault(id);
         }
     }
 }

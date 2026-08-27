@@ -27,7 +27,7 @@ namespace Runtime
                 GameEntry.Instance.UnitManager.CreatePlayer().Forget();
                 _isCreatePlayer = true;
             }
-            if (GameEntry.Instance.UnitManager.Player != null)
+            if (GameEntry.Instance.UnitManager.PlayerUid > 0) 
             {
                 ChangeProcedure<CreateEnemy>();
             }

@@ -6,8 +6,8 @@ namespace Runtime
 {
     public class UnitManager : BaseManager
     {
-        public Entity Player;
-        public Entity Enemy;
+        public int PlayerUid { get; private set; }
+        public int EnemyUid { get; private set; }
 
         public override async UniTask Initialize()
         {
@@ -16,8 +16,8 @@ namespace Runtime
 
         public override void Destroy()
         {
-            GameEntry.Instance.EntityManager.RemoveEntity(Player);
-            GameEntry.Instance.EntityManager.RemoveEntity(Enemy);
+            GameEntry.Instance.EntityManager.RemoveEntity(PlayerUid);
+            GameEntry.Instance.EntityManager.RemoveEntity(EnemyUid);
         }
 
         public async UniTaskVoid CreatePlayer()
@@ -25,7 +25,7 @@ namespace Runtime
             var entry = GameEntry.Instance;
             var row = entry.LubanManager.Tables.GameAttrInitTable.Get(1001);
             var e = await EntityFactory.CreateBattleUnit(row.InitValues, entry.AssetsRef.Player, new List<int>() { 1011101 });
-            Player = e;
+            PlayerUid = e;
             await UniTask.Yield();
         }
 
@@ -34,7 +34,7 @@ namespace Runtime
             var entry = GameEntry.Instance;
             var init = entry.LevelManager.LevelAttr;
             var e = await EntityFactory.CreateBattleUnit(init, entry.AssetsRef.Enemy,  new List<int>() { 1021101 });
-            Enemy = e;
+            EnemyUid = e;
             await UniTask.Yield();
         }
     }
