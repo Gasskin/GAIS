@@ -23,7 +23,7 @@ namespace Runtime
         public void Init(Entity e)
         {
             _entity = e;
-            _gais = _entity.GetComponent<GAISComponent>(ComponentID.GAIS);
+            _gais = _entity.GetComponent<GAISComponent>();
             _curHp = _gais.GetAttr(EGameAttr.CurHp);
             _maxHp = _gais.GetAttr(EGameAttr.MaxHp);
 

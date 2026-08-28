@@ -4,7 +4,7 @@ namespace Framework
 {
     public abstract class BaseComponent : IPoolObject
     {
-        public abstract int ID { get; }
+        // public abstract int ID { get; }
         
         public abstract bool IsDefaultUpdate { get; }
         

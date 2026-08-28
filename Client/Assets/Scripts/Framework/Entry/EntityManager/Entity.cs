@@ -56,29 +56,33 @@ namespace Framework
         }
 
     #region GetComponent
-        public T GetComponent<T>(int id) where T : BaseComponent
+        public T GetComponent<T>() where T : BaseComponent
         {
+            var id =  ComponentID.GetComponentID(typeof(T));
             return _components[id] as T;
         }
 
         public bool GetAllComponents<T1, T2>(
-            int id1, int id2,
             out T1 t1, out T2 t2)
             where T1 : BaseComponent
             where T2 : BaseComponent
         {
+            var id1 =  ComponentID.GetComponentID(typeof(T1));
+            var id2 =  ComponentID.GetComponentID(typeof(T2));
             t1 = _components[id1] as T1;
             t2 = _components[id2] as T2;
             return t1 != null && t2 != null;
         }
 
         public bool GetAllComponents<T1, T2, T3>(
-            int id1, int id2, int id3,
             out T1 t1, out T2 t2, out T3 t3)
             where T1 : BaseComponent
             where T2 : BaseComponent
             where T3 : BaseComponent
         {
+            var id1 =  ComponentID.GetComponentID(typeof(T1));
+            var id2 =  ComponentID.GetComponentID(typeof(T2));
+            var id3 =  ComponentID.GetComponentID(typeof(T3));
             t1 = _components[id1] as T1;
             t2 = _components[id2] as T2;
             t3 = _components[id3] as T3;
@@ -86,13 +90,16 @@ namespace Framework
         }
 
         public bool GetAllComponents<T1, T2, T3, T4>(
-            int id1, int id2, int id3, int id4,
             out T1 t1, out T2 t2, out T3 t3, out T4 t4)
             where T1 : BaseComponent
             where T2 : BaseComponent
             where T3 : BaseComponent
             where T4 : BaseComponent
         {
+            var id1 =  ComponentID.GetComponentID(typeof(T1));
+            var id2 =  ComponentID.GetComponentID(typeof(T2));
+            var id3 =  ComponentID.GetComponentID(typeof(T3));
+            var id4 =  ComponentID.GetComponentID(typeof(T4));
             t1 = _components[id1] as T1;
             t2 = _components[id2] as T2;
             t3 = _components[id3] as T3;
@@ -101,7 +108,6 @@ namespace Framework
         }
 
         public bool GetAllComponents<T1, T2, T3, T4, T5>(
-            int id1, int id2, int id3, int id4, int id5,
             out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5)
             where T1 : BaseComponent
             where T2 : BaseComponent
@@ -109,6 +115,11 @@ namespace Framework
             where T4 : BaseComponent
             where T5 : BaseComponent
         {
+            var id1 =  ComponentID.GetComponentID(typeof(T1));
+            var id2 =  ComponentID.GetComponentID(typeof(T2));
+            var id3 =  ComponentID.GetComponentID(typeof(T3));
+            var id4 =  ComponentID.GetComponentID(typeof(T4));
+            var id5 =  ComponentID.GetComponentID(typeof(T5));
             t1 = _components[id1] as T1;
             t2 = _components[id2] as T2;
             t3 = _components[id3] as T3;
@@ -124,15 +135,16 @@ namespace Framework
             {
                 return;
             }
-            if (com.ID < 0 || com.ID >= _components.Length)
+            var id = ComponentID.GetComponentID(com);
+            if (id < 0 || id >= _components.Length)
             {
                 return;
             }
-            if (_components[com.ID] != null)
+            if (_components[id] != null)
             {
                 return;
             }
-            _components[com.ID] = com;
+            _components[id] = com;
             com.Entity = this;
         }
 
@@ -157,7 +169,7 @@ namespace Framework
             for (int i = 0; i < _needUpdateComponents.Count; i++)
             {
                 var check = _needUpdateComponents[i];
-                if (check.ID == com.ID)
+                if (check == com)
                 {
                     for (int j = i; j < _needUpdateComponents.Count - 1; j++)
                     {
@@ -171,7 +183,9 @@ namespace Framework
 
         private int SortUpdateComponent(BaseComponent x, BaseComponent y)
         {
-            return x.ID - y.ID;
+            var idx = ComponentID.GetComponentID(x);
+            var idy = ComponentID.GetComponentID(y);
+            return idx - idy;
         }
 
         public void OnRelease()

@@ -5,33 +5,34 @@ using Framework;
 
 namespace Runtime
 {
+    [ComponentID(ComponentID.SKILL)]
     public class SkillComponent : BaseComponent
     {
-        public override int ID => ComponentID.SKILL;
         public override bool IsDefaultUpdate => true;
 
         private Dictionary<int, SkillInfo> _allSkills = new();
 
         // 普攻
-        private SkillInfo _attack;
-        
+        public SkillInfo Attack { get; private set; }
+
         // 技能
-        private SkillInfo _normal;
+        public SkillInfo Normal { get; private set; }
 
         // 大招
-        private SkillInfo _ultimate;
+        public SkillInfo Ultimate { get; private set; }
 
         // 心法
-        private SkillInfo _special;
+        public SkillInfo Special { get; private set; }
 
         public List<int> InitSkills;
 
         private Dictionary<int, SkillInfo> _coolDowns = new();
         private List<int> _coolDownHelper = new();
 
-        public bool IsCastSkill => _duration > 0;
         private float _duration;
         private List<TimelineEffect> _timeline = new();
+
+        public bool IsCast => _duration > 0;
 
         public override async UniTask Initialize()
         {
@@ -52,10 +53,10 @@ namespace Runtime
                 ObjectPool.Release(skill);
             }
             _allSkills.Clear();
-            _ultimate = null;
-            _attack = null;
-            _normal = null;
-            _special = null;
+            Ultimate = null;
+            Attack = null;
+            Normal = null;
+            Special = null;
 
             _coolDowns.Clear();
             _coolDownHelper.Clear();
@@ -76,22 +77,29 @@ namespace Runtime
             }
 
             // 检查冷却
-            _coolDownHelper.Clear();
-            foreach (var (id, info) in _coolDowns)
+            if (_coolDowns.Count > 0)
             {
-                info.Cooldown -= dt;
-                if (info.Cooldown <= 0)
+                _coolDownHelper.Clear();
+                foreach (var (id, info) in _coolDowns)
                 {
-                    _coolDownHelper.Add(id);
+                    info.Cooldown -= dt;
+                    if (info.Cooldown <= 0)
+                    {
+                        _coolDownHelper.Add(id);
+                    }
                 }
-            }
-            for (int i = 0; i < _coolDownHelper.Count; i++)
-            {
-                _coolDowns.Remove(_coolDownHelper[i]);
+                for (int i = 0; i < _coolDownHelper.Count; i++)
+                {
+                    _coolDowns.Remove(_coolDownHelper[i]);
+                }
             }
 
             if (_duration > 0)
             {
+                if (dt > _duration)
+                {
+                    dt = _duration;
+                }
                 _duration -= dt;
 
                 for (int i = _timeline.Count - 1; i >= 0; i--)
@@ -105,7 +113,7 @@ namespace Runtime
                     var target = GameEntry.Instance.EntityManager.GetEntity(timeline.TargetUid);
                     if (target != null)
                     {
-                        var tGAIS = target.GetComponent<GAISComponent>(ComponentID.GAIS);
+                        var tGAIS = target.GetComponent<GAISComponent>();
                         tGAIS?.AddGameEffect(Entity.Uid, timeline.GameEffect);
                     }
                     _timeline.RemoveAt(i);
@@ -133,7 +141,7 @@ namespace Runtime
             }
             return skillInfo.Get(value.DynamicAttr) + value.BaseValue;
         }
-        
+
         public void AddSkill(int id)
         {
             if (_allSkills.ContainsKey(id))
@@ -152,59 +160,68 @@ namespace Runtime
             switch (skillRow.Type)
             {
                 case EGameSkillType.Attack:
-                    if (_attack != null)
+                    if (Attack != null)
                     {
-                        _allSkills.Remove(_attack.Skill.Id);
-                        ObjectPool.Release(_attack);
+                        _allSkills.Remove(Attack.Skill.Id);
+                        ObjectPool.Release(Attack);
                     }
-                    _attack = skillInfo;
+                    Attack = skillInfo;
                     break;
                 case EGameSkillType.Normal:
-                    if (_normal != null)
+                    if (Normal != null)
                     {
-                        _allSkills.Remove(_normal.Skill.Id);
-                        ObjectPool.Release(_normal);
+                        _allSkills.Remove(Normal.Skill.Id);
+                        ObjectPool.Release(Normal);
                     }
-                    _normal = skillInfo;
+                    Normal = skillInfo;
                     break;
                 case EGameSkillType.Ultimate:
-                    if (_ultimate != null)
+                    if (Ultimate != null)
                     {
-                        _allSkills.Remove(_ultimate.Skill.Id);
-                        ObjectPool.Release(_ultimate);
+                        _allSkills.Remove(Ultimate.Skill.Id);
+                        ObjectPool.Release(Ultimate);
                     }
-                    _ultimate = skillInfo;
+                    Ultimate = skillInfo;
                     break;
                 case EGameSkillType.Speical:
-                    if (_special != null)
+                    if (Special != null)
                     {
-                        _allSkills.Remove(_special.Skill.Id);
-                        ObjectPool.Release(_special);
+                        _allSkills.Remove(Special.Skill.Id);
+                        ObjectPool.Release(Special);
                     }
-                    _special = skillInfo;
+                    Special = skillInfo;
                     break;
             }
         }
 
-        public int GetCastSkill()
+
+        public bool CanAttack()
         {
-            if (IsCastSkill)
-            {
-                return 0;
-            }
-            if (_attack == null || _coolDowns.ContainsKey(_attack.Skill.Id))
-            {
-                return 0;
-            }
-            return _attack.Skill.Id;
+            return Attack != null && !_coolDowns.ContainsKey(Attack.Skill.Id);
+        }
+
+        public bool CanNormal()
+        {
+            return Normal != null && !_coolDowns.ContainsKey(Normal.Skill.Id);
+        }
+
+        public bool CanUltimate()
+        {
+            return Ultimate != null && !_coolDowns.ContainsKey(Ultimate.Skill.Id);
+        }
+
+        public bool CanSpecial()
+        {
+            return Special != null && !_coolDowns.ContainsKey(Special.Skill.Id);
         }
 
         public void CastSkill(int id, Entity target)
         {
-            if (IsCastSkill)
+            if (IsCast)
             {
                 return;
             }
+
             if (_coolDowns.ContainsKey(id))
             {
                 return;
@@ -214,7 +231,7 @@ namespace Runtime
                 return;
             }
 
-            var unit = Entity.GetComponent<UnitComponent>(ComponentID.UNIT);
+            var unit = Entity.GetComponent<UnitComponent>();
             unit.Skill(skillInfo.Skill.Type);
 
             for (int i = 0; i < _timeline.Count; i++)

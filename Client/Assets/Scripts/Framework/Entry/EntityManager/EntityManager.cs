@@ -21,7 +21,6 @@ namespace Framework
                 EntityRoot = new GameObject("[EntityManager]").transform;
                 EntityRoot.SetParent(GameEntry.Instance.transform, false);
             }
-
             await UniTask.Yield();
         }
 

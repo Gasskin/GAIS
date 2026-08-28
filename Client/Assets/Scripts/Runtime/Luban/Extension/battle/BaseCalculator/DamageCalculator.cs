@@ -13,16 +13,12 @@ namespace cfg.battle
                 return 0;
             }
             if (!source.GetAllComponents(
-                    ComponentID.GAIS, 
-                    ComponentID.SKILL, 
                     out GAISComponent sGAIS,
                     out SkillComponent sSkill))
             {
                 return 0;
             }
             if (!ge.Target.Entity.GetAllComponents(
-                    ComponentID.UNIT, 
-                    ComponentID.SKILL, 
                     out UnitComponent tUnit,
                     out SkillComponent tSkill))
             {

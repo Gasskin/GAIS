@@ -9,7 +9,8 @@ namespace Runtime
         public override void Enter(object data = null)
         {
             StartBattle = false;
-            GameEntry.Instance.AssetsRef.ConfirmBattleWindow.Show();
+            
+            AssetsRef.Instance.ConfirmBattleWindow.Show();
         }
 
         public override void Update(float dt)

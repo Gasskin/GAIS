@@ -34,6 +34,8 @@ namespace Framework
 
         private void Start()
         {
+            BindReflection();
+            
             // 框架层
             RegisterManager(LubanManager);
             RegisterManager(EntityManager);
@@ -75,6 +77,13 @@ namespace Framework
                 Debug.LogError(e);
                 throw;
             }
+        }
+        
+        
+        private void BindReflection()
+        {
+            var assembly = GetType().Assembly;
+            ComponentID.BindReflection(assembly);
         }
 
         // private void LateUpdate()

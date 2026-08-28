@@ -37,6 +37,7 @@ namespace Runtime
 
             // 设置有效范围
             _gameAttrs[(int)EGameAttr.CurHp].SetRange(max: _gameAttrs[(int)EGameAttr.MaxHp]);
+            _gameAttrs[(int)EGameAttr.CurSpecialEnergy].SetRange(minValue: 0, maxValue: 100);
         }
 
         private void ClearGameAttr()

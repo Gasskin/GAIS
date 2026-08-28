@@ -4,9 +4,9 @@ using Framework;
 
 namespace Runtime
 {
+    [ComponentID(ComponentID.UNIT)]
     public class UnitComponent : BaseComponent
     {
-        public override int ID => ComponentID.UNIT;
         public override bool IsDefaultUpdate => false;
 
         public UnitAssetsRef AssetsRef;

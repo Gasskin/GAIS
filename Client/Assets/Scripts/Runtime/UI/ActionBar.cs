@@ -16,7 +16,7 @@ namespace Runtime
         public void Init(Entity e)
         {
             _entity = e;
-            _gais = _entity.GetComponent<GAISComponent>(ComponentID.GAIS);
+            _gais = _entity.GetComponent<GAISComponent>();
             _curSpecialEnergy = _gais.GetAttr(EGameAttr.CurSpecialEnergy);
             
             _curSpecialEnergy.OnPostCurrentValueChange += CurSpecialEnergyOnPostCurrentValueChange;

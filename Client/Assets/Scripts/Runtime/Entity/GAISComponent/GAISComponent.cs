@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace Runtime
 {
+    [ComponentID(ComponentID.GAIS)]
     public partial class GAISComponent : BaseComponent
     {
-        public override int ID => ComponentID.GAIS;
         public override bool IsDefaultUpdate => true;
         public Dictionary<EGameAttr, float> InitValues { get; set; }
         public List<EGameTag> InitTags { get; set; }
